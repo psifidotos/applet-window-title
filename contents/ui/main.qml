@@ -45,6 +45,7 @@ Item {
     Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
     Plasmoid.onFormFactorChanged: plasmoid.configuration.formFactor = plasmoid.formFactor;
 
+    readonly property int containmentType: plasmoid.configuration.containmentType
     readonly property int minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.width : -1;
     readonly property int minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : contents.height;
 
@@ -54,13 +55,13 @@ Item {
 
     property Item activeTaskItem: null
 
-
     //BEGIN Latte Dock Communicator
     property bool isInLatte: false  // deprecated Latte v0.8 API
     property QtObject latteBridge: null // current Latte v0.9 API
 
     onLatteBridgeChanged: {
         if (latteBridge) {
+            plasmoid.configuration.containmentType = 2; /*Latte containment with new API*/
             latteBridge.actions.setProperty(plasmoid.id, "disableLatteSideColoring", true);
         }
     }
@@ -69,6 +70,8 @@ Item {
     readonly property bool enforceLattePalette: latteBridge && latteBridge.applyPalette && latteBridge.palette
     readonly property bool latteInEditMode: latteBridge && latteBridge.inEditMode
     //END Latte based properties
+
+    Component.onCompleted: containmentIdentifierTimer.start();
 
     // START Tasks logic
     // To get current activity name
@@ -105,7 +108,6 @@ Item {
             model: tasksModel
             delegate: Item{
                 id: task
-                readonly property string title: display
                 readonly property string appName: AppName
                 readonly property bool isMinimized: IsMinimized === true ? true : false
                 readonly property bool isMaximized: IsMaximized === true ? true : false
@@ -113,9 +115,23 @@ Item {
                 readonly property bool isOnAllDesktops: IsOnAllVirtualDesktops === true ? true : false
                 property var icon: decoration
 
+                property string title: ""
+
                 onIsActiveChanged: {
                     if (isActive) {
                         root.activeTaskItem = task;
+                        console.log(display);
+                        var t = display;
+                        var sep = t.lastIndexOf(" —– ");
+                        sep = (sep === -1 ? t.lastIndexOf(" -- ") : sep);
+                        sep = (sep === -1 ? t.lastIndexOf(" — ") : sep);
+                        sep = (sep === -1 ? t.lastIndexOf(" - ") : sep);
+
+                        if (sep >-1) {
+                            title = display.substring(0, sep);
+                        } else {
+                            title = t;
+                        }
                     }
                 }
             }
@@ -152,16 +168,46 @@ Item {
 
             Label{
                 Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : contents.thickness
-                Layout.maximumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? Infinity : contents.thickness
+                Layout.maximumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? maximumLength : contents.thickness
 
                 Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : -1
-                Layout.maximumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : Infinity
+                Layout.maximumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : maximumLength
 
                 verticalAlignment: Text.AlignVCenter
 
-                text: existsWindowActive ? activeTaskItem.appName : fullActivityInfo.name
+                text: existsWindowActive ? windowText : fullActivityInfo.name
                 color: enforceLattePalette ? latteBridge.palette.textColor : theme.textColor
                 font.bold: true
+                elide: Text.ElideRight
+
+                readonly property int maximumLength: {
+                    if (plasmoid.configuration.style === 0 ||
+                            plasmoid.configuration.maximumLength === -1) {
+                        return Infinity;
+                    }
+
+                    return plasmoid.configuration.maximumLength;
+                }
+
+                readonly property string windowText: {
+                    if (plasmoid.configuration.style === 0){ /*Application*/
+                        return activeTaskItem.appName;
+                    } else if (plasmoid.configuration.style === 1){ /*Title*/
+                        return activeTaskItem.title;
+                    } else if (plasmoid.configuration.style === 2){ /*ApplicationTitle*/
+                        var finalText = activeTaskItem.appName === activeTaskItem.title ?
+                                    activeTaskItem.appName :
+                                    activeTaskItem.appName + " - " + activeTaskItem.title;
+
+                        return finalText;
+                    } else if (plasmoid.configuration.style === 3){ /*TitleApplication*/
+                        var finalText = activeTaskItem.appName === activeTaskItem.title ?
+                                    activeTaskItem.appName :
+                                    activeTaskItem.title + " - " + activeTaskItem.appName;
+
+                        return finalText;
+                    }
+                }
             }
         }
 
@@ -170,6 +216,35 @@ Item {
             Layout.minimumWidth: plasmoid.configuration.lengthLastMargin
             Layout.preferredWidth: Layout.minimumWidth
             Layout.maximumWidth: Layout.minimumWidth
+        }
+    }
+
+    MouseArea{
+        id: contentsMouseArea
+        anchors.fill: contents
+        visible: containmentType === 1 /*plasma or old latte containment*/
+
+        onDoubleClicked: {
+            if (existsWindowActive) {
+                tasksModel.requestToggleMaximized(tasksModel.activeTask);
+            }
+        }
+    }
+
+
+    //! this timer is used in order to identify in which containment the applet is in
+    //! it should be called only the first time an applet is created and loaded because
+    //! afterwards the applet has no way to move between different processes such
+    //! as Plasma and Latte
+    Timer{
+        id: containmentIdentifierTimer
+        interval: 5000
+        onTriggered: {
+            if (latteBridge) {
+                plasmoid.configuration.containmentType = 2; /*Latte containment with new API*/
+            } else {
+                plasmoid.configuration.containmentType = 1; /*Plasma containment or Latte with old API*/
+            }
         }
     }
 }

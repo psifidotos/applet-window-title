@@ -28,9 +28,14 @@ Item {
 
     property alias cfg_showIcon: showIconChk.checked
     property alias cfg_spacing: spacingSpn.value
+    property alias cfg_style: root.selectedStyle
     property alias cfg_lengthFirstMargin: lengthFirstSpn.value
     property alias cfg_lengthLastMargin: lengthLastSpn.value
     property alias cfg_lengthMarginsLock: lockItem.locked
+    property alias cfg_maximumLength: maximumLengthSpn.value
+
+    // used as bridge to communicate properly between configuration and ui
+    property int selectedStyle
 
     // used from the ui
     readonly property real centerFactor: 0.35
@@ -46,6 +51,22 @@ Item {
 
             Label{
                 Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
+                text: i18n("Style:")
+                horizontalAlignment: Text.AlignRight
+            }
+
+            StyleComboBox{
+                Layout.minimumWidth: 220
+                Layout.preferredWidth: 0.25 * root.width
+                Layout.maximumWidth: 320
+            }
+        }
+
+        GridLayout{
+            columns: 2
+
+            Label{
+                Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
                 text: i18n("Appearance:")
                 horizontalAlignment: Text.AlignRight
             }
@@ -53,6 +74,26 @@ Item {
             CheckBox{
                 id: showIconChk
                 text: i18n("Show available icon")
+            }
+        }
+
+        GridLayout{
+            columns: 2
+            visible: root.selectedStyle > 0
+
+            Label{
+                Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
+                text: i18n("Maximum length:")
+                horizontalAlignment: Text.AlignRight
+                opacity: maximumLengthSpn.value === -1 ? 0.5 : 1
+            }
+
+            SpinBox{
+                id: maximumLengthSpn
+                minimumValue: -1
+                maximumValue: 600
+                suffix: " " + i18nc("pixels","px.")
+                opacity: maximumLengthSpn.value === -1 ? 0.5 : 1
             }
         }
 
