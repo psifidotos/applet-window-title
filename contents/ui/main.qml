@@ -120,7 +120,7 @@ Item {
                 onIsActiveChanged: {
                     if (isActive) {
                         root.activeTaskItem = task;
-                        console.log(display);
+
                         var t = display;
                         var sep = t.lastIndexOf(" —– ");
                         sep = (sep === -1 ? t.lastIndexOf(" -- ") : sep);
@@ -139,54 +139,94 @@ Item {
     }
     // END Tasks logic
 
-    RowLayout{
+    GridLayout{
         id: contents
+        rows: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? 1 : -1
+        columns: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : 1
 
         readonly property int thickness: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? root.height : root.width
 
         Item{
             id: firstSpacer
-            Layout.minimumWidth: plasmoid.configuration.lengthFirstMargin
+            Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? plasmoid.configuration.lengthFirstMargin : -1
             Layout.preferredWidth: Layout.minimumWidth
             Layout.maximumWidth: Layout.minimumWidth
+
+            Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : plasmoid.configuration.lengthFirstMargin
+            Layout.preferredHeight: Layout.minimumHeight
+            Layout.maximumHeight: Layout.minimumHeight
         }
 
-        RowLayout{
-            spacing: plasmoid.configuration.spacing
+        PlasmaCore.IconItem{
+            Layout.minimumWidth: contents.thickness
+            Layout.maximumWidth: Layout.minimumWidth
 
-            PlasmaCore.IconItem{
-                Layout.minimumWidth: contents.thickness
-                Layout.maximumWidth: Layout.minimumWidth
+            Layout.minimumHeight: contents.thickness
+            Layout.maximumHeight: Layout.minimumHeight
 
-                Layout.minimumHeight: contents.thickness
-                Layout.maximumHeight: Layout.minimumHeight
+            visible: plasmoid.configuration.showIcon
+            usesPlasmaTheme: true
+            source: existsWindowActive ? activeTaskItem.icon : fullActivityInfo.icon
+        }
 
-                visible: plasmoid.configuration.showIcon
-                usesPlasmaTheme: true
-                source: existsWindowActive ? activeTaskItem.icon : fullActivityInfo.icon
+        Item{
+            id: midSpacer
+            Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? plasmoid.configuration.spacing : -1
+            Layout.preferredWidth: Layout.minimumWidth
+            Layout.maximumWidth: Layout.minimumWidth
+
+            Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : plasmoid.configuration.spacing
+            Layout.preferredHeight: Layout.minimumHeight
+            Layout.maximumHeight: Layout.minimumHeight
+        }
+
+        Item{
+            Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : contents.thickness
+            Layout.preferredWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? labelTxt.implicitWidth : contents.thickness
+            Layout.maximumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? maximumLength : contents.thickness
+
+            Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : -1
+            Layout.preferredHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : labelTxt.implicitWidth
+            Layout.maximumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : maximumLength
+
+            readonly property int maximumLength: {
+                if (plasmoid.configuration.style === 0 ||
+                        plasmoid.configuration.maximumLength <= 0) {
+                    return Infinity;
+                }
+
+                return plasmoid.configuration.maximumLength;
             }
 
             Label{
-                Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : contents.thickness
-                Layout.maximumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? maximumLength : contents.thickness
+                id: labelTxt
 
-                Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : -1
-                Layout.maximumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : maximumLength
+                anchors.centerIn: parent
+                width: {
+                    if (plasmoid.configuration.style === 0 ||
+                            plasmoid.configuration.maximumLength <= 0) {
+                        return implicitWidth;
+                    }
 
-                verticalAlignment: Text.AlignVCenter
+                    return plasmoid.configuration.maximumLength;
+                }
 
                 text: existsWindowActive ? windowText : fullActivityInfo.name
                 color: enforceLattePalette ? latteBridge.palette.textColor : theme.textColor
                 font.bold: true
-                elide: Text.ElideRight
 
-                readonly property int maximumLength: {
-                    if (plasmoid.configuration.style === 0 ||
-                            plasmoid.configuration.maximumLength === -1) {
-                        return Infinity;
+                elide: plasmoid.configuration.style > 0 ? Text.ElideRight : Text.ElideNone
+
+                transformOrigin: Item.Center
+
+                rotation: {
+                    if (plasmoid.formFactor === PlasmaCore.Types.Horizontal) {
+                        return 0;
+                    } else if (plasmoid.location === PlasmaCore.Types.LeftEdge) {
+                        return -90;
+                    } else if (plasmoid.location === PlasmaCore.Types.RightEdge) {
+                        return 90;
                     }
-
-                    return plasmoid.configuration.maximumLength;
                 }
 
                 readonly property string windowText: {
@@ -213,9 +253,13 @@ Item {
 
         Item{
             id: lastSpacer
-            Layout.minimumWidth: plasmoid.configuration.lengthLastMargin
+            Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? plasmoid.configuration.lengthLastMargin : -1
             Layout.preferredWidth: Layout.minimumWidth
             Layout.maximumWidth: Layout.minimumWidth
+
+            Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : plasmoid.configuration.lengthLastMargin
+            Layout.preferredHeight: Layout.minimumHeight
+            Layout.maximumHeight: Layout.minimumHeight
         }
     }
 

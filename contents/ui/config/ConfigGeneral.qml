@@ -85,15 +85,15 @@ Item {
                 Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
                 text: i18n("Maximum length:")
                 horizontalAlignment: Text.AlignRight
-                opacity: maximumLengthSpn.value === -1 ? 0.5 : 1
+                opacity: maximumLengthSpn.value === 0 ? 0.5 : 1
             }
 
             SpinBox{
                 id: maximumLengthSpn
-                minimumValue: -1
+                minimumValue: 0
                 maximumValue: 600
                 suffix: " " + i18nc("pixels","px.")
-                opacity: maximumLengthSpn.value === -1 ? 0.5 : 1
+                opacity: maximumLengthSpn.value === 0 ? 0.5 : 1
             }
         }
 

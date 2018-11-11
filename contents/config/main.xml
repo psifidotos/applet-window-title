@@ -37,7 +37,7 @@
     <label>spacing between icons</label>
   </entry>
   <entry name="maximumLength" type="Int">
-    <default>-1</default>
+    <default>0</default>
     <label>maximum length when the user shows window title</label>
   </entry>
   <entry name="formFactor" type="Int">
