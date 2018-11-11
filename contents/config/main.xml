@@ -20,6 +20,10 @@
     <default>true</default>
     <label>show available icon</label>
   </entry>
+  <entry name="boldFont" type="Bool">
+    <default>true</default>
+    <label>bold text font</label>
+  </entry>
   <entry name="lengthFirstMargin" type="Int">
     <default>0</default>
     <label>first margin used to increase or decrease the icons distance from surrounding applets</label>

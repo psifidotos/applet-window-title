@@ -213,7 +213,7 @@ Item {
 
                 text: existsWindowActive ? windowText : fullActivityInfo.name
                 color: enforceLattePalette ? latteBridge.palette.textColor : theme.textColor
-                font.bold: true
+                font.bold: plasmoid.configuration.boldFont
 
                 elide: plasmoid.configuration.style > 0 ? Text.ElideRight : Text.ElideNone
 

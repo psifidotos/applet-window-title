@@ -26,6 +26,7 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 Item {
     id: root
 
+    property alias cfg_boldFont: boldFontChk.checked
     property alias cfg_showIcon: showIconChk.checked
     property alias cfg_spacing: spacingSpn.value
     property alias cfg_style: root.selectedStyle
@@ -74,6 +75,14 @@ Item {
             CheckBox{
                 id: showIconChk
                 text: i18n("Show available icon")
+            }
+
+            Label{
+            }
+
+            CheckBox{
+                id: boldFontChk
+                text: i18n("Bold font")
             }
         }
 
