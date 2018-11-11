@@ -24,6 +24,7 @@ import QtQuick.Controls 1.4
 
 import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.plasma.components 2.0 as PlasmaComponents
 import org.kde.taskmanager 0.1 as TaskManager
 
 import org.kde.activities 0.1 as Activities
@@ -198,7 +199,7 @@ Item {
                 return plasmoid.configuration.maximumLength;
             }
 
-            Label{
+            PlasmaComponents.Label{
                 id: labelTxt
 
                 anchors.centerIn: parent
@@ -213,7 +214,7 @@ Item {
 
                 text: existsWindowActive ? windowText : fullActivityInfo.name
                 color: enforceLattePalette ? latteBridge.palette.textColor : theme.textColor
-                font.bold: plasmoid.configuration.boldFont
+                font.weight: plasmoid.configuration.boldFont ? Font.Bold : Font.Normal
 
                 elide: plasmoid.configuration.style > 0 ? Text.ElideRight : Text.ElideNone
 
