@@ -23,8 +23,8 @@ This is a Plasma 5 applet that shows the current window title and icon in your p
 - Set spacing between icon and title
 - Left/Right or Top/Bottom margins
 - Multi-screen ready
-- Double click in order to maximize/restore active window (for plasma panels)
 - Show activity name/icon when there is not any active window
+- Double click in order to maximize/restore active window (for plasma panels)
 - Latte v0.9 ready
   * support new painting
   * support maximize/restore active window
