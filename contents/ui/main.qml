@@ -82,7 +82,7 @@ Item {
 
     Activities.ActivityInfo {
         id: fullActivityInfo
-        activityId: activityInfo.currentActivity
+        activityId: ":current"
     }
 
     // To get virtual desktop name
