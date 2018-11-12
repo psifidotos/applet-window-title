@@ -158,7 +158,9 @@ Item {
             Layout.maximumHeight: Layout.minimumHeight
         }
 
-        PlasmaCore.IconItem{
+        Item {
+            id: mainIcon
+
             Layout.minimumWidth: contents.thickness
             Layout.maximumWidth: Layout.minimumWidth
 
@@ -166,9 +168,28 @@ Item {
             Layout.maximumHeight: Layout.minimumHeight
 
             visible: plasmoid.configuration.showIcon
-            usesPlasmaTheme: true
-            source: existsWindowActive ? activeTaskItem.icon : fullActivityInfo.icon
+
+            Loader {
+                anchors.fill: parent
+                active: !plasmoid.configuration.iconFillThickness
+                sourceComponent: PlasmaCore.IconItem{
+                    anchors.fill: parent
+                    usesPlasmaTheme: true
+                    source: existsWindowActive ? activeTaskItem.icon : fullActivityInfo.icon
+                }
+            }
+
+            Loader {
+                anchors.fill: parent
+                active: plasmoid.configuration.iconFillThickness
+                sourceComponent: QIconItem{
+                    anchors.fill: parent
+                    icon: existsWindowActive ? activeTaskItem.icon : fullActivityInfo.icon
+                }
+            }
         }
+
+
 
         Item{
             id: midSpacer
@@ -191,8 +212,7 @@ Item {
             Layout.maximumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : maximumLength
 
             readonly property int maximumLength: {
-                if (plasmoid.configuration.style === 0 ||
-                        plasmoid.configuration.maximumLength <= 0) {
+                if (plasmoid.configuration.maximumLength <= 0) {
                     return Infinity;
                 }
 
@@ -204,8 +224,7 @@ Item {
 
                 anchors.centerIn: parent
                 width: {
-                    if (plasmoid.configuration.style === 0 ||
-                            plasmoid.configuration.maximumLength <= 0) {
+                    if (plasmoid.configuration.maximumLength <= 0) {
                         return implicitWidth;
                     }
 
@@ -214,9 +233,10 @@ Item {
 
                 text: existsWindowActive ? windowText : fullActivityInfo.name
                 color: enforceLattePalette ? latteBridge.palette.textColor : theme.textColor
+                font.capitalization: Font.Capitalize
                 font.weight: plasmoid.configuration.boldFont ? Font.Bold : Font.Normal
-
-                elide: plasmoid.configuration.style > 0 ? Text.ElideRight : Text.ElideNone
+                font.italic: plasmoid.configuration.italicFont
+                elide: Text.ElideRight
 
                 transformOrigin: Item.Center
 

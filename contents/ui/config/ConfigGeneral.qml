@@ -26,8 +26,10 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 Item {
     id: root
 
-    property alias cfg_boldFont: boldFontChk.checked
+    property alias cfg_boldFont: boldChk.checked
+    property alias cfg_italicFont: italicChk.checked
     property alias cfg_showIcon: showIconChk.checked
+    property alias cfg_iconFillThickness: iconFillChk.checked
     property alias cfg_spacing: spacingSpn.value
     property alias cfg_style: root.selectedStyle
     property alias cfg_lengthFirstMargin: lengthFirstSpn.value
@@ -68,33 +70,56 @@ Item {
 
             Label{
                 Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
-                text: i18n("Appearance:")
+                text: i18n("Icon:")
                 horizontalAlignment: Text.AlignRight
             }
 
             CheckBox{
                 id: showIconChk
-                text: i18n("Show available icon")
+                text: i18n("Show when available")
             }
 
             Label{
             }
 
             CheckBox{
-                id: boldFontChk
-                text: i18n("Bold font")
+                id: iconFillChk
+                text: i18n("Fill thickness")
+                enabled: showIconChk.checked
             }
         }
 
         GridLayout{
             columns: 2
-            visible: root.selectedStyle > 0
+
+            Label{
+                Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
+                text: i18n("Font:")
+                horizontalAlignment: Text.AlignRight
+            }
+
+            CheckBox{
+                id: boldChk
+                text: i18n("Bold")
+            }
+
+            Label{
+            }
+
+            CheckBox{
+                id: italicChk
+                text: i18n("Italic")
+            }
+        }
+
+        GridLayout{
+            columns: 2
+            opacity: maximumLengthSpn.value === 0 ? 0.5 : 1
 
             Label{
                 Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
                 text: i18n("Maximum length:")
                 horizontalAlignment: Text.AlignRight
-                opacity: maximumLengthSpn.value === 0 ? 0.5 : 1
             }
 
             SpinBox{
@@ -102,13 +127,13 @@ Item {
                 minimumValue: 0
                 maximumValue: 600
                 suffix: " " + i18nc("pixels","px.")
-                opacity: maximumLengthSpn.value === 0 ? 0.5 : 1
             }
         }
 
         ColumnLayout{
             GridLayout{
                 columns: 2
+                enabled: showIconChk.checked
 
                 Label{
                     Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
