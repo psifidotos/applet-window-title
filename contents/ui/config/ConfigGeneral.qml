@@ -118,6 +118,8 @@ Item {
             }
 
             Label{
+                id: italicLbl
+                font.italic: true
             }
 
             CheckBox{
@@ -189,7 +191,7 @@ Item {
                     validator: maximumLengthSpn.validator
                     inputMethodHints: Qt.ImhFormattedNumbersOnly
 
-                    font: lengthLbl.font
+                    font: maximumLengthSpn.value === 0 ? italicLbl.font : lengthLbl.font
                     color: palette.text
                     selectionColor: palette.highlight
                     selectedTextColor: palette.highlightedText
