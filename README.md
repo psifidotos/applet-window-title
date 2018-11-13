@@ -31,7 +31,8 @@ This is a Plasma 5 applet that shows the current window title and icon in your p
 
 # Requires
 
-- Plasma >= 5.8
+- Qt >= 5.9
+- Plasma >= 5.9
 - KDeclarative (optional)
 
 # Install
