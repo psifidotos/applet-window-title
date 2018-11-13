@@ -26,9 +26,9 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 
 import "../../tools/Tools.js" as Tools
 
-Controls22.Popup {
+SlidingBox {
     id: popup
-    height: mainColumn.height + 2 * units.largeSpacing
+    width: Tools.qBound(400, 0.6*root.width, 750)
 
     function textAreaToList(text) {
         var res = text.split("\n");
@@ -40,17 +40,18 @@ Controls22.Popup {
         return res;
     }
 
-    ColumnLayout{
+    contentItem: ColumnLayout{
         id: mainColumn
-        width: parent.width
+        width: popup.availableWidth
         anchors.margins: units.largeSpacing
+        anchors.centerIn: parent
         spacing: units.largeSpacing
 
         Label{
             Layout.fillWidth: true
             horizontalAlignment: Qt.AlignHCenter
             font.bold: true
-            text: i18n("Application Name Substitutions")
+            text: i18n("Substitutions")
         }
 
         GridLayout {
@@ -72,13 +73,13 @@ Controls22.Popup {
                 Layout.fillHeight: true
                 text: listToText(root.selectedCriteria)
 
-                onTextChanged: root.selectedCriteria = textAreaToList(text)
+                onTextChanged: root.selectedCriteria = popup.textAreaToList(text)
             }
             TextArea{
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 text: listToText(root.selectedReplacements)
-                onTextChanged: root.selectedReplacements = textAreaToList(text)
+                onTextChanged: root.selectedReplacements = popup.textAreaToList(text)
             }
         }
 

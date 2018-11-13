@@ -333,38 +333,21 @@ Item {
             }
 
             Button{
+                checkable: true
+                checked: subsSlidingBox.shown
                 text: "  " + i18n("Manage sustitutions...") + "  "
-                onClicked: subspopup.open();
+                onClicked: {
+                    if (subsSlidingBox.shown) {
+                        subsSlidingBox.slideOut();
+                    } else {
+                        subsSlidingBox.slideIn();
+                    }
+                }
+
+                SubstitutionsPopup {
+                    id: subsSlidingBox
+                }
             }
         }
     } //mainColumn
-
-    Rectangle{
-        x: subspopup.x
-        y: subspopup.y
-        width: subspopup.width
-        height: subspopup.height
-        color: palette.base
-
-        layer.enabled: true
-        layer.effect: DropShadow {
-            radius: 12
-            fast: true
-            samples: 2 * radius
-            color: "#999999"
-        }
-
-        visible: subspopup.visible
-        opacity: subspopup.opacity
-    }
-
-    SubstitutionsPopup{
-        id: subspopup
-        width: Tools.qBound(400, 0.6*root.width, root.width-150)
-
-        x: root.width/2 - width/2
-        y: root.height/2 - height/2
-    }
-
-
 }
