@@ -20,9 +20,12 @@
 import QtQuick 2.9
 import QtQuick.Controls 1.0
 import QtQuick.Controls 2.2 as Controls22
+import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.0
 
 import org.kde.plasma.core 2.0 as PlasmaCore
+
+import "../../tools/Tools.js" as Tools
 
 Item {
     id: root
@@ -38,9 +41,13 @@ Item {
     property alias cfg_lengthLastMargin: lengthLastSpn.value
     property alias cfg_lengthMarginsLock: lockItem.locked
     property alias cfg_maximumLength: maximumLengthSpn.value
+    property alias cfg_subsCriteria: root.selectedCriteria
+    property alias cfg_subsCriteriaReplace: root.selectedReplacements
 
     // used as bridge to communicate properly between configuration and ui
     property int selectedStyle
+    property var selectedCriteria: []
+    property var selectedReplacements: []
 
     // used from the ui
     readonly property real centerFactor: 0.35
@@ -314,7 +321,50 @@ Item {
                     Layout.rowSpan: 2
                 }
             }
+        } // ColumnLayout
+
+        GridLayout{
+            columns: 2
+
+            Label{
+                Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
+                text: i18n("Application name:")
+                horizontalAlignment: Text.AlignRight
+            }
+
+            Button{
+                text: "  " + i18n("Manage sustitutions...") + "  "
+                onClicked: subspopup.open();
+            }
         }
+    } //mainColumn
+
+    Rectangle{
+        x: subspopup.x
+        y: subspopup.y
+        width: subspopup.width
+        height: subspopup.height
+        color: palette.base
+
+        layer.enabled: true
+        layer.effect: DropShadow {
+            radius: 12
+            fast: true
+            samples: 2 * radius
+            color: "#999999"
+        }
+
+        visible: subspopup.visible
+        opacity: subspopup.opacity
     }
+
+    SubstitutionsPopup{
+        id: subspopup
+        width: Tools.qBound(400, 0.6*root.width, root.width-150)
+
+        x: root.width/2 - width/2
+        y: root.height/2 - height/2
+    }
+
 
 }

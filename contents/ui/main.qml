@@ -29,6 +29,8 @@ import org.kde.taskmanager 0.1 as TaskManager
 
 import org.kde.activities 0.1 as Activities
 
+import "../tools/Tools.js" as Tools
+
 Item {
     id: root
     clip: true
@@ -255,19 +257,19 @@ Item {
 
                 readonly property string windowText: {
                     if (plasmoid.configuration.style === 0){ /*Application*/
-                        return activeTaskItem.appName;
+                        return Tools.applySubstitutes(activeTaskItem.appName);
                     } else if (plasmoid.configuration.style === 1){ /*Title*/
                         return activeTaskItem.title;
                     } else if (plasmoid.configuration.style === 2){ /*ApplicationTitle*/
                         var finalText = activeTaskItem.appName === activeTaskItem.title ?
-                                    activeTaskItem.appName :
-                                    activeTaskItem.appName + " - " + activeTaskItem.title;
+                                    Tools.applySubstitutes(activeTaskItem.appName) :
+                                    Tools.applySubstitutes(activeTaskItem.appName) + " - " + activeTaskItem.title;
 
                         return finalText;
                     } else if (plasmoid.configuration.style === 3){ /*TitleApplication*/
                         var finalText = activeTaskItem.appName === activeTaskItem.title ?
-                                    activeTaskItem.appName :
-                                    activeTaskItem.title + " - " + activeTaskItem.appName;
+                                    Tools.applySubstitutes(activeTaskItem.appName) :
+                                    activeTaskItem.title + " - " + Tools.applySubstitutes(activeTaskItem.appName);
 
                         return finalText;
                     } else if (plasmoid.configuration.style === 4){ /*NoText*/

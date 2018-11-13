@@ -31,10 +31,6 @@ Item{
 
     readonly property int verticalSubHeight: height - (button.height/2)
 
-    SystemPalette {
-        id: palette
-    }
-
     ColumnLayout{
         id: column
         spacing: 0
@@ -80,7 +76,6 @@ Item{
             Layout.minimumHeight: subRectTop.Layout.minimumHeight
             Layout.maximumWidth: Layout.minimumWidth
             Layout.maximumHeight: Layout.minimumHeight
-
             color: palette.text
         }
     }
