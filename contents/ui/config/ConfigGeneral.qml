@@ -17,8 +17,9 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.0
+import QtQuick 2.9
 import QtQuick.Controls 1.0
+import QtQuick.Controls 2.2 as Controls22
 import QtQuick.Layouts 1.0
 
 import org.kde.plasma.core 2.0 as PlasmaCore
@@ -28,6 +29,7 @@ Item {
 
     property alias cfg_boldFont: boldChk.checked
     property alias cfg_italicFont: italicChk.checked
+    property alias cfg_capitalFont: capitalChk.checked
     property alias cfg_showIcon: showIconChk.checked
     property alias cfg_iconFillThickness: iconFillChk.checked
     property alias cfg_spacing: spacingSpn.value
@@ -44,6 +46,16 @@ Item {
     readonly property real centerFactor: 0.35
     readonly property int minimumWidth: 220
 
+    onSelectedStyleChanged: {
+        if (selectedStyle === 4) { /*NoText*/
+            showIconChk.checked = true;
+        }
+    }
+
+    SystemPalette {
+        id: palette
+    }
+
     ColumnLayout {
         id:mainColumn
         spacing: units.largeSpacing
@@ -54,7 +66,7 @@ Item {
 
             Label{
                 Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
-                text: i18n("Style:")
+                text: i18n("Text style:")
                 horizontalAlignment: Text.AlignRight
             }
 
@@ -77,6 +89,7 @@ Item {
             CheckBox{
                 id: showIconChk
                 text: i18n("Show when available")
+                enabled: root.selectedStyle !== 4 /*NoText*/
             }
 
             Label{
@@ -91,6 +104,7 @@ Item {
 
         GridLayout{
             columns: 2
+            enabled : root.selectedStyle !== 4 /*NoText*/
 
             Label{
                 Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
@@ -110,30 +124,111 @@ Item {
                 id: italicChk
                 text: i18n("Italic")
             }
+
+            Label{
+            }
+
+            CheckBox{
+                id: capitalChk
+                text: i18n("First letters capital")
+            }
         }
 
         GridLayout{
             columns: 2
-            opacity: maximumLengthSpn.value === 0 ? 0.5 : 1
+            enabled : root.selectedStyle !== 4 /*NoText*/
 
             Label{
+                id: lengthLbl
                 Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
-                text: i18n("Maximum length:")
+                text: i18n("Length:")
                 horizontalAlignment: Text.AlignRight
             }
 
-            SpinBox{
+            Controls22.SpinBox{
                 id: maximumLengthSpn
-                minimumValue: 0
-                maximumValue: 600
-                suffix: " " + i18nc("pixels","px.")
+                Layout.minimumWidth: spacingSpn.width
+                from: 0
+                to: 600
+                stepSize: 1
+                editable: true
+                textFromValue: function(value) {
+                    return value===0 ? maximumStr : value + suffix
+                }
+
+                readonly property string suffix: " " + i18nc("pixels","px.")
+                readonly property string maximumStr: i18nc("maximum length", "maximum");
+
+                valueFromText: function(text, locale) {
+                    if (text === maximumStr) {
+                        return 0;
+                    }
+
+                    if (text.endsWith(suffix)) {
+                        var number = text.replace(suffix,'');
+                        return Number.fromLocaleString(locale, number);
+                    }
+                    return 0;
+                }
+
+                validator: IntValidator {
+                    locale: maximumLengthSpn.locale.name
+                    bottom: Math.min(maximumLengthSpn.from, maximumLengthSpn.to)
+                    top: Math.max(maximumLengthSpn.from, maximumLengthSpn.to)
+                }
+
+                contentItem: TextInput {
+                    text: maximumLengthSpn.textFromValue(maximumLengthSpn.value, maximumLengthSpn.locale)
+                    opacity: maximumLengthSpn.enabled ? 1 : 0.6
+
+                    leftPadding: 2
+                    horizontalAlignment: Qt.AlignLeft
+                    verticalAlignment: Qt.AlignVCenter
+
+                    readOnly: !maximumLengthSpn.editable
+                    validator: maximumLengthSpn.validator
+                    inputMethodHints: Qt.ImhFormattedNumbersOnly
+
+                    font: lengthLbl.font
+                    color: palette.text
+                    selectionColor: palette.highlight
+                    selectedTextColor: palette.highlightedText
+
+                    MouseArea{
+                        anchors.fill: parent
+                        cursorShape: Qt.IBeamCursor
+                        hoverEnabled: true
+
+                        onClicked: {
+                            var lastNumber = parent.text.indexOf(maximumLengthSpn.suffix);
+
+                            parent.forceActiveFocus();
+
+                            if (lastNumber === -1) {
+                                parent.selectAll();
+                            } else {
+                                parent.select(0, lastNumber);
+                            }
+                        }
+
+                        onWheel: {
+                            var angle = wheel.angleDelta.y / 8;
+                            if (angle > 12) {
+                                maximumLengthSpn.increase();
+                            } else if (angle < -12) {
+                                maximumLengthSpn.decrease();
+                            }
+                        }
+                    }
+                }
             }
         }
 
         ColumnLayout{
             GridLayout{
+                id: visualSettingsGroup1
                 columns: 2
-                enabled: showIconChk.checked
+                enabled: showIconChk.checked && root.selectedStyle !== 4 /*NoText*/
 
                 Label{
                     Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)

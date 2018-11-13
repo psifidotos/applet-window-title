@@ -30,7 +30,9 @@ Controls24.ComboBox{
         i18n("Application"),
         i18n("Title"),
         i18n("Application - Title"),
-        i18n("Title - Application")];
+        i18n("Title - Application"),
+        i18n("Do not show any text"),
+    ];
 
     Connections{
         target: popup

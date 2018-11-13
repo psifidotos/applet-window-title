@@ -200,6 +200,8 @@ Item {
             Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : plasmoid.configuration.spacing
             Layout.preferredHeight: Layout.minimumHeight
             Layout.maximumHeight: Layout.minimumHeight
+
+            visible: plasmoid.configuration.style !== 4 /*NoText*/
         }
 
         Item{
@@ -210,6 +212,7 @@ Item {
             Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : -1
             Layout.preferredHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : labelTxt.implicitWidth
             Layout.maximumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : maximumLength
+            visible: plasmoid.configuration.style !== 4 /*NoText*/
 
             readonly property int maximumLength: {
                 if (plasmoid.configuration.maximumLength <= 0) {
@@ -233,7 +236,7 @@ Item {
 
                 text: existsWindowActive ? windowText : fullActivityInfo.name
                 color: enforceLattePalette ? latteBridge.palette.textColor : theme.textColor
-                font.capitalization: Font.Capitalize
+                font.capitalization: plasmoid.configuration.capitalFont ? Font.Capitalize : Font.MixedCase
                 font.weight: plasmoid.configuration.boldFont ? Font.Bold : Font.Normal
                 font.italic: plasmoid.configuration.italicFont
                 elide: Text.ElideRight
@@ -267,6 +270,8 @@ Item {
                                     activeTaskItem.title + " - " + activeTaskItem.appName;
 
                         return finalText;
+                    } else if (plasmoid.configuration.style === 4){ /*NoText*/
+                        return "";
                     }
                 }
             }

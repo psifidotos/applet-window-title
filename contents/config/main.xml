@@ -12,6 +12,7 @@
        <choice name="Title"/>
        <choice name="ApplicationTitle"/>
        <choice name="TitleApplication"/>
+       <choice name="NoText"/>
     </choices>
     <label>which style is going to be used for the application title/name</label>
     <default>0</default>
@@ -31,6 +32,10 @@
   <entry name="italicFont" type="Bool">
     <default>false</default>
     <label>italic text font</label>
+  </entry>
+  <entry name="capitalFont" type="Bool">
+    <default>true</default>
+    <label>first letter is each word becomes capital</label>
   </entry>
   <entry name="lengthFirstMargin" type="Int">
     <default>0</default>
