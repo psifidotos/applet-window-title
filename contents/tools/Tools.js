@@ -34,11 +34,11 @@ function cleanStringListItem(item)
 
 function applySubstitutes(text)
 {
-    var minSize = Math.min(plasmoid.configuration.subsCriteria.length, plasmoid.configuration.subsCriteriaReplace.length);
+    var minSize = Math.min(plasmoid.configuration.subsMatch.length, plasmoid.configuration.subsReplace.length);
 
     for (var i = 0; i<minSize; ++i){
-        var fromS = cleanStringListItem(plasmoid.configuration.subsCriteria[i]);
-        var toS = cleanStringListItem(plasmoid.configuration.subsCriteriaReplace[i]);
+        var fromS = cleanStringListItem(plasmoid.configuration.subsMatch[i]);
+        var toS = cleanStringListItem(plasmoid.configuration.subsReplace[i]);
         var regEx = new RegExp(fromS, "ig"); //case insensitive
         text = text.replace(regEx,toS);
     }

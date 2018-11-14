@@ -41,12 +41,12 @@ Item {
     property alias cfg_lengthLastMargin: lengthLastSpn.value
     property alias cfg_lengthMarginsLock: lockItem.locked
     property alias cfg_maximumLength: maximumLengthSpn.value
-    property alias cfg_subsCriteria: root.selectedCriteria
-    property alias cfg_subsCriteriaReplace: root.selectedReplacements
+    property alias cfg_subsMatch: root.selectedMatches
+    property alias cfg_subsReplace: root.selectedReplacements
 
     // used as bridge to communicate properly between configuration and ui
     property int selectedStyle
-    property var selectedCriteria: []
+    property var selectedMatches: []
     property var selectedReplacements: []
 
     // used from the ui

@@ -60,7 +60,7 @@ SlidingBox {
                 Layout.fillWidth: true
                 horizontalAlignment: Qt.AlignHCenter
                 font.bold: true
-                text: "Search Criteria"
+                text: "Match"
             }
             Label{
                 Layout.fillWidth: true
@@ -71,9 +71,9 @@ SlidingBox {
             TextArea{
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                text: listToText(root.selectedCriteria)
+                text: listToText(root.selectedMatches)
 
-                onTextChanged: root.selectedCriteria = popup.textAreaToList(text)
+                onTextChanged: root.selectedMatches = popup.textAreaToList(text)
             }
             TextArea{
                 Layout.fillWidth: true
@@ -89,8 +89,8 @@ SlidingBox {
             font.italic: true
             color: "#ff0000"
             text: {
-                if (root.selectedCriteria.length !== root.selectedReplacements.length) {
-                    return i18n("Warning: Criteria and Replacements do not have the same size...");
+                if (root.selectedMatches.length !== root.selectedReplacements.length) {
+                    return i18n("Warning: Matches and Replacements do not have the same size...");
                 }
 
                 return "";

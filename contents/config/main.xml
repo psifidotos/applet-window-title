@@ -71,11 +71,11 @@
     <default>0</default>
   </entry>
 
-  <entry name="subsCriteria" type="StringList">
+  <entry name="subsMatch" type="StringList">
     <default>"Telegram Desktop"</default>
-    <label>substitutions criteria for application names</label>
+    <label>substitutions criteria - match for application names</label>
   </entry>
-  <entry name="subsCriteriaReplace" type="StringList">
+  <entry name="subsReplace" type="StringList">
     <default>"Telegram"</default>
     <label>substitutions replacements for application names</label>
   </entry>
