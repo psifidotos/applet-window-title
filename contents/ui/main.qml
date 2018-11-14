@@ -118,23 +118,25 @@ Item {
                 readonly property bool isOnAllDesktops: IsOnAllVirtualDesktops === true ? true : false
                 property var icon: decoration
 
-                property string title: ""
+                readonly property string title: display !== undefined ? cleanupTitle(display) : ""
+
+                function cleanupTitle(text) {
+                    var t = text;
+                    var sep = t.lastIndexOf(" —– ");
+                    sep = (sep === -1 ? t.lastIndexOf(" -- ") : sep);
+                    sep = (sep === -1 ? t.lastIndexOf(" — ") : sep);
+                    sep = (sep === -1 ? t.lastIndexOf(" - ") : sep);
+
+                    if (sep >-1) {
+                        return text.substring(0, sep);
+                    } else {
+                        return t;
+                    }
+                }
 
                 onIsActiveChanged: {
                     if (isActive) {
                         root.activeTaskItem = task;
-
-                        var t = display;
-                        var sep = t.lastIndexOf(" —– ");
-                        sep = (sep === -1 ? t.lastIndexOf(" -- ") : sep);
-                        sep = (sep === -1 ? t.lastIndexOf(" — ") : sep);
-                        sep = (sep === -1 ? t.lastIndexOf(" - ") : sep);
-
-                        if (sep >-1) {
-                            title = display.substring(0, sep);
-                        } else {
-                            title = t;
-                        }
                     }
                 }
             }
@@ -190,8 +192,6 @@ Item {
                 }
             }
         }
-
-
 
         Item{
             id: midSpacer
@@ -299,6 +299,68 @@ Item {
         onDoubleClicked: {
             if (existsWindowActive) {
                 tasksModel.requestToggleMaximized(tasksModel.activeTask);
+            }
+        }
+    }
+
+    PlasmaCore.ToolTipArea {
+        id: contentsTooltip
+        anchors.fill: contents
+        active: text !== ""
+        interactive: true
+        location: plasmoid.location
+
+        readonly property string text: {
+            if (!existsWindowActive) {
+                return "";
+            }
+
+            /* Try to show only information that are not already shown*/
+
+            if (plasmoid.configuration.style === 0){ /*Application*/
+                return activeTaskItem.appName === activeTaskItem.title ? "" : activeTaskItem.title;
+            } else if (plasmoid.configuration.style === 1
+                       || plasmoid.configuration.style === 2
+                       || plasmoid.configuration.style === 4 ){ /*Title   OR  ApplicationTitle  OR  NoText*/
+                var finalText = activeTaskItem.appName === activeTaskItem.title ?
+                            Tools.applySubstitutes(activeTaskItem.appName) :
+                            Tools.applySubstitutes(activeTaskItem.appName) + " - " + activeTaskItem.title;
+
+                return finalText;
+            } else if (plasmoid.configuration.style === 3){ /*TitleApplication*/
+                var finalText = activeTaskItem.appName === activeTaskItem.title ?
+                            Tools.applySubstitutes(activeTaskItem.appName) :
+                            activeTaskItem.title + " - " + Tools.applySubstitutes(activeTaskItem.appName);
+
+                return finalText;
+            }
+
+            return "";
+        }
+
+        mainItem: RowLayout {
+            spacing: units.largeSpacing
+            Layout.margins: units.smallSpacing
+            PlasmaCore.IconItem {
+                Layout.minimumWidth: units.iconSizes.medium
+                Layout.minimumHeight: units.iconSizes.medium
+                Layout.maximumWidth: Layout.minimumWidth
+                Layout.maximumHeight: Layout.minimumHeight
+                source:  existsWindowActive ? activeTaskItem.icon : fullActivityInfo.icon
+                visible: !mainIcon.visible
+            }
+
+            PlasmaComponents.Label {
+                id: fullText
+                Layout.minimumWidth: 0
+                Layout.preferredWidth: implicitWidth
+                Layout.maximumWidth: 750
+
+                Layout.minimumHeight: implicitHeight
+                Layout.maximumHeight: Layout.minimumHeight
+                elide: Text.ElideRight
+
+                text: contentsTooltip.text
             }
         }
     }
