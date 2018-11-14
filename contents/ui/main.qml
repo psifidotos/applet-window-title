@@ -203,7 +203,7 @@ Item {
             Layout.preferredHeight: Layout.minimumHeight
             Layout.maximumHeight: Layout.minimumHeight
 
-            visible: plasmoid.configuration.style !== 4 /*NoText*/
+            visible: mainIcon.visible && plasmoid.configuration.style !== 4 /*NoText*/
         }
 
         Item{
