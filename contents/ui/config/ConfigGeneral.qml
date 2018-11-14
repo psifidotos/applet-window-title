@@ -335,7 +335,7 @@ Item {
             Button{
                 checkable: true
                 checked: subsSlidingBox.shown
-                text: "  " + i18n("Manage sustitutions...") + "  "
+                text: "  " + i18n("Manage substitutions...") + "  "
                 onClicked: {
                     if (subsSlidingBox.shown) {
                         subsSlidingBox.slideOut();
