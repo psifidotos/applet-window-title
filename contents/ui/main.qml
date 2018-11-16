@@ -227,7 +227,10 @@ Item {
             PlasmaComponents.Label{
                 id: labelTxt
 
-                anchors.centerIn: parent
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                verticalAlignment: Text.AlignVCenter
+                anchors.horizontalCenter: parent.horizontalCenter
                 width: {
                     if (plasmoid.configuration.maximumLength <= 0) {
                         return implicitWidth;
