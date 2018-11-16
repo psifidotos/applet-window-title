@@ -41,6 +41,8 @@ Item {
     property alias cfg_lengthLastMargin: lengthLastSpn.value
     property alias cfg_lengthMarginsLock: lockItem.locked
     property alias cfg_maximumLength: maximumLengthSpn.value
+    property alias cfg_filterByScreen: filterByScreenChk.checked
+
     property alias cfg_subsMatch: root.selectedMatches
     property alias cfg_subsReplace: root.selectedReplacements
 
@@ -322,6 +324,21 @@ Item {
                 }
             }
         } // ColumnLayout
+
+        GridLayout{
+            columns: 2
+
+            Label{
+                Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
+                text: i18n("Filters:")
+                horizontalAlignment: Text.AlignRight
+            }
+
+            CheckBox{
+                id: filterByScreenChk
+                text: i18n("Show only window information from current screen")
+            }
+        }
 
         GridLayout{
             columns: 2

@@ -57,6 +57,10 @@
     <default>0</default>
     <label>maximum length when the user shows window title</label>
   </entry>
+  <entry name="filterByScreen" type="Bool">
+    <default>false</default>
+    <label>If true, it shows window information only from the current screen</label>
+  </entry>  
   <entry name="formFactor" type="Int">
     <default>2</default>
     <label>it is used in order to inform settings window about the plasmoid form factor. 2=Horizontal and 3=Vertical</label>
