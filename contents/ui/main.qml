@@ -148,6 +148,8 @@ Item {
         id: contents
         rows: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? 1 : -1
         columns: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : 1
+        columnSpacing: 0
+        rowSpacing: 0
 
         readonly property int thickness: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? root.height : root.width
 
