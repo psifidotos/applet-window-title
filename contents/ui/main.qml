@@ -227,17 +227,18 @@ Item {
             PlasmaComponents.Label{
                 id: labelTxt
 
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
+                anchors.centerIn: parent
                 verticalAlignment: Text.AlignVCenter
-                anchors.horizontalCenter: parent.horizontalCenter
+
                 width: {
                     if (plasmoid.configuration.maximumLength <= 0) {
                         return implicitWidth;
                     }
 
-                    return plasmoid.configuration.maximumLength;
+                    return plasmoid.formFactor === PlasmaCore.Types.Horizontal ? parent.width : parent.height;
                 }
+
+                height: contents.thickness
 
                 text: existsWindowActive ? windowText : fullActivityInfo.name
                 color: enforceLattePalette ? latteBridge.palette.textColor : theme.textColor
