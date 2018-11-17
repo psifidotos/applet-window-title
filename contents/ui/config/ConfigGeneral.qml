@@ -160,7 +160,7 @@ Item {
                 id: maximumLengthSpn
                 Layout.minimumWidth: spacingSpn.width
                 from: 0
-                to: 600
+                to: 1500
                 stepSize: 1
                 editable: true
                 textFromValue: function(value) {
