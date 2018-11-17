@@ -113,7 +113,7 @@ Item {
 
             Label{
                 Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
-                text: i18n("Size:")
+                text: i18n("Max:")
                 horizontalAlignment: Text.AlignRight
                 enabled: !iconFillChk.checked
             }

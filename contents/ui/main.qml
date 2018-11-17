@@ -187,10 +187,10 @@ Item {
                 icon: existsWindowActive ? activeTaskItem.icon : fullActivityInfo.icon
 
                 readonly property int thickMargin: plasmoid.configuration.iconFillThickness ?
-                                                       0 : (contents.thickness - plasmoid.configuration.iconSize) / 2
+                                                       0 : (contents.thickness - iconSize) / 2
 
                 readonly property int iconSize: plasmoid.configuration.iconFillThickness ?
-                                                    contents.thickness : plasmoid.configuration.iconSize
+                                                    contents.thickness : Math.min(contents.thickness, plasmoid.configuration.iconSize)
             }
         }
 
