@@ -35,6 +35,7 @@ Item {
     property alias cfg_capitalFont: capitalChk.checked
     property alias cfg_showIcon: showIconChk.checked
     property alias cfg_iconFillThickness: iconFillChk.checked
+    property alias cfg_iconSize: iconSizeSpn.value
     property alias cfg_spacing: spacingSpn.value
     property alias cfg_style: root.selectedStyle
     property alias cfg_lengthFirstMargin: lengthFirstSpn.value
@@ -108,6 +109,21 @@ Item {
                 id: iconFillChk
                 text: i18n("Fill thickness")
                 enabled: showIconChk.checked
+            }
+
+            Label{
+                Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
+                text: i18n("Size:")
+                horizontalAlignment: Text.AlignRight
+                enabled: !iconFillChk.checked
+            }
+
+            SpinBox{
+                id: iconSizeSpn
+                minimumValue: 16
+                maximumValue: 128
+                suffix: " " + i18nc("pixels","px.")
+                enabled: !iconFillChk.checked
             }
         }
 

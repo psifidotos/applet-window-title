@@ -165,31 +165,30 @@ Item {
         Item {
             id: mainIcon
 
-            Layout.minimumWidth: contents.thickness
+            Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ?
+                                     iconItem.iconSize : contents.thickness
             Layout.maximumWidth: Layout.minimumWidth
 
-            Layout.minimumHeight: contents.thickness
+            Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ?
+                                      contents.thickness : iconItem.iconSize
             Layout.maximumHeight: Layout.minimumHeight
 
             visible: plasmoid.configuration.showIcon
 
-            Loader {
+            QIconItem{
+                id: iconItem
                 anchors.fill: parent
-                active: !plasmoid.configuration.iconFillThickness
-                sourceComponent: PlasmaCore.IconItem{
-                    anchors.fill: parent
-                    usesPlasmaTheme: true
-                    source: existsWindowActive ? activeTaskItem.icon : fullActivityInfo.icon
-                }
-            }
+                anchors.topMargin: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? thickMargin : 0
+                anchors.bottomMargin: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? thickMargin : 0
+                anchors.leftMargin: plasmoid.formFactor === PlasmaCore.Types.Vertical ? thickMargin : 0
+                anchors.rightMargin: plasmoid.formFactor === PlasmaCore.Types.Vertical ? thickMargin : 0
+                icon: existsWindowActive ? activeTaskItem.icon : fullActivityInfo.icon
 
-            Loader {
-                anchors.fill: parent
-                active: plasmoid.configuration.iconFillThickness
-                sourceComponent: QIconItem{
-                    anchors.fill: parent
-                    icon: existsWindowActive ? activeTaskItem.icon : fullActivityInfo.icon
-                }
+                readonly property int thickMargin: plasmoid.configuration.iconFillThickness ?
+                                                       0 : (contents.thickness - plasmoid.configuration.iconSize) / 2
+
+                readonly property int iconSize: plasmoid.configuration.iconFillThickness ?
+                                                    contents.thickness : plasmoid.configuration.iconSize
             }
         }
 

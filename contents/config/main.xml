@@ -22,8 +22,12 @@
     <label>show available icon</label>
   </entry>
   <entry name="iconFillThickness" type="Bool">
-    <default>false</default>
+    <default>true</default>
     <label>icon fills applet thickness in order to not look too small in some cases</label>
+  </entry>
+  <entry name="iconSize" type="Int">
+    <default>36</default>
+    <label>icon size when fill thickness is not enabled</label>
   </entry>
   <entry name="boldFont" type="Bool">
     <default>true</default>
