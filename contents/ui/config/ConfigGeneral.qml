@@ -43,6 +43,7 @@ Item {
     property alias cfg_lengthMarginsLock: lockItem.locked
     property alias cfg_maximumLength: maximumLengthSpn.value
     property alias cfg_filterByScreen: filterByScreenChk.checked
+    property alias cfg_filterActivityInfo: filterActivityChk.checked
 
     property alias cfg_subsMatch: root.selectedMatches
     property alias cfg_subsReplace: root.selectedReplacements
@@ -53,7 +54,7 @@ Item {
     property var selectedReplacements: []
 
     // used from the ui
-    readonly property real centerFactor: 0.35
+    readonly property real centerFactor: 0.3
     readonly property int minimumWidth: 220
 
     onSelectedStyleChanged: {
@@ -353,6 +354,13 @@ Item {
             CheckBox{
                 id: filterByScreenChk
                 text: i18n("Show only window information from current screen")
+            }
+
+            Label{}
+
+            CheckBox{
+                id: filterActivityChk
+                text: i18n("Hide activity information")
             }
         }
 

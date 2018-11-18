@@ -49,12 +49,20 @@ Item {
     Plasmoid.onFormFactorChanged: plasmoid.configuration.formFactor = plasmoid.formFactor;
 
     readonly property int containmentType: plasmoid.configuration.containmentType
-    readonly property int minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.width : -1;
-    readonly property int minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : contents.height;
+    readonly property int minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contentsLength : -1;
+    readonly property int minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : contentsLength;
 
     readonly property bool existsWindowActive: activeTaskItem && tasksRepeater.count > 0 && activeTaskItem.isActive
     readonly property bool isActiveWindowPinned: existsWindowActive && activeTaskItem.isOnAllDesktops
     readonly property bool isActiveWindowMaximized: existsWindowActive && activeTaskItem.isMaximized
+
+    readonly property int contentsLength: {
+        if (plasmoid.configuration.filterActivityInfo && !existsWindowActive) {
+            return 0;
+        }
+
+        return plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.width : contents.height;
+    }
 
     property Item activeTaskItem: null
 
@@ -150,6 +158,7 @@ Item {
         columns: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : 1
         columnSpacing: 0
         rowSpacing: 0
+        visible: !(plasmoid.configuration.filterActivityInfo && !existsWindowActive)
 
         readonly property int thickness: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? root.height : root.width
 
