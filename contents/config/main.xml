@@ -84,11 +84,11 @@
   </entry>
 
   <entry name="subsMatch" type="StringList">
-    <default>"Telegram Desktop"</default>
+    <default>"Telegram Desktop","Gimp-.*"</default>
     <label>substitutions criteria - match for application names</label>
   </entry>
   <entry name="subsReplace" type="StringList">
-    <default>"Telegram"</default>
+    <default>"Telegram","Gimp"</default>
     <label>substitutions replacements for application names</label>
   </entry>
   </group>
