@@ -42,8 +42,6 @@ Item {
     property alias cfg_lengthLastMargin: lengthLastSpn.value
     property alias cfg_lengthMarginsLock: lockItem.locked
     property alias cfg_maximumLength: maximumLengthSpn.value
-    property alias cfg_filterByScreen: filterByScreenChk.checked
-    property alias cfg_filterActivityInfo: filterActivityChk.checked
 
     property alias cfg_subsMatch: root.selectedMatches
     property alias cfg_subsReplace: root.selectedReplacements
@@ -341,54 +339,5 @@ Item {
                 }
             }
         } // ColumnLayout
-
-        GridLayout{
-            columns: 2
-
-            Label{
-                Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
-                text: i18n("Filters:")
-                horizontalAlignment: Text.AlignRight
-            }
-
-            CheckBox{
-                id: filterByScreenChk
-                text: i18n("Show only window information from current screen")
-            }
-
-            Label{}
-
-            CheckBox{
-                id: filterActivityChk
-                text: i18n("Hide activity information")
-            }
-        }
-
-        GridLayout{
-            columns: 2
-
-            Label{
-                Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
-                text: i18n("Application name:")
-                horizontalAlignment: Text.AlignRight
-            }
-
-            Button{
-                checkable: true
-                checked: subsSlidingBox.shown
-                text: "  " + i18n("Manage substitutions...") + "  "
-                onClicked: {
-                    if (subsSlidingBox.shown) {
-                        subsSlidingBox.slideOut();
-                    } else {
-                        subsSlidingBox.slideIn();
-                    }
-                }
-
-                SubstitutionsPopup {
-                    id: subsSlidingBox
-                }
-            }
-        }
     } //mainColumn
 }

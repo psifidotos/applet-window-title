@@ -30,11 +30,12 @@ Item{
     clip: true
 
     x: parent.width/2 - width/2
-    y: 0
-    height: 0
+    /*y: slideOutFrom === PlasmaCore.Types.BottomEdge ? 0
+    height: 0*/
     opacity: 0
 
     property QtObject contentItem: null
+    property int slideOutFrom: PlasmaCore.Types.TopEdge
 
     property bool shown: false
 
@@ -49,16 +50,26 @@ Item{
     }
 
     function slideIn() {
-        height = maximumHeight;
-        y = -maximumHeight;
+        if (slideOutFrom === PlasmaCore.Types.TopEdge) {
+            height = maximumHeight;
+            y = -maximumHeight;
+        } else {
+            height = maximumHeight;
+            y = parent.height;
+        }
 
         opacity = 1;
         shown = true;
     }
 
     function slideOut() {
-        height = 0 ;
-        y = 0;
+        if (slideOutFrom === PlasmaCore.Types.TopEdge) {
+            height = 0;
+            y = 0;
+        } else {
+            height = 0;
+            y = parent.height;
+        }
 
         opacity = 0;
         shown = false;

@@ -28,7 +28,9 @@ import "../../tools/Tools.js" as Tools
 
 SlidingBox {
     id: popup
-    width: Tools.qBound(400, 0.6*root.width, 750)
+    width: Tools.qBound(400, 0.6*page.width, 750)
+
+    property QtObject page: null
 
     function textAreaToList(text) {
         var res = text.split("\n");
@@ -71,15 +73,15 @@ SlidingBox {
             TextArea{
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                text: listToText(root.selectedMatches)
+                text: listToText(page.selectedMatches)
 
-                onTextChanged: root.selectedMatches = popup.textAreaToList(text)
+                onTextChanged: page.selectedMatches = popup.textAreaToList(text)
             }
             TextArea{
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                text: listToText(root.selectedReplacements)
-                onTextChanged: root.selectedReplacements = popup.textAreaToList(text)
+                text: listToText(page.selectedReplacements)
+                onTextChanged: page.selectedReplacements = popup.textAreaToList(text)
             }
         }
 
@@ -89,7 +91,7 @@ SlidingBox {
             font.italic: true
             color: "#ff0000"
             text: {
-                if (root.selectedMatches.length !== root.selectedReplacements.length) {
+                if (page.selectedMatches.length !== page.selectedReplacements.length) {
                     return i18n("Warning: Matches and Replacements do not have the same size...");
                 }
 
