@@ -17,28 +17,10 @@ This is a Plasma 5 applet that shows the current window title and icon in your p
 <i>Behavior Settings</i>
 </p>
 
-# Features
-
-- Four different styles, [Application, Title, Application - Title, Title - Application]
-- Support both horizontal and vertical alignments
-- Show window icon
-- Maximize window icon to applet thickness (optional)
-- Bold/Italic font
-- Set maximum length in pixels or use all the required space to show all contents
-- Set spacing between icon and title
-- Left/Right or Top/Bottom margins
-- Multi-screen ready
-- Show activity name/icon when there is not any active window
-- Double click in order to maximize/restore active window (for plasma panels)
-- Latte v0.9 ready
-  * support new painting
-  * support maximize/restore active window
-  * support dragging active window from latte panel
-
 # Requires
 
 - Plasma >= 5.8
-- KDeclarative (optional)
+- KDeclarative
 
 # Install
 
