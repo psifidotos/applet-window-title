@@ -8,8 +8,13 @@ This is a Plasma 5 applet that shows the current window title and icon in your p
 </p>
 
 <p align="center">
-<img src="https://i.imgur.com/jrClIrl.png" width="580"><br/>
-<i>Settings window</i>
+<img src="https://i.imgur.com/9Wy2BgP.png" width="580"><br/>
+<i>Appearance Settings</i>
+</p>
+
+<p align="center">
+<img src="https://i.imgur.com/cxBeWOI.png" width="580"><br/>
+<i>Behavior Settings</i>
 </p>
 
 # Features
