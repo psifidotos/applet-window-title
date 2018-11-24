@@ -71,17 +71,29 @@ SlidingBox {
                 text: "Replace with"
             }
             TextArea{
+                id: textAreaMatch
+
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 text: listToText(page.selectedMatches)
 
                 onTextChanged: page.selectedMatches = popup.textAreaToList(text)
+
+                flickableItem.onContentYChanged: {
+                  textAreaReplace.flickableItem.contentY = flickableItem.contentY
+                }
             }
             TextArea{
+                id: textAreaReplace
+
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 text: listToText(page.selectedReplacements)
                 onTextChanged: page.selectedReplacements = popup.textAreaToList(text)
+
+                flickableItem.onContentYChanged: {
+                  textAreaMatch.flickableItem.contentY = flickableItem.contentY
+                }
             }
         }
 
