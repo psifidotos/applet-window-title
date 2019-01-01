@@ -119,7 +119,7 @@ Item {
             model: tasksModel
             delegate: Item{
                 id: task
-                readonly property string appName: AppName
+                readonly property string appName: AppName !== undefined ? AppName : discoveredAppName
                 readonly property bool isMinimized: IsMinimized === true ? true : false
                 readonly property bool isMaximized: IsMaximized === true ? true : false
                 readonly property bool isActive: IsActive === true ? true : false
@@ -127,16 +127,48 @@ Item {
                 property var icon: decoration
 
                 readonly property string title: display !== undefined ? cleanupTitle(display) : ""
+                property string discoveredAppName: ""
 
                 function cleanupTitle(text) {
                     var t = text;
                     var sep = t.lastIndexOf(" —– ");
-                    sep = (sep === -1 ? t.lastIndexOf(" -- ") : sep);
-                    sep = (sep === -1 ? t.lastIndexOf(" — ") : sep);
-                    sep = (sep === -1 ? t.lastIndexOf(" - ") : sep);
+                    var spacer = 4;
 
-                    if (sep >-1) {
-                        return text.substring(0, sep);
+                    if (sep === -1) {
+                        sep = t.lastIndexOf(" -- ");
+                        spacer = 4;
+                    }
+
+                    if (sep === -1) {
+                        sep = t.lastIndexOf(" -- ");
+                        spacer = 4;
+                    }
+
+                    if (sep === -1) {
+                        sep = t.lastIndexOf(" — ");
+                        spacer = 3;
+                    }
+
+                    if (sep === -1) {
+                        sep = t.lastIndexOf(" - ");
+                        spacer = 3;
+                    }
+
+                    var dTitle = "";
+                    var dAppName = "";
+
+                    if (sep>-1) {
+                        dTitle = text.substring(0, sep);
+                        discoveredAppName = text.substring(sep+spacer, text.length);
+
+                        if (dTitle === appName) {
+                            dTitle = discoveredAppName;
+                            discoveredAppName = appName;
+                        }
+                    }
+
+                    if (sep>-1) {
+                        return dTitle;
                     } else {
                         return t;
                     }
