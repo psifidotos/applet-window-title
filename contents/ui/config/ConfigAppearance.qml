@@ -41,7 +41,7 @@ Item {
     property alias cfg_lengthFirstMargin: lengthFirstSpn.value
     property alias cfg_lengthLastMargin: lengthLastSpn.value
     property alias cfg_lengthMarginsLock: lockItem.locked
-    property alias cfg_maximumLength: maximumLengthSpn.value
+    property alias cfg_maximumLength: maxLengthSlider.value
 
     property alias cfg_subsMatch: root.selectedMatches
     property alias cfg_subsReplace: root.selectedReplacements
@@ -112,7 +112,7 @@ Item {
 
             Label{
                 Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
-                text: i18n("Max:")
+                text: i18n("max:")
                 horizontalAlignment: Text.AlignRight
                 enabled: !iconFillChk.checked
             }
@@ -171,81 +171,15 @@ Item {
                 horizontalAlignment: Text.AlignRight
             }
 
-            Controls22.SpinBox{
-                id: maximumLengthSpn
-                Layout.minimumWidth: spacingSpn.width
-                from: 0
-                to: 1500
-                stepSize: 1
-                editable: true
-                textFromValue: function(value) {
-                    return value===0 ? maximumStr : value + suffix
+            RowLayout{
+                Slider {
+                    id: maxLengthSlider
+                    minimumValue: 0
+                    maximumValue: 1500
+                    stepSize: 2
                 }
-
-                readonly property string suffix: " " + i18nc("pixels","px.")
-                readonly property string maximumStr: i18nc("maximum length", "maximum");
-
-                valueFromText: function(text, locale) {
-                    if (text === maximumStr) {
-                        return 0;
-                    }
-
-                    if (text.endsWith(suffix)) {
-                        var number = text.replace(suffix,'');
-                        return Number.fromLocaleString(locale, number);
-                    }
-                    return 0;
-                }
-
-                validator: IntValidator {
-                    locale: maximumLengthSpn.locale.name
-                    bottom: Math.min(maximumLengthSpn.from, maximumLengthSpn.to)
-                    top: Math.max(maximumLengthSpn.from, maximumLengthSpn.to)
-                }
-
-                contentItem: TextInput {
-                    text: maximumLengthSpn.textFromValue(maximumLengthSpn.value, maximumLengthSpn.locale)
-                    opacity: maximumLengthSpn.enabled ? 1 : 0.6
-
-                    leftPadding: 2
-                    horizontalAlignment: Qt.AlignLeft
-                    verticalAlignment: Qt.AlignVCenter
-
-                    readOnly: !maximumLengthSpn.editable
-                    validator: maximumLengthSpn.validator
-                    inputMethodHints: Qt.ImhFormattedNumbersOnly
-
-                    font: maximumLengthSpn.value === 0 ? italicLbl.font : lengthLbl.font
-                    color: palette.text
-                    selectionColor: palette.highlight
-                    selectedTextColor: palette.highlightedText
-
-                    MouseArea{
-                        anchors.fill: parent
-                        cursorShape: Qt.IBeamCursor
-                        hoverEnabled: true
-
-                        onClicked: {
-                            var lastNumber = parent.text.indexOf(maximumLengthSpn.suffix);
-
-                            parent.forceActiveFocus();
-
-                            if (lastNumber === -1) {
-                                parent.selectAll();
-                            } else {
-                                parent.select(0, lastNumber);
-                            }
-                        }
-
-                        onWheel: {
-                            var angle = wheel.angleDelta.y / 8;
-                            if (angle > 12) {
-                                maximumLengthSpn.increase();
-                            } else if (angle < -12) {
-                                maximumLengthSpn.decrease();
-                            }
-                        }
-                    }
+                Label {
+                    text: maxLengthSlider.value <= 0 ? i18n("maximum") : maxLengthSlider.value + " " + i18n("px.")
                 }
             }
         }
