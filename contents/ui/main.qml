@@ -348,6 +348,10 @@ Item {
                     width: implicitWidth
 
                     text: {
+                        if (!existsWindowActive) {
+                            return "";
+                        }
+
                         if (plasmoid.configuration.style === 2 || plasmoid.configuration.style === 3){ /*ApplicationTitle*/ /*OR*/ /*TitleApplication*/
                             if (activeTaskItem.appName !== activeTaskItem.title) {
                                 return " - ";
@@ -371,7 +375,7 @@ Item {
                     width: Text.ElideNone ? implicitWidth : -1
                     verticalAlignment: firstTxt.verticalAlignment
 
-                    text: appliedText
+                    text: existsWindowActive ? appliedText : ""
 
                     color: firstTxt.color
                     font.capitalization: firstTxt.font.capitalization
