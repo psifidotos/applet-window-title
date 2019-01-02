@@ -250,11 +250,11 @@ Item {
 
         Item{
             Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : contents.thickness
-            Layout.preferredWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? labelTxt.implicitWidth : contents.thickness
+            Layout.preferredWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? textRow.implicitWidths : contents.thickness
             Layout.maximumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? maximumLength : contents.thickness
 
             Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : -1
-            Layout.preferredHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : labelTxt.implicitWidth
+            Layout.preferredHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : textRow.implicitWidths
             Layout.maximumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : maximumLength
             visible: plasmoid.configuration.style !== 4 /*NoText*/
 
@@ -266,15 +266,14 @@ Item {
                 return plasmoid.configuration.maximumLength;
             }
 
-            PlasmaComponents.Label{
-                id: labelTxt
-
+            RowLayout {
+                id: textRow
                 anchors.centerIn: parent
-                verticalAlignment: Text.AlignVCenter
+                spacing: 0
 
                 width: {
                     if (plasmoid.configuration.maximumLength <= 0) {
-                        return implicitWidth;
+                        return implicitWidths;
                     }
 
                     return plasmoid.formFactor === PlasmaCore.Types.Horizontal ? parent.width : parent.height;
@@ -282,15 +281,11 @@ Item {
 
                 height: contents.thickness
 
-                text: existsWindowActive ? windowText : fullActivityInfo.name
-                color: enforceLattePalette ? latteBridge.palette.textColor : theme.textColor
-                font.capitalization: plasmoid.configuration.capitalFont ? Font.Capitalize : Font.MixedCase
-                font.weight: plasmoid.configuration.boldFont ? Font.Bold : Font.Normal
-                font.italic: plasmoid.configuration.italicFont
-                elide: Text.ElideRight
+                readonly property int implicitWidths: {
+                    return firstTxt.implicitWidth + midTxt.implicitWidth + lastTxt.implicitWidth + 2;
+                }
 
                 transformOrigin: Item.Center
-
                 rotation: {
                     if (plasmoid.formFactor === PlasmaCore.Types.Horizontal) {
                         return 0;
@@ -301,24 +296,114 @@ Item {
                     }
                 }
 
-                readonly property string windowText: {
-                    if (plasmoid.configuration.style === 0){ /*Application*/
-                        return Tools.applySubstitutes(activeTaskItem.appName);
-                    } else if (plasmoid.configuration.style === 1){ /*Title*/
-                        return activeTaskItem.title;
-                    } else if (plasmoid.configuration.style === 2){ /*ApplicationTitle*/
-                        var finalText = activeTaskItem.appName === activeTaskItem.title ?
-                                    Tools.applySubstitutes(activeTaskItem.appName) :
-                                    Tools.applySubstitutes(activeTaskItem.appName) + " - " + activeTaskItem.title;
+                PlasmaComponents.Label{
+                    id: firstTxt
+                    Layout.fillWidth: elide === Text.ElideNone ? false : true
+                    width: Text.ElideNone ? implicitWidth : -1
+                    verticalAlignment: Text.AlignVCenter
 
-                        return finalText;
-                    } else if (plasmoid.configuration.style === 3){ /*TitleApplication*/
-                        var finalText = activeTaskItem.appName === activeTaskItem.title ?
-                                    Tools.applySubstitutes(activeTaskItem.appName) :
-                                    activeTaskItem.title + " - " + Tools.applySubstitutes(activeTaskItem.appName);
+                    text: existsWindowActive ? appliedText : fullActivityInfo.name
+                    color: enforceLattePalette ? latteBridge.palette.textColor : theme.textColor
+                    font.capitalization: plasmoid.configuration.capitalFont ? Font.Capitalize : Font.MixedCase
+                    font.weight: plasmoid.configuration.boldFont ? Font.Bold : Font.Normal
+                    font.italic: plasmoid.configuration.italicFont
 
-                        return finalText;
-                    } else if (plasmoid.configuration.style === 4){ /*NoText*/
+                    elide: {
+                        if (plasmoid.configuration.maximumLength <= 0) {
+                            return Text.ElideNone;
+                        }
+
+                        if (plasmoid.configuration.style === 1){ /*Title*/
+                            return Text.ElideRight;
+                        } else if (plasmoid.configuration.style === 3 && activeTaskItem.appName !== activeTaskItem.title){ /*TitleApplication*/
+                            return Text.ElideRight;
+                        }
+
+                        return Text.ElideNone;
+                    }
+
+                    readonly property string appliedText: {
+                        if (plasmoid.configuration.style === 0){ /*Application*/
+                            return Tools.applySubstitutes(activeTaskItem.appName);
+                        } else if (plasmoid.configuration.style === 1){ /*Title*/
+                            return activeTaskItem.title;
+                        } else if (plasmoid.configuration.style === 2){ /*ApplicationTitle*/
+                            return Tools.applySubstitutes(activeTaskItem.appName);
+                        } else if (plasmoid.configuration.style === 3){ /*TitleApplication*/
+                            var finalText = activeTaskItem.appName === activeTaskItem.title ?
+                                        Tools.applySubstitutes(activeTaskItem.appName) : activeTaskItem.title;
+
+                            return finalText;
+                        } else if (plasmoid.configuration.style === 4){ /*NoText*/
+                            return "";
+                        }
+
+                        return "";
+                    }
+                }
+
+                PlasmaComponents.Label{
+                    id: midTxt
+                    verticalAlignment: firstTxt.verticalAlignment
+                    width: implicitWidth
+
+                    text: {
+                        if (plasmoid.configuration.style === 2 || plasmoid.configuration.style === 3){ /*ApplicationTitle*/ /*OR*/ /*TitleApplication*/
+                            if (activeTaskItem.appName !== activeTaskItem.title) {
+                                return " - ";
+                            }
+                        }
+
+                        return "";
+                    }
+
+                    color: firstTxt.color
+                    font.capitalization: firstTxt.font.capitalization
+                    font.weight: firstTxt.font.weight
+                    font.italic: firstTxt.font.italic
+
+                    visible: text !== ""
+                }
+
+                PlasmaComponents.Label{
+                    id: lastTxt
+                    Layout.fillWidth: elide === Text.ElideNone ? false : true
+                    width: Text.ElideNone ? implicitWidth : -1
+                    verticalAlignment: firstTxt.verticalAlignment
+
+                    text: appliedText
+
+                    color: firstTxt.color
+                    font.capitalization: firstTxt.font.capitalization
+                    font.weight: firstTxt.font.weight
+                    font.italic: firstTxt.font.italic
+
+                    visible: text !== ""
+
+                    elide: {
+                        if (plasmoid.configuration.maximumLength <= 0) {
+                            return Text.ElideNone;
+                        }
+
+                        if (plasmoid.configuration.style === 2 /*ApplicationTitle*/
+                                && activeTaskItem.appName !== activeTaskItem.title ){  /*AND is shown*/
+                            return Text.ElideRight;
+                        }
+
+                        return Text.ElideNone;
+                    }
+
+                    readonly property string appliedText: {
+                        if (plasmoid.configuration.style === 2){ /*ApplicationTitle*/
+                            var finalText = activeTaskItem.appName === activeTaskItem.title ? "" : activeTaskItem.title;
+
+                            return finalText;
+                        } else if (plasmoid.configuration.style === 3){ /*TitleApplication*/
+                            var finalText = activeTaskItem.appName === activeTaskItem.title ? "" : Tools.applySubstitutes(activeTaskItem.appName);
+
+                            return finalText;
+                        }
+
                         return "";
                     }
                 }
