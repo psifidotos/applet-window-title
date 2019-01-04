@@ -1,5 +1,5 @@
 /*
-*  Copyright 2018 Michail Vourlakos <mvourlakos@gmail.com>
+*  Copyright 2018-2019 Michail Vourlakos <mvourlakos@gmail.com>
 *
 *  This file is part of applet-window-title
 *
@@ -35,36 +35,64 @@ Item {
     id: root
     clip: true
 
-    Layout.fillHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? true : false
-    Layout.fillWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? false : true
+    Layout.fillWidth: true
+    Layout.fillHeight: true
 
-    Layout.minimumWidth: minimumWidth
-    Layout.minimumHeight: minimumHeight
-    Layout.preferredHeight: Layout.minimumHeight
-    Layout.preferredWidth: Layout.minimumWidth
-    Layout.maximumHeight: Layout.minimumHeight
-    Layout.maximumWidth: Layout.minimumWidth
+    Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? (plasmoid.configuration.maximumLength<=0 ? -1 : 0) : -1
+    Layout.preferredWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? (plasmoid.configuration.maximumLength<=0 ? -1 : maximumTitleLength) : -1
+    Layout.maximumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? (plasmoid.configuration.maximumLength<=0 ? Infinity : maximumTitleLength) : -1
+
+    Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Vertical ? (plasmoid.configuration.maximumLength<=0 ? -1 : 0) : -1
+    Layout.preferredHeight: plasmoid.formFactor === PlasmaCore.Types.Vertical ? (plasmoid.configuration.maximumLength<=0 ? -1 : maximumTitleLength) : -1
+    Layout.maximumHeight: plasmoid.formFactor === PlasmaCore.Types.Vertical ? (plasmoid.configuration.maximumLength<=0 ? Infinity : maximumTitleLength) : -1
 
     Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
     Plasmoid.onFormFactorChanged: plasmoid.configuration.formFactor = plasmoid.formFactor;
 
     readonly property int containmentType: plasmoid.configuration.containmentType
-    readonly property int minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contentsLength : -1;
-    readonly property int minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : contentsLength;
+    readonly property int thickness: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? root.height : root.width
+    readonly property int maximumTitleLength: plasmoid.formFactor === PlasmaCore.Types.Horizontal ?
+                                                  Math.min(metricsContents.width, plasmoid.configuration.maximumLength) :
+                                                  Math.min(metricsContents.height, plasmoid.configuration.maximumLength)
 
     readonly property bool existsWindowActive: activeTaskItem && tasksRepeater.count > 0 && activeTaskItem.isActive
     readonly property bool isActiveWindowPinned: existsWindowActive && activeTaskItem.isOnAllDesktops
     readonly property bool isActiveWindowMaximized: existsWindowActive && activeTaskItem.isMaximized
 
-    readonly property int contentsLength: {
-        if (plasmoid.configuration.filterActivityInfo && !existsWindowActive) {
-            return 0;
+    property Item activeTaskItem: null
+
+    readonly property string firstTitleText: {
+        if (plasmoid.configuration.style === 0){ /*Application*/
+            return Tools.applySubstitutes(activeTaskItem.appName);
+        } else if (plasmoid.configuration.style === 1){ /*Title*/
+            return activeTaskItem.title;
+        } else if (plasmoid.configuration.style === 2){ /*ApplicationTitle*/
+            return Tools.applySubstitutes(activeTaskItem.appName);
+        } else if (plasmoid.configuration.style === 3){ /*TitleApplication*/
+            var finalText = activeTaskItem.appName === activeTaskItem.title ?
+                        Tools.applySubstitutes(activeTaskItem.appName) : activeTaskItem.title;
+
+            return finalText;
+        } else if (plasmoid.configuration.style === 4){ /*NoText*/
+            return "";
         }
 
-        return plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.width : contents.height;
+        return "";
     }
 
-    property Item activeTaskItem: null
+    readonly property string lastTitleText: {
+        if (plasmoid.configuration.style === 2){ /*ApplicationTitle*/
+            var finalText = activeTaskItem.appName === activeTaskItem.title ? "" : activeTaskItem.title;
+
+            return finalText;
+        } else if (plasmoid.configuration.style === 3){ /*TitleApplication*/
+            var finalText = activeTaskItem.appName === activeTaskItem.title ? "" : Tools.applySubstitutes(activeTaskItem.appName);
+
+            return finalText;
+        }
+
+        return "";
+    }
 
     //BEGIN Latte Dock Communicator
     property bool isInLatte: false  // deprecated Latte v0.8 API
@@ -184,251 +212,44 @@ Item {
     }
     // END Tasks logic
 
-    GridLayout{
-        id: contents
-        rows: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? 1 : -1
-        columns: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : 1
-        columnSpacing: 0
-        rowSpacing: 0
-        visible: !(plasmoid.configuration.filterActivityInfo && !existsWindowActive)
+    // BEGIN Title Layout(s)
 
-        readonly property int thickness: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? root.height : root.width
+    // This Layout is used to count if the title overceeds the available space
+    // in order for the Visible Layout to elide its contents
+    TitleLayout {
+        id: metricsContents
+        anchors.top: parent.top
+        anchors.left: parent.left
+        //anchors.topMargin: 8
 
-        Item{
-            id: firstSpacer
-            Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? plasmoid.configuration.lengthFirstMargin : -1
-            Layout.preferredWidth: Layout.minimumWidth
-            Layout.maximumWidth: Layout.minimumWidth
-
-            Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : plasmoid.configuration.lengthFirstMargin
-            Layout.preferredHeight: Layout.minimumHeight
-            Layout.maximumHeight: Layout.minimumHeight
-        }
-
-        Item {
-            id: mainIcon
-
-            Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ?
-                                     iconItem.iconSize : contents.thickness
-            Layout.maximumWidth: Layout.minimumWidth
-
-            Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ?
-                                      contents.thickness : iconItem.iconSize
-            Layout.maximumHeight: Layout.minimumHeight
-
-            visible: plasmoid.configuration.showIcon
-
-            QIconItem{
-                id: iconItem
-                anchors.fill: parent
-                anchors.topMargin: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? thickMargin : 0
-                anchors.bottomMargin: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? thickMargin : 0
-                anchors.leftMargin: plasmoid.formFactor === PlasmaCore.Types.Vertical ? thickMargin : 0
-                anchors.rightMargin: plasmoid.formFactor === PlasmaCore.Types.Vertical ? thickMargin : 0
-                icon: existsWindowActive ? activeTaskItem.icon : fullActivityInfo.icon
-
-                readonly property int thickMargin: plasmoid.configuration.iconFillThickness ?
-                                                       0 : (contents.thickness - iconSize) / 2
-
-                readonly property int iconSize: plasmoid.configuration.iconFillThickness ?
-                                                    contents.thickness : Math.min(contents.thickness, plasmoid.configuration.iconSize)
-            }
-        }
-
-        Item{
-            id: midSpacer
-            Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? plasmoid.configuration.spacing : -1
-            Layout.preferredWidth: Layout.minimumWidth
-            Layout.maximumWidth: Layout.minimumWidth
-
-            Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : plasmoid.configuration.spacing
-            Layout.preferredHeight: Layout.minimumHeight
-            Layout.maximumHeight: Layout.minimumHeight
-
-            visible: mainIcon.visible && plasmoid.configuration.style !== 4 /*NoText*/
-        }
-
-        Item{
-            Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : contents.thickness
-            Layout.preferredWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? textRow.implicitWidths : contents.thickness
-            Layout.maximumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? maximumLength : contents.thickness
-
-            Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : -1
-            Layout.preferredHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : textRow.implicitWidths
-            Layout.maximumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? contents.thickness : maximumLength
-            visible: plasmoid.configuration.style !== 4 /*NoText*/
-
-            readonly property int maximumLength: {
-                if (plasmoid.configuration.maximumLength <= 0) {
-                    return Infinity;
-                }
-
-                return plasmoid.configuration.maximumLength;
-            }
-
-            RowLayout {
-                id: textRow
-                anchors.centerIn: parent
-                spacing: 0
-
-                width: {
-                    if (plasmoid.configuration.maximumLength <= 0) {
-                        return implicitWidths;
-                    }
-
-                    return plasmoid.formFactor === PlasmaCore.Types.Horizontal ? parent.width : parent.height;
-                }
-
-                height: contents.thickness
-
-                readonly property int implicitWidths: {
-                    return firstTxt.implicitWidth + midTxt.implicitWidth + lastTxt.implicitWidth + 2;
-                }
-
-                transformOrigin: Item.Center
-                rotation: {
-                    if (plasmoid.formFactor === PlasmaCore.Types.Horizontal) {
-                        return 0;
-                    } else if (plasmoid.location === PlasmaCore.Types.LeftEdge) {
-                        return -90;
-                    } else if (plasmoid.location === PlasmaCore.Types.RightEdge) {
-                        return 90;
-                    }
-                }
-
-                PlasmaComponents.Label{
-                    id: firstTxt
-                    Layout.fillWidth: elide === Text.ElideNone ? false : true
-                    width: Text.ElideNone ? implicitWidth : -1
-                    verticalAlignment: Text.AlignVCenter
-
-                    text: existsWindowActive ? appliedText : fullActivityInfo.name
-                    color: enforceLattePalette ? latteBridge.palette.textColor : theme.textColor
-                    font.capitalization: plasmoid.configuration.capitalFont ? Font.Capitalize : Font.MixedCase
-                    font.weight: plasmoid.configuration.boldFont ? Font.Bold : Font.Normal
-                    font.italic: plasmoid.configuration.italicFont
-
-                    elide: {
-                        if (plasmoid.configuration.maximumLength <= 0) {
-                            return Text.ElideNone;
-                        }
-
-                        if (plasmoid.configuration.style === 1){ /*Title*/
-                            return Text.ElideRight;
-                        } else if (plasmoid.configuration.style === 3 && activeTaskItem.appName !== activeTaskItem.title){ /*TitleApplication*/
-                            return Text.ElideRight;
-                        }
-
-                        return Text.ElideNone;
-                    }
-
-                    readonly property string appliedText: {
-                        if (plasmoid.configuration.style === 0){ /*Application*/
-                            return Tools.applySubstitutes(activeTaskItem.appName);
-                        } else if (plasmoid.configuration.style === 1){ /*Title*/
-                            return activeTaskItem.title;
-                        } else if (plasmoid.configuration.style === 2){ /*ApplicationTitle*/
-                            return Tools.applySubstitutes(activeTaskItem.appName);
-                        } else if (plasmoid.configuration.style === 3){ /*TitleApplication*/
-                            var finalText = activeTaskItem.appName === activeTaskItem.title ?
-                                        Tools.applySubstitutes(activeTaskItem.appName) : activeTaskItem.title;
-
-                            return finalText;
-                        } else if (plasmoid.configuration.style === 4){ /*NoText*/
-                            return "";
-                        }
-
-                        return "";
-                    }
-                }
-
-                PlasmaComponents.Label{
-                    id: midTxt
-                    verticalAlignment: firstTxt.verticalAlignment
-                    width: implicitWidth
-
-                    text: {
-                        if (!existsWindowActive) {
-                            return "";
-                        }
-
-                        if (plasmoid.configuration.style === 2 || plasmoid.configuration.style === 3){ /*ApplicationTitle*/ /*OR*/ /*TitleApplication*/
-                            if (activeTaskItem.appName !== activeTaskItem.title) {
-                                return " - ";
-                            }
-                        }
-
-                        return "";
-                    }
-
-                    color: firstTxt.color
-                    font.capitalization: firstTxt.font.capitalization
-                    font.weight: firstTxt.font.weight
-                    font.italic: firstTxt.font.italic
-
-                    visible: text !== ""
-                }
-
-                PlasmaComponents.Label{
-                    id: lastTxt
-                    Layout.fillWidth: elide === Text.ElideNone ? false : true
-                    width: Text.ElideNone ? implicitWidth : -1
-                    verticalAlignment: firstTxt.verticalAlignment
-
-                    text: existsWindowActive ? appliedText : ""
-
-                    color: firstTxt.color
-                    font.capitalization: firstTxt.font.capitalization
-                    font.weight: firstTxt.font.weight
-                    font.italic: firstTxt.font.italic
-
-                    visible: text !== ""
-
-                    elide: {
-                        if (plasmoid.configuration.maximumLength <= 0) {
-                            return Text.ElideNone;
-                        }
-
-                        if (plasmoid.configuration.style === 2 /*ApplicationTitle*/
-                                && activeTaskItem.appName !== activeTaskItem.title ){  /*AND is shown*/
-                            return Text.ElideRight;
-                        }
-
-                        return Text.ElideNone;
-                    }
-
-                    readonly property string appliedText: {
-                        if (plasmoid.configuration.style === 2){ /*ApplicationTitle*/
-                            var finalText = activeTaskItem.appName === activeTaskItem.title ? "" : activeTaskItem.title;
-
-                            return finalText;
-                        } else if (plasmoid.configuration.style === 3){ /*TitleApplication*/
-                            var finalText = activeTaskItem.appName === activeTaskItem.title ? "" : Tools.applySubstitutes(activeTaskItem.appName);
-
-                            return finalText;
-                        }
-
-                        return "";
-                    }
-                }
-            }
-        }
-
-        Item{
-            id: lastSpacer
-            Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? plasmoid.configuration.lengthLastMargin : -1
-            Layout.preferredWidth: Layout.minimumWidth
-            Layout.maximumWidth: Layout.minimumWidth
-
-            Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : plasmoid.configuration.lengthLastMargin
-            Layout.preferredHeight: Layout.minimumHeight
-            Layout.maximumHeight: Layout.minimumHeight
-        }
+        //visible:false, does not return proper metrics, this is why opacity:0 is preferred
+        opacity: 0
+        isUsedForMetrics: true
     }
+
+    // This is the reas Visible Layout that is shown to the user
+    TitleLayout {
+        id: visibleContents
+        anchors.top: parent.top
+        anchors.left: parent.left
+
+        width: plasmoid.formFactor === PlasmaCore.Types.Horizontal ?
+                   (!exceedsAvailableSpace ? metricsContents.width : root.width) : thickness
+
+        height: plasmoid.formFactor === PlasmaCore.Types.Vertical ?
+                    (!exceedsAvailableSpace ? metricsContents.height : root.height) : thickness
+
+        exceedsAvailableSpace: plasmoid.formFactor === PlasmaCore.Types.Horizontal ?
+                                   metricsContents.width > root.width :
+                                   metricsContents.height > root.height
+
+        visible: !(plasmoid.configuration.filterActivityInfo && !root.existsWindowActive)
+    }
+    // END Title Layout(s)
 
     MouseArea{
         id: contentsMouseArea
-        anchors.fill: contents
+        anchors.fill: visibleContents
         visible: containmentType === 1 /*plasma or old latte containment*/
 
         onDoubleClicked: {
@@ -440,7 +261,7 @@ Item {
 
     PlasmaCore.ToolTipArea {
         id: contentsTooltip
-        anchors.fill: contents
+        anchors.fill: visibleContents
         active: text !== ""
         interactive: true
         location: plasmoid.location
@@ -482,7 +303,7 @@ Item {
                 Layout.maximumWidth: Layout.minimumWidth
                 Layout.maximumHeight: Layout.minimumHeight
                 source:  existsWindowActive ? activeTaskItem.icon : fullActivityInfo.icon
-                visible: !mainIcon.visible
+                visible: !plasmoid.configuration.showIcon
             }
 
             PlasmaComponents.Label {
