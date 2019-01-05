@@ -38,21 +38,23 @@ Item {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-    Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? (plasmoid.configuration.maximumLength<=0 ? -1 : 0) : -1
-    Layout.preferredWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? (plasmoid.configuration.maximumLength<=0 ? -1 : maximumTitleLength) : -1
-    Layout.maximumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? (plasmoid.configuration.maximumLength<=0 ? Infinity : maximumTitleLength) : -1
+    Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? (inFillMode && latteInEditMode ? maximumTitleLength : 0) : 0
+    Layout.preferredWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? (inFillMode ? -1 : maximumTitleLength) : -1
+    Layout.maximumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? (inFillMode ? Infinity : maximumTitleLength) : -1
 
-    Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Vertical ? (plasmoid.configuration.maximumLength<=0 ? -1 : 0) : -1
-    Layout.preferredHeight: plasmoid.formFactor === PlasmaCore.Types.Vertical ? (plasmoid.configuration.maximumLength<=0 ? -1 : maximumTitleLength) : -1
-    Layout.maximumHeight: plasmoid.formFactor === PlasmaCore.Types.Vertical ? (plasmoid.configuration.maximumLength<=0 ? Infinity : maximumTitleLength) : -1
+    Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Vertical ? (inFillMode && latteInEditMode ? maximumTitleLength : 0) : 0
+    Layout.preferredHeight: plasmoid.formFactor === PlasmaCore.Types.Vertical ? (inFillMode ? -1 : maximumTitleLength) : -1
+    Layout.maximumHeight: plasmoid.formFactor === PlasmaCore.Types.Vertical ? (inFillMode ? Infinity : maximumTitleLength) : -1
 
     Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
     Plasmoid.onFormFactorChanged: plasmoid.configuration.formFactor = plasmoid.formFactor;
 
+    readonly property bool inFillMode: plasmoid.configuration.maximumLength<=0
+
     readonly property int containmentType: plasmoid.configuration.containmentType
     readonly property int thickness: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? root.height : root.width
     readonly property int maximumTitleLength: plasmoid.formFactor === PlasmaCore.Types.Horizontal ?
-                                                  Math.min(metricsContents.width, plasmoid.configuration.maximumLength) :
+                                                  (inFillMode ? metricsContents.width : Math.min(metricsContents.width, plasmoid.configuration.maximumLength)) :
                                                   Math.min(metricsContents.height, plasmoid.configuration.maximumLength)
 
     readonly property bool existsWindowActive: activeTaskItem && tasksRepeater.count > 0 && activeTaskItem.isActive

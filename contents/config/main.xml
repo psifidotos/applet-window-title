@@ -58,7 +58,7 @@
     <label>spacing between icons</label>
   </entry>
   <entry name="maximumLength" type="Int">
-    <default>0</default>
+    <default>1500</default>
     <label>maximum length when the user shows window title</label>
   </entry>
   <entry name="filterByScreen" type="Bool">

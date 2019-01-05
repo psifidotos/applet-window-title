@@ -167,7 +167,7 @@ Item {
             Label{
                 id: lengthLbl
                 Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
-                text: i18n("Length:")
+                text: i18n("Maximum:")
                 horizontalAlignment: Text.AlignRight
             }
 
@@ -179,7 +179,7 @@ Item {
                     stepSize: 2
                 }
                 Label {
-                    text: maxLengthSlider.value <= 0 ? i18n("maximum") : maxLengthSlider.value + " " + i18n("px.")
+                    text: maxLengthSlider.value <= 0 ? i18n("fill in") : maxLengthSlider.value + " " + i18n("px.")
                 }
             }
         }
