@@ -62,6 +62,10 @@ Item {
     property Item activeTaskItem: null
 
     readonly property string firstTitleText: {
+        if (!activeTaskItem) {
+            return "";
+        }
+
         if (plasmoid.configuration.style === 0){ /*Application*/
             return Tools.applySubstitutes(activeTaskItem.appName);
         } else if (plasmoid.configuration.style === 1){ /*Title*/
@@ -81,6 +85,10 @@ Item {
     }
 
     readonly property string lastTitleText: {
+        if (!activeTaskItem) {
+            return "";
+        }
+
         if (plasmoid.configuration.style === 2){ /*ApplicationTitle*/
             var finalText = activeTaskItem.appName === activeTaskItem.title ? "" : activeTaskItem.title;
 

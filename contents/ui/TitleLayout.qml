@@ -205,8 +205,9 @@ GridLayout{
                 visible: text !== ""
 
                 elide: {
-                    if (plasmoid.configuration.style === 2 /*ApplicationTitle*/
+                    if (activeTaskItem
                             && activeTaskItem.appName !== activeTaskItem.title
+                            && plasmoid.configuration.style === 2 /*ApplicationTitle*/
                             && titleLayout.exceedsAvailableSpace){  /*AND is shown*/
                         return Text.ElideRight;
                     }
