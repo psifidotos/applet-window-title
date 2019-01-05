@@ -167,7 +167,7 @@ Item {
             Label{
                 id: lengthLbl
                 Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
-                text: i18n("Maximum:")
+                text: maxLengthSlider.value <= 0 ? i18n("Length:") : i18n("Maximum:")
                 horizontalAlignment: Text.AlignRight
             }
 
