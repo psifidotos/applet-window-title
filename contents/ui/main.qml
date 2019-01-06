@@ -253,6 +253,10 @@ Item {
                                    metricsContents.width > root.width :
                                    metricsContents.height > root.height
 
+        exceedsApplicationText: plasmoid.formFactor === PlasmaCore.Types.Horizontal ?
+                                    metricsContents.applicationTextLength > root.width :
+                                    metricsContents.applicationTextLength > root.height
+
         visible: !(plasmoid.configuration.filterActivityInfo && !root.existsWindowActive)
     }
     // END Title Layout(s)

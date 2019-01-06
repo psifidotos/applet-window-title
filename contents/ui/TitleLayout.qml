@@ -36,6 +36,24 @@ GridLayout{
 
     property bool isUsedForMetrics: false
     property bool exceedsAvailableSpace: false
+    property bool exceedsApplicationText: false
+
+    property int applicationTextLength: {
+        var applicationLength = 0;
+
+        if (plasmoid.configuration.style === 0 /*Application*/
+                || plasmoid.configuration.style === 2) { /*ApplicationTitle*/
+            applicationLength = firstTxt.implicitWidth;
+        } else if (plasmoid.configuration.style === 3) { /*TitleApplication*/
+            applicationLength = lastTxt.implicitWidth + midTxt.width;
+        }
+
+        var subElements = plasmoid.formFactor === PlasmaCore.Types.Horizontal ?
+                    firstSpacer.width + mainIcon.width + midSpacer.width :
+                    firstSpacer.height + mainIcon.height + midSpacer.height;
+
+        return subElements + applicationLength;
+    }
 
     Item{
         id: firstSpacer
@@ -149,6 +167,12 @@ GridLayout{
                 font.weight: plasmoid.configuration.boldFont ? Font.Bold : Font.Normal
                 font.italic: plasmoid.configuration.italicFont
 
+                readonly property bool showsTitleText: plasmoid.configuration.style === 1 /*Title*/
+                                                       || plasmoid.configuration.style === 3 /*TitleApplication*/
+
+                readonly property bool showsApplicationText: plasmoid.configuration.style === 0 /*Application*/
+                                                             || plasmoid.configuration.style === 2 /*ApplicationTitle*/
+
                 elide: {
                     if (plasmoid.configuration.style === 1 && titleLayout.exceedsAvailableSpace){ /*Title*/
                         return Text.ElideRight;
@@ -156,9 +180,19 @@ GridLayout{
                                && activeTaskItem.appName !== activeTaskItem.title
                                && titleLayout.exceedsAvailableSpace){ /*TitleApplication*/
                         return Text.ElideRight;
+                    } else if (showsApplicationText && !isUsedForMetrics && exceedsApplicationText) {
+                        return Text.ElideRight;
                     }
 
                     return Text.ElideNone;
+                }
+
+                visible: {
+                    if (!isUsedForMetrics && showsTitleText && exceedsApplicationText) {
+                        return false;
+                    }
+
+                    return true;
                 }
             }
 
@@ -166,6 +200,7 @@ GridLayout{
                 id: midTxt
                 verticalAlignment: firstTxt.verticalAlignment
                 width: implicitWidth
+                visible: !exceedsApplicationText && text !== ""
 
                 text: {
                     if (!existsWindowActive) {
@@ -185,8 +220,6 @@ GridLayout{
                 font.capitalization: firstTxt.font.capitalization
                 font.weight: firstTxt.font.weight
                 font.italic: firstTxt.font.italic
-
-                visible: text !== ""
             }
 
             PlasmaComponents.Label{
@@ -202,13 +235,19 @@ GridLayout{
                 font.weight: firstTxt.font.weight
                 font.italic: firstTxt.font.italic
 
-                visible: text !== ""
+                visible: text !== "" && !(showsTitleText && exceedsApplicationText)
+
+                readonly property bool showsTitleText: plasmoid.configuration.style === 2 /*ApplicationTitle*/
+
 
                 elide: {
                     if (activeTaskItem
                             && activeTaskItem.appName !== activeTaskItem.title
                             && plasmoid.configuration.style === 2 /*ApplicationTitle*/
                             && titleLayout.exceedsAvailableSpace){  /*AND is shown*/
+                        return Text.ElideRight;
+                    } else if(plasmoid.configuration.style === 3 /*TitleApplication*/
+                              && exceedsApplicationText) {
                         return Text.ElideRight;
                     }
 
