@@ -57,6 +57,10 @@
     <default>4</default>
     <label>spacing between icons</label>
   </entry>
+  <entry name="inFillMode" type="Bool">
+    <default>false</default>
+    <label>applet fills all available space in the panel</label>
+  </entry>  
   <entry name="maximumLength" type="Int">
     <default>1500</default>
     <label>maximum length when the user shows window title</label>

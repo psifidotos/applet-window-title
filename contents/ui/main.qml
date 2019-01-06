@@ -49,7 +49,7 @@ Item {
     Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
     Plasmoid.onFormFactorChanged: plasmoid.configuration.formFactor = plasmoid.formFactor;
 
-    readonly property bool inFillMode: plasmoid.configuration.maximumLength<=0
+    readonly property bool inFillMode: plasmoid.configuration.inFillMode
 
     readonly property int containmentType: plasmoid.configuration.containmentType
     readonly property int thickness: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? root.height : root.width

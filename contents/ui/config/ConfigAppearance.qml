@@ -41,6 +41,7 @@ Item {
     property alias cfg_lengthFirstMargin: lengthFirstSpn.value
     property alias cfg_lengthLastMargin: lengthLastSpn.value
     property alias cfg_lengthMarginsLock: lockItem.locked
+    property alias cfg_inFillMode: inFillChk.checked
     property alias cfg_maximumLength: maxLengthSlider.value
 
     property alias cfg_subsMatch: root.selectedMatches
@@ -167,19 +168,33 @@ Item {
             Label{
                 id: lengthLbl
                 Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
-                text: maxLengthSlider.value <= 0 ? i18n("Length:") : i18n("Maximum:")
+                text: i18n("Length:")
                 horizontalAlignment: Text.AlignRight
             }
 
+            CheckBox{
+                id: inFillChk
+                text: i18n("Fill available space")
+            }
+
+            Label{
+                id: maximumLbl
+                Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
+                text: i18n("Maximum:")
+                horizontalAlignment: Text.AlignRight
+                enabled: !inFillChk.checked
+            }
+
             RowLayout{
+                enabled: !inFillChk.checked
                 Slider {
                     id: maxLengthSlider
-                    minimumValue: 0
+                    minimumValue: 24
                     maximumValue: 1500
                     stepSize: 2
                 }
                 Label {
-                    text: maxLengthSlider.value <= 0 ? i18n("fill in") : maxLengthSlider.value + " " + i18n("px.")
+                    text: maxLengthSlider.value + " " + i18n("px.")
                 }
             }
         }
