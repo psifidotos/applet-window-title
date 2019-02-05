@@ -1,5 +1,14 @@
 ### CHANGELOG
 
+#### Version 0.3
+
+* improve defaults and behavior for Latte edit mode
+* elide text if applet exceeds panel space
+* elide only title when needed
+* improvements for settings window
+* synchronize scrolling for substitutions elements
+* support new Latte Communicator mechanism from Latte git version
+
 #### Version 0.2
 
 * Fifth Text Style, "Do not show any text"
