@@ -53,6 +53,14 @@
     <default>true</default>
     <label>used only by the settings window in order to remember the user choice concerning the locker</label>
   </entry>
+  <entry name="appMenuIsPresent" type="Bool">
+    <default>false</default>
+    <label>try to identify if appmenu exists in the same containment. This is set only with applets cooperation</label>
+  </entry>
+  <entry name="showAppMenuOnMouseEnter" type="Bool">
+    <default>false</default>
+    <label>will become hidden in favour of appmenu when the mouse enters the applet</label>
+  </entry>
   <entry name="spacing" type="Int">
     <default>4</default>
     <label>spacing between icons</label>
@@ -60,7 +68,7 @@
   <entry name="inFillMode" type="Bool">
     <default>false</default>
     <label>applet fills all available space in the panel</label>
-  </entry>  
+  </entry>
   <entry name="maximumLength" type="Int">
     <default>1500</default>
     <label>maximum length when the user shows window title</label>
@@ -68,11 +76,11 @@
   <entry name="filterByScreen" type="Bool">
     <default>false</default>
     <label>If true, it shows window information only from the current screen</label>
-  </entry>  
+  </entry>
   <entry name="filterActivityInfo" type="Bool">
     <default>false</default>
     <label>If true, it shows only window information and no activity information</label>
-  </entry>  
+  </entry>
   <entry name="formFactor" type="Int">
     <default>2</default>
     <label>it is used in order to inform settings window about the plasmoid form factor. 2=Horizontal and 3=Vertical</label>

@@ -29,6 +29,8 @@ Item {
     property alias cfg_filterByScreen: filterByScreenChk.checked
     property alias cfg_filterActivityInfo: filterActivityChk.checked
 
+    property alias cfg_showAppMenuOnMouseEnter: showAppMenuChk.checked
+
     property alias cfg_subsMatch: behaviorPage.selectedMatches
     property alias cfg_subsReplace: behaviorPage.selectedReplacements
 
@@ -64,6 +66,23 @@ Item {
             CheckBox{
                 id: filterActivityChk
                 text: i18n("Hide activity information")
+            }
+        }
+
+        GridLayout{
+            columns: 2
+
+            visible: plasmoid.configuration.appMenuIsPresent
+
+            Label{
+                Layout.minimumWidth: Math.max(centerFactor * behaviorPage.width, minimumWidth)
+                text: i18n("Interaction:")
+                horizontalAlignment: Text.AlignRight
+            }
+
+            CheckBox{
+                id: showAppMenuChk
+                text: i18n("Show Window AppMenu applet on mouse enter")
             }
         }
 

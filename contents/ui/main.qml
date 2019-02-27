@@ -49,13 +49,30 @@ Item {
     Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
     Plasmoid.onFormFactorChanged: plasmoid.configuration.formFactor = plasmoid.formFactor;
 
+    Plasmoid.status: {
+        if (broadcaster.hiddenFromBroadcast && !inEditMode) {
+            return PlasmaCore.Types.HiddenStatus;
+        }
+
+        return PlasmaCore.Types.PassiveStatus;
+    }
+
     readonly property bool inFillMode: plasmoid.configuration.inFillMode
+    readonly property bool inEditMode: plasmoid.userConfiguring || latteInEditMode
 
     readonly property int containmentType: plasmoid.configuration.containmentType
     readonly property int thickness: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? root.height : root.width
-    readonly property int maximumTitleLength: plasmoid.formFactor === PlasmaCore.Types.Horizontal ?
-                                                  (inFillMode ? metricsContents.width : Math.min(metricsContents.width, plasmoid.configuration.maximumLength)) :
-                                                  Math.min(metricsContents.height, plasmoid.configuration.maximumLength)
+    readonly property int maximumTitleLength: {
+        if (broadcaster.hiddenFromBroadcast) {
+            return 0;
+        }
+
+        if (plasmoid.formFactor === PlasmaCore.Types.Horizontal) {
+            return inFillMode ? metricsContents.width : Math.min(metricsContents.width, plasmoid.configuration.maximumLength);
+        } else {
+            return Math.min(metricsContents.height, plasmoid.configuration.maximumLength);
+        }
+    }
 
     readonly property bool existsWindowActive: activeTaskItem && tasksRepeater.count > 0 && activeTaskItem.isActive
     readonly property bool isActiveWindowPinned: existsWindowActive && activeTaskItem.isOnAllDesktops
@@ -114,13 +131,17 @@ Item {
             latteBridge.actions.setProperty(plasmoid.id, "latteSideColoringEnabled", false);
         }
     }
+
     //END  Latte Dock Communicator
     //BEGIN Latte based properties
     readonly property bool enforceLattePalette: latteBridge && latteBridge.applyPalette && latteBridge.palette
     readonly property bool latteInEditMode: latteBridge && latteBridge.inEditMode
     //END Latte based properties
 
-    Component.onCompleted: containmentIdentifierTimer.start();
+    Component.onCompleted: {
+        plasmoid.configuration.appMenuIsPresent = false;
+        containmentIdentifierTimer.start();
+    }
 
     // START Tasks logic
     // To get current activity name
@@ -261,18 +282,7 @@ Item {
     }
     // END Title Layout(s)
 
-    MouseArea{
-        id: contentsMouseArea
-        anchors.fill: visibleContents
-        visible: containmentType === 1 /*plasma or old latte containment*/
-
-        onDoubleClicked: {
-            if (existsWindowActive) {
-                tasksModel.requestToggleMaximized(tasksModel.activeTask);
-            }
-        }
-    }
-
+    //! Tooltip Area
     PlasmaCore.ToolTipArea {
         id: contentsTooltip
         anchors.fill: visibleContents
@@ -334,7 +344,26 @@ Item {
             }
         }
     }
+    //! END of ToolTip area
 
+    MouseArea{
+        id: contentsMouseArea
+        anchors.fill: visibleContents
+        visible: containmentType === 1 /*plasma or old latte containment*/
+        hoverEnabled: true
+
+        onDoubleClicked: {
+            if (existsWindowActive) {
+                tasksModel.requestToggleMaximized(tasksModel.activeTask);
+            }
+        }
+    }
+
+    Broadcaster{
+        id: broadcaster
+
+        anchors.fill: parent
+    }
 
     //! this timer is used in order to identify in which containment the applet is in
     //! it should be called only the first time an applet is created and loaded because
@@ -346,6 +375,7 @@ Item {
         onTriggered: {
             if (latteBridge) {
                 plasmoid.configuration.containmentType = 2; /*Latte containment with new API*/
+                latteBridge.actions.broadcastToApplet("org.kde.windowappmenu", "isPresent", true);
             } else {
                 plasmoid.configuration.containmentType = 1; /*Plasma containment or Latte with old API*/
             }
