@@ -71,8 +71,8 @@ Item {
 
         GridLayout{
             columns: 2
-
-            visible: plasmoid.configuration.appMenuIsPresent
+            visible: plasmoid.configuration.containmentType === 2 /*Latte Containment*/
+            enabled: plasmoid.configuration.appMenuIsPresent
 
             Label{
                 Layout.minimumWidth: Math.max(centerFactor * behaviorPage.width, minimumWidth)
