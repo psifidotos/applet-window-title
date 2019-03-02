@@ -48,9 +48,16 @@ GridLayout{
             applicationLength = lastTxt.implicitWidth + midTxt.width;
         }
 
+        var iconLength = mainIcon.visible ?
+                    (plasmoid.formFactor === PlasmaCore.Types.Horizontal ? mainIcon.width : mainIcon.height) : 0;
+
+        var midSpacerLength = midSpacer.visible ?
+                    (plasmoid.formFactor === PlasmaCore.Types.Horizontal ? midSpacer.width : midSpacer.height) : 0;
+
+
         var subElements = plasmoid.formFactor === PlasmaCore.Types.Horizontal ?
-                    firstSpacer.width + mainIcon.width + midSpacer.width :
-                    firstSpacer.height + mainIcon.height + midSpacer.height;
+                    firstSpacer.width + iconLength + midSpacerLength :
+                    firstSpacer.height + iconLength + midSpacerLength;
 
         return subElements + applicationLength;
     }
