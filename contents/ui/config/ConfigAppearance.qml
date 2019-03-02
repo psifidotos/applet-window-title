@@ -112,18 +112,23 @@ Item {
             }
 
             Label{
-                Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
-                text: i18n("max:")
-                horizontalAlignment: Text.AlignRight
-                enabled: !iconFillChk.checked
             }
 
-            SpinBox{
-                id: iconSizeSpn
-                minimumValue: 16
-                maximumValue: 128
-                suffix: " " + i18nc("pixels","px.")
+            RowLayout{
                 enabled: !iconFillChk.checked
+
+                SpinBox{
+                    id: iconSizeSpn
+                    minimumValue: 16
+                    maximumValue: 128
+                    suffix: " " + i18nc("pixels","px.")
+                    enabled: !iconFillChk.checked
+                }
+
+                Label {
+                    Layout.leftMargin: units.smallSpacing
+                    text: "maximum"
+                }
             }
         }
 
@@ -178,11 +183,6 @@ Item {
             }
 
             Label{
-                id: maximumLbl
-                Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
-                text: i18n("Maximum:")
-                horizontalAlignment: Text.AlignRight
-                enabled: !inFillChk.checked
             }
 
             RowLayout{
@@ -194,7 +194,7 @@ Item {
                     stepSize: 2
                 }
                 Label {
-                    text: maxLengthSlider.value + " " + i18n("px.")
+                    text: maxLengthSlider.value + " " + i18n("px. at maximum")
                 }
             }
         }
