@@ -35,8 +35,10 @@ Item {
     id: root
     clip: true
 
-    Layout.fillWidth: true
-    Layout.fillHeight: true
+    Layout.fillWidth: (inFillMode && plasmoid.formFactor === PlasmaCore.Types.Horizontal)
+                      || plasmoid.formFactor === PlasmaCore.Types.Vertical ? true : false
+    Layout.fillHeight: (inFillMode && plasmoid.formFactor === PlasmaCore.Types.Vertical)
+                       || plasmoid.formFactor === PlasmaCore.Types.Horizontal ? true : false
 
     Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? (inFillMode && latteInEditMode ? maximumTitleLength : 0) : 0
     Layout.preferredWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? (inFillMode ? -1 : maximumTitleLength) : -1

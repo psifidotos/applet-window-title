@@ -41,19 +41,18 @@ GridLayout{
     property int applicationTextLength: {
         var applicationLength = 0;
 
+        var midSpacerLength = midSpacer.visible ?
+                    (plasmoid.formFactor === PlasmaCore.Types.Horizontal ? midSpacer.width : midSpacer.height) : 0;
+
         if (plasmoid.configuration.style === 0 /*Application*/
                 || plasmoid.configuration.style === 2) { /*ApplicationTitle*/
             applicationLength = firstTxt.implicitWidth;
         } else if (plasmoid.configuration.style === 3) { /*TitleApplication*/
-            applicationLength = lastTxt.implicitWidth + midTxt.width;
+            applicationLength = lastTxt.implicitWidth + midSpacerLength;
         }
 
         var iconLength = mainIcon.visible ?
                     (plasmoid.formFactor === PlasmaCore.Types.Horizontal ? mainIcon.width : mainIcon.height) : 0;
-
-        var midSpacerLength = midSpacer.visible ?
-                    (plasmoid.formFactor === PlasmaCore.Types.Horizontal ? midSpacer.width : midSpacer.height) : 0;
-
 
         var subElements = plasmoid.formFactor === PlasmaCore.Types.Horizontal ?
                     firstSpacer.width + iconLength + midSpacerLength :

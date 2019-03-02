@@ -94,7 +94,6 @@
     <label>it helps to enable/disable options that are specific to plasma or Latte panels</label>
     <default>0</default>
   </entry>
-
   <entry name="subsMatch" type="StringList">
     <default>"Telegram Desktop","Gimp-.*"</default>
     <label>substitutions criteria - match for application names</label>
