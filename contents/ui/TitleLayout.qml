@@ -127,11 +127,7 @@ GridLayout{
 
         RowLayout {
             id: textRow
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            //! HACK: no idea why this is needed but it is the only way for Text(s)
-            //! to be perfectly vertically centered
-            anchors.verticalCenterOffset: -1
+            anchors.centerIn: parent
             spacing: 0
 
             width: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? parent.width : parent.height
