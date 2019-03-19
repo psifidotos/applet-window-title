@@ -55,8 +55,8 @@ GridLayout{
                     (plasmoid.formFactor === PlasmaCore.Types.Horizontal ? mainIcon.width : mainIcon.height) : 0;
 
         var subElements = plasmoid.formFactor === PlasmaCore.Types.Horizontal ?
-                    firstSpacer.width + iconLength + midSpacerLength :
-                    firstSpacer.height + iconLength + midSpacerLength;
+                    firstSpacer.width + iconLength + midSpacerLength + lastSpacer.width:
+                    firstSpacer.height + iconLength + midSpacerLength + lastSpacer.height;
 
         return subElements + applicationLength;
     }
@@ -146,7 +146,7 @@ GridLayout{
             }
 
             readonly property int implicitWidths: {
-                return firstTxt.implicitWidth + midTxt.implicitWidth + lastTxt.implicitWidth;
+                return Math.ceil(firstTxt.implicitWidth) + Math.ceil(midTxt.implicitWidth) + Math.ceil(lastTxt.implicitWidth);
             }
 
             transformOrigin: Item.Center
