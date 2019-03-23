@@ -1,5 +1,12 @@
 ### CHANGELOG
 
+#### Version 0.4
+
+* dont elide if there is free space in the panel
+* improve metrics and calculations for better visual results
+* support Unity behavior when used with Window AppMenu 0.4 in latest Latte master
+* update Appearance settings
+
 #### Version 0.3
 
 * improve defaults and behavior for Latte edit mode
