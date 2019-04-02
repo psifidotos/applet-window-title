@@ -47,7 +47,7 @@ Controls22.ComboBox{
         onClicked: {
             combobox.currentIndex = index;
             root.selectedStyle = index;
-            root.forceActiveFocus();
+            combobox.popup.close();
         }
 
         Rectangle{
