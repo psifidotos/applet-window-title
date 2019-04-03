@@ -101,6 +101,7 @@ Item{
         anchors.fill: parent
         visible: broadcaster.cooperationEstablished && broadcaster.menuIsPresent
         hoverEnabled: true
+        propagateComposedEvents: true
 
         property int mouseAX: -1
         property int mouseAY: -1
@@ -126,6 +127,14 @@ Item{
                     broadcaster.cancelMessage();
                 }
             }
+        }
+
+        onPressed: {
+            mouse.accepted = false;
+        }
+
+        onReleased: {
+            mouse.accepted = false;
         }
     }
 
