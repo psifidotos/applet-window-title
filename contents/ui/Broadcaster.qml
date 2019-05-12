@@ -47,7 +47,9 @@ Item{
     }
 
     Component.onDestruction: {
-        latteBridge.actions.broadcastToApplet("org.kde.windowappmenu", "setCooperation", false);
+        if (latteBridge) {
+            latteBridge.actions.broadcastToApplet("org.kde.windowappmenu", "setCooperation", false);
+        }
     }
 
     onCooperationEstablishedChanged: {
@@ -57,7 +59,9 @@ Item{
     }
 
     onIsActiveChanged: {
-        latteBridge.actions.broadcastToApplet("org.kde.windowappmenu", "setCooperation", isActive);
+        if (latteBridge) {
+            latteBridge.actions.broadcastToApplet("org.kde.windowappmenu", "setCooperation", isActive);
+        }
     }
 
     Connections {
