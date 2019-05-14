@@ -363,7 +363,6 @@ Item {
 
     Broadcaster{
         id: broadcaster
-
         anchors.fill: parent
     }
 

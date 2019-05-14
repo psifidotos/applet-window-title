@@ -67,6 +67,8 @@ Item{
     Connections {
         target: latteBridge
         onBroadcasted: {
+            //console.log(" BROADCASTED FROM APPMENU ::: " + action + " : " + value);
+
             if (action === "setVisible") {
                 if (value === true) {
                     broadcaster.hiddenFromBroadcast = false;
@@ -116,8 +118,8 @@ Item{
         readonly property bool realContainsMouse: mouseAX !== -1 || mouseAY !== -1
 
         onContainsMouseChanged: {
-                mouseAX = -1;
-                mouseAY = -1;
+            mouseAX = -1;
+            mouseAY = -1;
         }
 
         onMouseXChanged: mouseAX = mouseX;
