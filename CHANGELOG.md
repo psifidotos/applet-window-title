@@ -1,5 +1,11 @@
 ### CHANGELOG
 
+#### Version 0.4.1
+
+* improve signaling for Broadcaster
+* close ComboBox popup after selecting an item
+* add some debug messages
+
 #### Version 0.4
 
 * dont elide if there is free space in the panel
