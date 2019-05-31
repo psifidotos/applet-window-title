@@ -162,7 +162,18 @@ Item {
 
     Loader {
         id: windowInfoLoader
-        sourceComponent: PlasmaTasksModel{}
+        sourceComponent: latteBridge && latteBridge.windowsTracker && latteBridge.windowsTracker.lastActiveWindow ?
+                             latteTrackerComponent : plasmaTasksModel
+
+        Component{
+            id: latteTrackerComponent
+            LatteWindowsTracker{}
+        }
+
+        Component{
+            id: plasmaTasksModel
+            PlasmaTasksModel{}
+        }
     }
 
     // END Tasks logic
