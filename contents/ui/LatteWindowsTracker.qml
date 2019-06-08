@@ -21,21 +21,23 @@ import QtQuick 2.7
 
 Item {
     id: latteWindowsTracker
-    readonly property bool existsWindowActive:  latteBridge.windowsTracker.existsWindowActive
+    readonly property bool existsWindowActive: selectedTracker.lastActiveWindow.isValid && !activeTaskItem.isMinimized
 
     function requestToggleMaximized() {
-        latteBridge.windowsTracker.requestToggleMaximized();
+        selectedTracker.lastActiveWindow.requestToggleMaximized();
     }
 
-    readonly property Item activeTaskItem: Item {
-        readonly property string appName: latteBridge.windowsTracker.lastActiveWindow.appName
-        readonly property bool isMinimized: latteBridge.windowsTracker.lastActiveWindow.isMinimized
-        readonly property bool isMaximized: latteBridge.windowsTracker.lastActiveWindow.isMaximized
-        readonly property bool isActive: latteBridge.windowsTracker.lastActiveWindow.isActive
-        readonly property bool isOnAllDesktops: latteBridge.windowsTracker.lastActiveWindow.isOnAllDesktops
-        property var icon: latteBridge.windowsTracker.lastActiveWindow.icon
+    readonly property QtObject selectedTracker: plasmoid.configuration.filterByScreen ? latteBridge.windowsTracker.currentScreen : latteBridge.windowsTracker.allScreens
 
-        readonly property string lastWindowTitle: latteBridge.windowsTracker.lastActiveWindow.display
+    readonly property Item activeTaskItem: Item {
+        readonly property string appName: selectedTracker.lastActiveWindow.appName
+        readonly property bool isMinimized: selectedTracker.lastActiveWindow.isMinimized
+        readonly property bool isMaximized: selectedTracker.lastActiveWindow.isMaximized
+        readonly property bool isActive: selectedTracker.lastActiveWindow.isActive
+        readonly property bool isOnAllDesktops: selectedTracker.lastActiveWindow.isOnAllDesktops
+        property var icon: selectedTracker.lastActiveWindow.icon
+
+        readonly property string lastWindowTitle: selectedTracker.lastActiveWindow.display
 
         readonly property string title: lastWindowTitle !== "" ? cleanupTitle(lastWindowTitle) : ""
         property string discoveredAppName: ""

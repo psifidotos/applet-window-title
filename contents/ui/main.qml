@@ -79,7 +79,7 @@ Item {
     readonly property bool isActiveWindowPinned: existsWindowActive && activeTaskItem.isOnAllDesktops
     readonly property bool isActiveWindowMaximized: existsWindowActive && activeTaskItem.isMaximized
 
-    readonly property Item activeTaskItem: windowInfoLoader.item && windowInfoLoader.item.activeTaskItem
+    readonly property Item activeTaskItem: windowInfoLoader.item.activeTaskItem
 
     readonly property string firstTitleText: {
         if (!activeTaskItem) {
@@ -163,8 +163,10 @@ Item {
 
     Loader {
         id: windowInfoLoader
-        sourceComponent: latteBridge && latteBridge.windowsTracker && latteBridge.windowsTracker.lastActiveWindow ?
-                             latteTrackerComponent : plasmaTasksModel
+        sourceComponent: latteBridge
+                         && latteBridge.windowsTracker
+                         && latteBridge.windowsTracker.currentScreen.lastActiveWindow
+                         && latteBridge.windowsTracker.allScreens.lastActiveWindow ? latteTrackerComponent : plasmaTasksModel
 
         Component{
             id: latteTrackerComponent
