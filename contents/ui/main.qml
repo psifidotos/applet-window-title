@@ -130,7 +130,7 @@ Item {
         if (latteBridge) {
             plasmoid.configuration.containmentType = 2; /*Latte containment with new API*/
             latteBridge.actions.setProperty(plasmoid.id, "latteSideColoringEnabled", false);
-            latteBridge.actions.setProperty(plasmoid.id, "needWindowsTracking", true);
+            latteBridge.actions.setProperty(plasmoid.id, "windowsTrackingEnabled", true);
         }
     }
 
