@@ -116,6 +116,7 @@ GridLayout{
     }
 
     Item{
+        id: textsContainer
         Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? -1 : root.thickness
         Layout.preferredWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? textRow.availableSpace : root.thickness
         Layout.maximumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? textRow.availableSpace : root.thickness
@@ -136,9 +137,13 @@ GridLayout{
             readonly property int availableSpace: {
                 if (!titleLayout.isUsedForMetrics) {
                     if (plasmoid.formFactor === PlasmaCore.Types.Horizontal) {
-                        return titleLayout.width - firstSpacer.width - mainIcon.width - midSpacer.width - lastSpacer.width;
+                        var iconL = mainIcon.visible ? mainIcon.width : 0;
+                        var midL = midSpacer.visible ? midSpacer.width : 0;
+                        return titleLayout.width - firstSpacer.width - iconL - midL - lastSpacer.width;
                     } else {
-                        return titleLayout.height - firstSpacer.height - mainIcon.height - midSpacer.height - lastSpacer.height;
+                        var iconL = mainIcon.visible ? mainIcon.height : 0;
+                        var midL = midSpacer.visible ? midSpacer.height : 0;
+                        return titleLayout.height - firstSpacer.height - iconL - midL - lastSpacer.height;
                     }
                 }
 
