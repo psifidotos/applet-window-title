@@ -219,7 +219,7 @@ GridLayout{
                     }
 
                     if (plasmoid.configuration.style === 2 || plasmoid.configuration.style === 3){ /*ApplicationTitle*/ /*OR*/ /*TitleApplication*/
-                        if (activeTaskItem.appName !== activeTaskItem.title) {
+                        if (activeTaskItem.appName !== activeTaskItem.title && activeTaskItem.appName !== "" && activeTaskItem.title !== "") {
                             return " - ";
                         }
                     }
