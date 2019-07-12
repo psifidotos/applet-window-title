@@ -1,5 +1,11 @@
 ### CHANGELOG
 
+#### Version 0.5.0
+
+* use Latte Windows Tracking interface when in Latte v0.9
+* do not use icon size in computations when icon is not visible
+* do not draw Application Name/Window Title separator when any of these two could not be retrieved
+
 #### Version 0.4.1
 
 * improve signaling for Broadcaster
