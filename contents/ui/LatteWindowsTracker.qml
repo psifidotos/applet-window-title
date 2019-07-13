@@ -30,19 +30,22 @@ Item {
     readonly property QtObject selectedTracker: plasmoid.configuration.filterByScreen ? latteBridge.windowsTracker.currentScreen : latteBridge.windowsTracker.allScreens
 
     readonly property Item activeTaskItem: Item {
-        readonly property string appName: selectedTracker.lastActiveWindow.appName !== "" ? selectedTracker.lastActiveWindow.appName : discoveredAppName
+        id: taskInfoItem
+
+        readonly property string appName: modelAppName !== ""  ? modelAppName : discoveredAppName
         readonly property bool isMinimized: selectedTracker.lastActiveWindow.isMinimized
         readonly property bool isMaximized: selectedTracker.lastActiveWindow.isMaximized
         readonly property bool isActive: selectedTracker.lastActiveWindow.isActive
         readonly property bool isOnAllDesktops: selectedTracker.lastActiveWindow.isOnAllDesktops
         property var icon: selectedTracker.lastActiveWindow.icon
 
-        readonly property string lastWindowTitle: selectedTracker.lastActiveWindow.display
+        readonly property string modelAppName: selectedTracker.lastActiveWindow.appName
 
-        readonly property string title: lastWindowTitle !== "" ? cleanupTitle(lastWindowTitle) : ""
+        property string title: ""
         property string discoveredAppName: ""
 
-        function cleanupTitle(text) {
+        function cleanupTitle() {
+            var text = selectedTracker.lastActiveWindow.display;
             var t = text;
             var sep = t.lastIndexOf(" —– ");
             var spacer = 4;
@@ -74,18 +77,28 @@ Item {
                 dTitle = text.substring(0, sep);
                 discoveredAppName = text.substring(sep+spacer, text.length);
 
-                if (dTitle === appName) {
+                console.log(dTitle + "  **  " + modelAppName);
+
+                if (dTitle.startsWith(modelAppName)) {
                     dTitle = discoveredAppName;
-                    discoveredAppName = appName;
+                    discoveredAppName = modelAppName;
                 }
             }
 
             if (sep>-1) {
-                return dTitle;
+                title = dTitle;
             } else {
-                return t;
+                title = t;
             }
         }
+
+        Connections {
+            target: selectedTracker.lastActiveWindow
+            onDisplayChanged: taskInfoItem.cleanupTitle()
+            onAppNameChanged: taskInfoItem.cleanupTitle()
+        }
+
+        Component.onCompleted: taskInfoItem.cleanupTitle()
     }
 }
 
