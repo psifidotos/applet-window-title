@@ -50,18 +50,22 @@ Item {
             model: tasksModel
             delegate: Item{
                 id: task
-                readonly property string appName: AppName !== undefined ? AppName : discoveredAppName
+                readonly property string appName: modelAppName !== "" ? modelAppName : discoveredAppName
                 readonly property bool isMinimized: IsMinimized === true ? true : false
                 readonly property bool isMaximized: IsMaximized === true ? true : false
                 readonly property bool isActive: IsActive === true ? true : false
                 readonly property bool isOnAllDesktops: IsOnAllVirtualDesktops === true ? true : false
                 property var icon: decoration
 
-                readonly property string title: display !== undefined ? cleanupTitle(display) : ""
+                readonly property string modelAppName: AppName
+                readonly property string modelDisplay: display
+
+                property string title: ""
                 property string discoveredAppName: ""
 
-                function cleanupTitle(text) {
-                    var t = text;
+                function cleanupTitle() {
+                    var text = display;
+                    var t = modelDisplay;
                     var sep = t.lastIndexOf(" —– ");
                     var spacer = 4;
 
@@ -92,16 +96,18 @@ Item {
                         dTitle = text.substring(0, sep);
                         discoveredAppName = text.substring(sep+spacer, text.length);
 
-                        if (dTitle === appName) {
+                        //if title starts with application name, swap the found records
+                        if (dTitle.startsWith(modelAppName)) {
+                            var firstPart = dTitle;
                             dTitle = discoveredAppName;
-                            discoveredAppName = appName;
+                            discoveredAppName = firstPart;
                         }
                     }
 
                     if (sep>-1) {
-                        return dTitle;
+                        title = dTitle;
                     } else {
-                        return t;
+                        title = t;
                     }
                 }
 
@@ -110,6 +116,10 @@ Item {
                         plasmaTasksItem.activeTaskItem = task;
                     }
                 }
+
+                onModelAppNameChanged: task.cleanupTitle()
+                onModelDisplayChanged: task.cleanupTitle()
+                Component.onCompleted: task.cleanupTitle()
             }
         }
     }

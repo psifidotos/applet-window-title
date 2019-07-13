@@ -40,12 +40,13 @@ Item {
         property var icon: selectedTracker.lastActiveWindow.icon
 
         readonly property string modelAppName: selectedTracker.lastActiveWindow.appName
+        readonly property string modelDisplay: selectedTracker.lastActiveWindow.display
 
         property string title: ""
         property string discoveredAppName: ""
 
         function cleanupTitle() {
-            var text = selectedTracker.lastActiveWindow.display;
+            var text = modelDisplay;
             var t = text;
             var sep = t.lastIndexOf(" —– ");
             var spacer = 4;
@@ -77,11 +78,11 @@ Item {
                 dTitle = text.substring(0, sep);
                 discoveredAppName = text.substring(sep+spacer, text.length);
 
-                console.log(dTitle + "  **  " + modelAppName);
-
+                //if title starts with application name, swap the found records
                 if (dTitle.startsWith(modelAppName)) {
+                    var firstPart = dTitle;
                     dTitle = discoveredAppName;
-                    discoveredAppName = modelAppName;
+                    discoveredAppName = firstPart;
                 }
             }
 
@@ -92,12 +93,8 @@ Item {
             }
         }
 
-        Connections {
-            target: selectedTracker.lastActiveWindow
-            onDisplayChanged: taskInfoItem.cleanupTitle()
-            onAppNameChanged: taskInfoItem.cleanupTitle()
-        }
-
+        onModelAppNameChanged: taskInfoItem.cleanupTitle()
+        onModelDisplayChanged: taskInfoItem.cleanupTitle()
         Component.onCompleted: taskInfoItem.cleanupTitle()
     }
 }
