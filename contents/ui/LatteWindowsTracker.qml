@@ -30,7 +30,7 @@ Item {
     readonly property QtObject selectedTracker: plasmoid.configuration.filterByScreen ? latteBridge.windowsTracker.currentScreen : latteBridge.windowsTracker.allScreens
 
     readonly property Item activeTaskItem: Item {
-        readonly property string appName: selectedTracker.lastActiveWindow.appName
+        readonly property string appName: selectedTracker.lastActiveWindow.appName !== "" ? selectedTracker.lastActiveWindow.appName : discoveredAppName
         readonly property bool isMinimized: selectedTracker.lastActiveWindow.isMinimized
         readonly property bool isMaximized: selectedTracker.lastActiveWindow.isMaximized
         readonly property bool isActive: selectedTracker.lastActiveWindow.isActive
