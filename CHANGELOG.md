@@ -1,5 +1,10 @@
 ### CHANGELOG
 
+#### Version 0.5.1
+
+* improve window title discovery for flatpaks 
+* do not show empty window title when there are information from the application
+
 #### Version 0.5.0
 
 * use Latte Windows Tracking interface when in Latte v0.9
