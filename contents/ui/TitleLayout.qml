@@ -166,7 +166,7 @@ GridLayout{
                 }
             }
 
-            PlasmaComponents.Label{
+            Label{
                 id: firstTxt
                 Layout.fillWidth: elide === Text.ElideNone ? false : true
                 width: Text.ElideNone ? implicitWidth : -1
@@ -175,7 +175,7 @@ GridLayout{
                 text: existsWindowActive ? root.firstTitleText : fullActivityInfo.name
                 color: enforceLattePalette ? latteBridge.palette.textColor : theme.textColor
                 font.capitalization: plasmoid.configuration.capitalFont ? Font.Capitalize : Font.MixedCase
-                font.weight: plasmoid.configuration.boldFont ? Font.Bold : Font.Normal
+                font.bold: plasmoid.configuration.boldFont
                 font.italic: plasmoid.configuration.italicFont
 
                 readonly property bool showsTitleText: plasmoid.configuration.style === 1 /*Title*/
@@ -207,7 +207,7 @@ GridLayout{
                 }
             }
 
-            PlasmaComponents.Label{
+            Label{
                 id: midTxt
                 verticalAlignment: firstTxt.verticalAlignment
                 width: implicitWidth
@@ -229,11 +229,11 @@ GridLayout{
 
                 color: firstTxt.color
                 font.capitalization: firstTxt.font.capitalization
-                font.weight: firstTxt.font.weight
+                font.bold: firstTxt.font.bold
                 font.italic: firstTxt.font.italic
             }
 
-            PlasmaComponents.Label{
+            Label{
                 id: lastTxt
                 Layout.fillWidth: elide === Text.ElideNone ? false : true
                 width: Text.ElideNone ? implicitWidth : -1
@@ -243,7 +243,7 @@ GridLayout{
 
                 color: firstTxt.color
                 font.capitalization: firstTxt.font.capitalization
-                font.weight: firstTxt.font.weight
+                font.bold: firstTxt.font.bold
                 font.italic: firstTxt.font.italic
 
                 visible: text !== "" && !(showsTitleText && exceedsApplicationText)
