@@ -2,21 +2,6 @@
 
 This is a Plasma 5 applet that shows the current window title and icon in your panels. This plasmoid is coming from [Latte land](https://phabricator.kde.org/source/latte-dock/repository/master/) but it can also support Plasma panels.
 
-<p align="center">
-<img src="https://i.imgur.com/Zdjshmt.png" width="580"><br/>
-<i>Window Title left to Plasma 5 global menu</i>
-</p>
-
-<p align="center">
-<img src="https://i.imgur.com/qPenRaj.png" width="580"><br/>
-<i>Appearance Settings</i>
-</p>
-
-<p align="center">
-<img src="https://i.imgur.com/cxBeWOI.png" width="580"><br/>
-<i>Behavior Settings</i>
-</p>
-
 # Requires
 
 - Plasma >= 5.8
