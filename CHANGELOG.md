@@ -1,5 +1,9 @@
 ### CHANGELOG
 
+#### Version 0.5.2
+
+* fix bold font kerning issues
+
 #### Version 0.5.1
 
 * improve window title discovery for flatpaks 
