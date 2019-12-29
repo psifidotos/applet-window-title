@@ -34,6 +34,8 @@ Item {
     property alias cfg_subsMatch: behaviorPage.selectedMatches
     property alias cfg_subsReplace: behaviorPage.selectedReplacements
 
+    property alias cfg_placeHolder: placeHolder.text
+
     // used as bridge to communicate properly between configuration and ui
     property var selectedMatches: []
     property var selectedReplacements: []
@@ -46,6 +48,23 @@ Item {
         id:mainColumn
         spacing: units.largeSpacing
         Layout.fillWidth: true
+
+        GridLayout{
+          columns: 2
+
+          Label{
+            Layout.minimumWidth: Math.max(centerFactor * behaviorPage.width, minimumWidth)
+            text: i18n("Placeholder:")
+            horizontalAlignment: Text.AlignRight
+          }
+
+          TextField {
+            id: placeHolder
+            text: plasmoid.configuration.placeHolder
+            Layout.fillWidth: true
+          }
+
+        }
 
         GridLayout{
             columns: 2
