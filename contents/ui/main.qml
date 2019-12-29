@@ -216,7 +216,7 @@ Item {
                                     metricsContents.applicationTextLength > root.width :
                                     metricsContents.applicationTextLength > root.height
 
-        visible: !(plasmoid.configuration.filterActivityInfo && !root.existsWindowActive)
+        visible: !(plasmoid.configuration.filterActivityInfo && !root.existsWindowActive && !plasmoid.configuration.placeHolder)
     }
     // END Title Layout(s)
 
