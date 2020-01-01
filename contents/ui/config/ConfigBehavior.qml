@@ -54,6 +54,19 @@ Item {
 
             Label{
                 Layout.minimumWidth: Math.max(centerFactor * behaviorPage.width, minimumWidth)
+                text: i18n("Placeholder:")
+                horizontalAlignment: Text.AlignRight
+            }
+
+            TextField {
+                id: placeHolder
+                text: plasmoid.configuration.placeHolder
+                Layout.fillWidth: true
+			    enabled: filterActivityChk.checked
+            }
+
+            Label{
+                Layout.minimumWidth: Math.max(centerFactor * behaviorPage.width, minimumWidth)
                 text: i18n("Filters:")
                 horizontalAlignment: Text.AlignRight
             }
@@ -69,23 +82,6 @@ Item {
                 id: filterActivityChk
                 text: i18n("Hide activity information")
             }
-        }
-
-        GridLayout{
-          columns: 2
-
-          Label{
-            Layout.minimumWidth: Math.max(centerFactor * behaviorPage.width, minimumWidth)
-            text: i18n("Placeholder:")
-            horizontalAlignment: Text.AlignRight
-          }
-
-          TextField {
-            id: placeHolder
-            text: plasmoid.configuration.placeHolder
-            Layout.fillWidth: true
-			enabled: filterActivityChk.checked
-          }
         }
 
         GridLayout{
