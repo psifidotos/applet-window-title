@@ -49,21 +49,8 @@ Item {
         spacing: units.largeSpacing
         Layout.fillWidth: true
 
-        GridLayout{
+        GridLayout {
             columns: 2
-
-            Label{
-                Layout.minimumWidth: Math.max(centerFactor * behaviorPage.width, minimumWidth)
-                text: i18n("Placeholder:")
-                horizontalAlignment: Text.AlignRight
-            }
-
-            TextField {
-                id: placeHolder
-                text: plasmoid.configuration.placeHolder
-                Layout.fillWidth: true
-			    enabled: filterActivityChk.checked
-            }
 
             Label{
                 Layout.minimumWidth: Math.max(centerFactor * behaviorPage.width, minimumWidth)
@@ -75,16 +62,35 @@ Item {
                 id: filterByScreenChk
                 text: i18n("Show only window information from current screen")
             }
+        }
 
-            Label{}
+        GridLayout {
+            columns: 2
+            Label{
+                Layout.minimumWidth: Math.max(centerFactor * behaviorPage.width, minimumWidth)
+                text: i18n("Placeholder:")
+                horizontalAlignment: Text.AlignRight
+            }
 
             CheckBox{
                 id: filterActivityChk
-                text: i18n("Hide activity information")
+                text: i18n("Show activity information")
+            }
+
+            Label{}
+
+            TextField {
+                id: placeHolder
+                text: plasmoid.configuration.placeHolder
+                Layout.fillWidth: true
+                enabled: !filterActivityChk.checked
+
+                placeholderText: i18n("placeholder text...")
             }
         }
 
-        GridLayout{
+
+        GridLayout {
             columns: 2
             visible: plasmoid.configuration.containmentType === 2 /*Latte Containment*/
             enabled: plasmoid.configuration.appMenuIsPresent

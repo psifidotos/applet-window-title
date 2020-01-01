@@ -78,11 +78,11 @@
     <label>If true, it shows window information only from the current screen</label>
   </entry>
   <entry name="filterActivityInfo" type="Bool">
-    <default>false</default>
-    <label>If true, it shows only window information and no activity information</label>
+    <default>true</default>
+    <label>If false, it shows only the placeHolder text</label>
   </entry>
   <entry name="placeHolder" type="string">
-    <default>Plasma</default>
+    <default></default>
     <label>The text shown if nothing else is available</label>
   </entry>
   <entry name="formFactor" type="Int">

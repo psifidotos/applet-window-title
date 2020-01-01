@@ -81,6 +81,14 @@ Item {
 
     readonly property Item activeTaskItem: windowInfoLoader.item.activeTaskItem
 
+    property string fallBackText: {
+        if (!plasmoid.configuration.filterActivityInfo) {
+            return plasmoid.configuration.placeHolder;
+        } else {
+            return fullActivityInfo.name;
+        }
+    }
+
     readonly property string firstTitleText: {
         if (!activeTaskItem) {
             return "";
@@ -216,7 +224,7 @@ Item {
                                     metricsContents.applicationTextLength > root.width :
                                     metricsContents.applicationTextLength > root.height
 
-        visible: !(plasmoid.configuration.filterActivityInfo && !root.existsWindowActive && !plasmoid.configuration.placeHolder)
+        visible: !(!plasmoid.configuration.filterActivityInfo && !root.existsWindowActive && !plasmoid.configuration.placeHolder)
     }
     // END Title Layout(s)
 
