@@ -81,6 +81,10 @@
     <default>false</default>
     <label>If true, it shows only window information and no activity information</label>
   </entry>
+  <entry name="placeHolder" type="string">
+    <default>Plasma</default>
+    <label>The text shown if nothing else is available</label>
+  </entry>
   <entry name="formFactor" type="Int">
     <default>2</default>
     <label>it is used in order to inform settings window about the plasmoid form factor. 2=Horizontal and 3=Vertical</label>

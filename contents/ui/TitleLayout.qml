@@ -172,7 +172,12 @@ GridLayout{
                 width: Text.ElideNone ? implicitWidth : -1
                 verticalAlignment: Text.AlignVCenter
 
-                text: existsWindowActive ? root.firstTitleText : fullActivityInfo.name
+                property string fallBackText: {
+                  if(plasmoid.configuration.filterActivityInfo) return plasmoid.configuration.placeHolder
+                  else return fullActivityInfo.name
+                }
+
+                text: existsWindowActive ? root.firstTitleText : fallBackText
                 color: enforceLattePalette ? latteBridge.palette.textColor : theme.textColor
                 font.capitalization: plasmoid.configuration.capitalFont ? Font.Capitalize : Font.MixedCase
                 font.bold: plasmoid.configuration.boldFont
