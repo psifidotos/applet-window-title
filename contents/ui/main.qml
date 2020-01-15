@@ -237,7 +237,7 @@ Item {
         location: plasmoid.location
 
         readonly property string text: {
-            if (!existsWindowActive) {
+            if (!existsWindowActive || !plasmoid.configuration.showTooltip) {
                 return "";
             }
 
