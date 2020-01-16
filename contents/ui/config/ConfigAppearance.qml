@@ -43,6 +43,7 @@ Item {
     property alias cfg_lengthMarginsLock: lockItem.locked
     property alias cfg_inFillMode: inFillChk.checked
     property alias cfg_maximumLength: maxLengthSlider.value
+    property alias cfg_showTooltip: showTooltip.checked
 
     property alias cfg_subsMatch: root.selectedMatches
     property alias cfg_subsReplace: root.selectedReplacements
@@ -130,6 +131,24 @@ Item {
                     text: "maximum"
                 }
             }
+        }
+
+        GridLayout{
+            columns: 2
+
+            Label{
+                Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
+                text: i18n("Display:")
+                horizontalAlignment: Text.AlignRight
+            }
+
+            CheckBox{
+                id: showTooltip
+                text: i18n("Show tooltip on hover")
+            }
+
+            Label{
+                }
         }
 
         GridLayout{
