@@ -30,6 +30,7 @@ Item {
     property alias cfg_filterActivityInfo: filterActivityChk.checked
 
     property alias cfg_showAppMenuOnMouseEnter: showAppMenuChk.checked
+    property alias cfg_showTooltip: showTooltip.checked
 
     property alias cfg_subsMatch: behaviorPage.selectedMatches
     property alias cfg_subsReplace: behaviorPage.selectedReplacements
@@ -66,6 +67,33 @@ Item {
 
         GridLayout {
             columns: 2
+
+            Label{
+                Layout.minimumWidth: Math.max(centerFactor * behaviorPage.width, minimumWidth)
+                text: i18n("Mouse:")
+                horizontalAlignment: Text.AlignRight
+            }
+
+            CheckBox{
+                id: showTooltip
+                text: i18n("Show tooltip on hover")
+            }
+
+            Label{
+                visible: showAppMenuChk.visible
+                enabled: showAppMenuChk.enabled
+            }
+
+            CheckBox{
+                id: showAppMenuChk
+                text: i18n("Show Window AppMenu applet on enter")
+                visible: plasmoid.configuration.containmentType === 2 /*Latte Containment*/
+                enabled: plasmoid.configuration.appMenuIsPresent
+            }
+        }
+
+        GridLayout {
+            columns: 2
             Label{
                 Layout.minimumWidth: Math.max(centerFactor * behaviorPage.width, minimumWidth)
                 text: i18n("Placeholder:")
@@ -86,24 +114,6 @@ Item {
                 enabled: !filterActivityChk.checked
 
                 placeholderText: i18n("placeholder text...")
-            }
-        }
-
-
-        GridLayout {
-            columns: 2
-            visible: plasmoid.configuration.containmentType === 2 /*Latte Containment*/
-            enabled: plasmoid.configuration.appMenuIsPresent
-
-            Label{
-                Layout.minimumWidth: Math.max(centerFactor * behaviorPage.width, minimumWidth)
-                text: i18n("Interaction:")
-                horizontalAlignment: Text.AlignRight
-            }
-
-            CheckBox{
-                id: showAppMenuChk
-                text: i18n("Show Window AppMenu applet on mouse enter")
             }
         }
 
