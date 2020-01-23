@@ -30,7 +30,8 @@ Item {
     property alias cfg_filterActivityInfo: filterActivityChk.checked
 
     property alias cfg_showAppMenuOnMouseEnter: showAppMenuChk.checked
-    property alias cfg_showTooltip: showTooltip.checked
+    property alias cfg_showTooltip: showTooltip.checked    
+    property alias cfg_actionScrollMinimize: cycleMinimizeChk.checked
 
     property alias cfg_subsMatch: behaviorPage.selectedMatches
     property alias cfg_subsReplace: behaviorPage.selectedReplacements
@@ -89,6 +90,16 @@ Item {
                 text: i18n("Show Window AppMenu applet on enter")
                 visible: plasmoid.configuration.containmentType === 2 /*Latte Containment*/
                 enabled: plasmoid.configuration.appMenuIsPresent
+            }
+
+            Label{
+                visible: cycleMinimizeChk.visible
+            }
+
+            CheckBox {
+                id: cycleMinimizeChk
+                text: i18n("Scroll to cycle and minimize through your tasks")
+                visible: plasmoid.configuration.containmentType === 1 /*Plasma Containment*/
             }
         }
 

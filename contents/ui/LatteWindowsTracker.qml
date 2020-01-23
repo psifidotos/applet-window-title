@@ -23,10 +23,6 @@ Item {
     id: latteWindowsTracker
     readonly property bool existsWindowActive: selectedTracker.lastActiveWindow.isValid && !activeTaskItem.isMinimized
 
-    function requestToggleMaximized() {
-        selectedTracker.lastActiveWindow.requestToggleMaximized();
-    }
-
     readonly property QtObject selectedTracker: plasmoid.configuration.filterByScreen ? latteBridge.windowsTracker.currentScreen : latteBridge.windowsTracker.allScreens
 
     readonly property Item activeTaskItem: Item {
@@ -96,6 +92,10 @@ Item {
         onModelAppNameChanged: taskInfoItem.cleanupTitle()
         onModelDisplayChanged: taskInfoItem.cleanupTitle()
         Component.onCompleted: taskInfoItem.cleanupTitle()
+    }
+
+    function toggleMaximized() {
+        selectedTracker.lastActiveWindow.requestToggleMaximized();
     }
 }
 

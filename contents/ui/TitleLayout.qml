@@ -26,7 +26,6 @@ import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 
-
 GridLayout{
     id: titleLayout
     rows: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? 1 : -1
@@ -188,6 +187,7 @@ GridLayout{
                     if (plasmoid.configuration.style === 1 && titleLayout.exceedsAvailableSpace){ /*Title*/
                         return Text.ElideRight;
                     } else if (plasmoid.configuration.style === 3
+                               && activeTaskItem
                                && activeTaskItem.appName !== activeTaskItem.title
                                && titleLayout.exceedsAvailableSpace){ /*TitleApplication*/
                         return Text.ElideRight;

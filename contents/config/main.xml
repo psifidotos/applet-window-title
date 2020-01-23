@@ -110,6 +110,9 @@
     <default>"Telegram","Gimp"</default>
     <label>substitutions replacements for application names</label>
   </entry>
+  <entry name="actionScrollMinimize" type="Bool">
+    <default>true</default>
+    <label>If true, upward mouse scrolling cycles through tasks and downwards can be used to minimize them</label>
+  </entry>
   </group>
-
 </kcfg>

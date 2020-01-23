@@ -292,16 +292,13 @@ Item {
     }
     //! END of ToolTip area
 
-    MouseArea{
-        id: contentsMouseArea
-        anchors.fill: visibleContents
-        visible: containmentType === 1 /*plasma or old latte containment*/
-        hoverEnabled: true
+    Loader {
+        id: actionsLoader
+        anchors.fill: inFillMode ? parent : visibleContents
+        active: containmentType === 1 /*plasma or old latte containment*/
 
-        onDoubleClicked: {
-            if (existsWindowActive) {
-                windowInfoLoader.item.requestToggleMaximized();
-            }
+        sourceComponent: ActionsMouseArea {
+            anchors.fill: parent
         }
     }
 
