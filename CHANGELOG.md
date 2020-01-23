@@ -1,5 +1,18 @@
 ### CHANGELOG
 
+#### Version 0.6.0
+
+* support more window actions with mouse:
+  - Double Left Click : Maximize/restore active window
+  - Middle Click : Close active window
+  - Scroll up : Cycle between tasks
+  - Scroll down : Minimize tasks
+  - Ctrl + Scroll up : Maximize active window (this is also possible with double left click)
+  - Ctrl + Scroll down : Restore active window from maximized state
+  
+* add a placeholder-text option to be shown when no window is visible and the user does not want the current Activity name to be drawn
+* option to disable the title tooltip
+
 #### Version 0.5.2
 
 * fix bold font kerning issues
