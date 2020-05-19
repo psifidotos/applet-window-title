@@ -27,6 +27,7 @@ Item{
 
     property bool hiddenFromBroadcast: false
 
+    readonly property bool showAppMenuEnabledInEditMode: plasmoid.configuration.showAppMenuOnMouseEnter && inEditMode
     readonly property bool showAppMenuEnabled: plasmoid.configuration.showAppMenuOnMouseEnter
     property bool appMenuRequestsCooperation: false
     property bool menuIsPresent: false
@@ -64,6 +65,13 @@ Item{
         }
     }
 
+    onShowAppMenuEnabledInEditModeChanged: {
+        if (showAppMenuEnabledInEditMode) {
+            //!when the user chooses to enable cooperation in config window
+            latteBridge.actions.broadcastToApplet("org.kde.windowappmenu", "activateAppMenuCooperationFromEditMode", true);
+        }
+    }
+
     Connections {
         target: latteBridge
         onBroadcasted: {
@@ -81,6 +89,8 @@ Item{
                 broadcaster.menuIsPresent = value;
             } else if (action === "setCooperation") {
                 broadcaster.appMenuRequestsCooperation = value;
+            } else if (action === "activateWindowTitleCooperationFromEditMode") {
+                plasmoid.configuration.showAppMenuOnMouseEnter = true;
             }
         }
     }
