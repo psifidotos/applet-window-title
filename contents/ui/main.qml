@@ -51,7 +51,8 @@ Item {
     Plasmoid.onFormFactorChanged: plasmoid.configuration.formFactor = plasmoid.formFactor;
 
     Plasmoid.status: {
-        if (broadcaster.hiddenFromBroadcast && !inEditMode) {
+        if ((broadcaster.hiddenFromBroadcast && !inEditMode)
+                || (!inEditMode && fallBackText === "" && !existsWindowActive)) {
             return PlasmaCore.Types.HiddenStatus;
         }
 
