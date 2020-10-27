@@ -76,17 +76,21 @@ Item{
         onBroadcasted: {
             //console.log(" BROADCASTED FROM APPMENU ::: " + action + " : " + value);
 
-            if (action === "setVisible") {
-                if (value === true) {
-                    broadcaster.hiddenFromBroadcast = false;
-                } else {
-                    broadcaster.hiddenFromBroadcast = true;
+            if (broadcaster.cooperationEstablished) {
+                if (action === "setVisible") {
+                    if (value === true) {
+                        broadcaster.hiddenFromBroadcast = false;
+                    } else {
+                        broadcaster.hiddenFromBroadcast = true;
+                    }
+                } else if (action === "menuIsPresent") {
+                    broadcaster.menuIsPresent = value;
                 }
-            } else if (action === "isPresent") {
+            }
+
+            if (action === "isPresent") {
                 plasmoid.configuration.appMenuIsPresent = value;
-            } else if (action === "menuIsPresent") {
-                broadcaster.menuIsPresent = value;
-            } else if (action === "setCooperation") {
+            } else if (action === "setCooperation" && showAppMenuEnabled) {
                 broadcaster.appMenuRequestsCooperation = value;
             } else if (action === "activateWindowTitleCooperationFromEditMode") {
                 plasmoid.configuration.showAppMenuOnMouseEnter = true;
