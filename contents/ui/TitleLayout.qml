@@ -94,7 +94,7 @@ GridLayout{
             icon: existsWindowActive ? activeTaskItem.icon : fullActivityInfo.icon
 
             readonly property int thickMargin: plasmoid.configuration.iconFillThickness ?
-                                                   0 : (root.thickness - iconSize) / 2
+                                                   0 : (root.thickness - iconSize - root.screenEdgeMargin) / 2
 
             readonly property int iconSize: plasmoid.configuration.iconFillThickness ?
                                                 root.thickness : Math.min(root.thickness, plasmoid.configuration.iconSize)
