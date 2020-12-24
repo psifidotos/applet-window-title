@@ -28,6 +28,7 @@ Item {
 
     property alias cfg_filterByScreen: filterByScreenChk.checked
     property alias cfg_filterActivityInfo: filterActivityChk.checked
+    property alias cfg_filterByMaximized: filterMaximizedChk.checked
 
     property alias cfg_showAppMenuOnMouseEnter: showAppMenuChk.checked
     property alias cfg_showTooltip: showTooltip.checked    
@@ -53,13 +54,22 @@ Item {
 
         GridLayout {
             columns: 2
-
+            
             Label{
                 Layout.minimumWidth: Math.max(centerFactor * behaviorPage.width, minimumWidth)
                 text: i18n("Filters:")
                 horizontalAlignment: Text.AlignRight
             }
-
+            CheckBox{
+                id: filterMaximizedChk
+                text: i18n("Show only information from maximized windows")
+            }
+            
+            // So the two CheckBoxes are aligned.
+            Label{
+                Layout.fillWidth: true
+            }
+            
             CheckBox{
                 id: filterByScreenChk
                 text: i18n("Show only window information from current screen")

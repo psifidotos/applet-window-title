@@ -109,11 +109,17 @@ Item {
                         title = t;
                     }
                 }
-
+                
                 onIsActiveChanged: {
                     if (isActive) {
                         plasmaTasksItem.activeTaskItem = task;
+                        if (plasmoid.configuration.filterByMaximized && !task.isMaximized) plasmaTasksItem.activeTaskItem = null;
                     }
+                }
+                
+                // KDE does not offer a way to automatically filter for maximized windows, so we need to do it ourselves.
+                onIsMaximizedChanged: {
+                    if (plasmoid.configuration.filterByMaximized && isActive) plasmaTasksItem.activeTaskItem = task.isMaximized ? task : null;
                 }
 
                 onModelAppNameChanged: task.cleanupTitle()
