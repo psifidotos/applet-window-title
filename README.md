@@ -21,6 +21,7 @@ This is a Plasma 5 applet that shows the current window title and icon in your p
 
 - Plasma >= 5.8
 - KDeclarative
+- Kirigami2
 
 # Install
 
