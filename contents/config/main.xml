@@ -61,6 +61,10 @@
     <default>false</default>
     <label>will become hidden in favour of appmenu when the mouse enters the applet</label>
   </entry>
+  <entry name="sendActivateAppMenuCooperationFromEditMode" type="Int">
+    <default>-1</default>
+    <label>-1, means sent. 0, means sent false. 1, means sent true</label>
+  </entry>
   <entry name="spacing" type="Int">
     <default>4</default>
     <label>spacing between icons</label>

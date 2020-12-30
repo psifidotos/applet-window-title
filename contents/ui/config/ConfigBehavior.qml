@@ -23,6 +23,8 @@ import QtQuick.Layouts 1.0
 
 import org.kde.plasma.core 2.0 as PlasmaCore
 
+import org.kde.kirigami 2.4 as Kirigami
+
 Item {
     id: behaviorPage
 
@@ -49,7 +51,11 @@ Item {
     ColumnLayout {
         id:mainColumn
         spacing: units.largeSpacing
-        Layout.fillWidth: true
+        width:parent.width - anchors.leftMargin * 2
+        height: parent.height
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.leftMargin: 2
 
         GridLayout {
             columns: 2
@@ -121,7 +127,8 @@ Item {
             TextField {
                 id: placeHolder
                 text: plasmoid.configuration.placeHolder
-                Layout.fillWidth: true
+                Layout.minimumWidth: substitutionsBtn.width * 1.5
+                Layout.maximumWidth: Layout.minimumWidth
                 enabled: !filterActivityChk.checked
 
                 placeholderText: i18n("placeholder text...")
@@ -138,6 +145,7 @@ Item {
             }
 
             Button{
+                id: substitutionsBtn
                 checkable: true
                 checked: subsSlidingBox.shown
                 text: "  " + i18n("Manage substitutions...") + "  "
@@ -156,5 +164,52 @@ Item {
                 }
             }
         }
+
+        Item {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+
+        Kirigami.InlineMessage {
+            id: inlineMessage
+            Layout.fillWidth: true
+            Layout.bottomMargin: 5
+
+            type: Kirigami.MessageType.Warning
+            text: cfg_showAppMenuOnMouseEnter ?
+                      i18n("Would you like to <b>also activate</b> that behavior to surrounding Window AppMenu?") :
+                      i18n("Would you like to <b>also deactivate</b> that behavior to surrounding Window AppMenu?")
+
+            actions: [
+                Kirigami.Action {
+                    icon.name: "dialog-yes"
+                    text: i18n("Yes")
+                    onTriggered: {
+                        plasmoid.configuration.sendActivateAppMenuCooperationFromEditMode = cfg_showAppMenuOnMouseEnter;
+                        inlineMessage.visible = false;
+                    }
+                },
+                Kirigami.Action {
+                    icon.name: "dialog-no"
+                    text: "No"
+                    onTriggered: {
+                        inlineMessage.visible = false;
+                    }
+                }
+
+            ]
+
+            readonly property bool appMenuOptionChanged: (cfg_showAppMenuOnMouseEnter !== plasmoid.configuration.showAppMenuOnMouseEnter)
+
+            onAppMenuOptionChangedChanged: {
+                if (appMenuOptionChanged) {
+                    inlineMessage.visible = true;
+                } else {
+                    inlineMessage.visible = false;
+                }
+            }
+        }
+
     }
+
 }

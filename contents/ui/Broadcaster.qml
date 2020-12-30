@@ -34,6 +34,8 @@ Item{
     readonly property bool cooperationEstablished: appMenuRequestsCooperation && isActive
     readonly property bool isActive: plasmoid.configuration.appMenuIsPresent && showAppMenuEnabled
 
+    readonly property int sendActivateAppMenuCooperationFromEditMode: plasmoid.configuration.sendActivateAppMenuCooperationFromEditMode
+
     function sendMessage() {
         if (cooperationEstablished && menuIsPresent) {
             broadcasterDelayer.start();
@@ -71,6 +73,16 @@ Item{
         }
     }
 
+    onSendActivateAppMenuCooperationFromEditModeChanged: {
+        if (plasmoid.configuration.sendActivateAppMenuCooperationFromEditMode >= 0) {
+            latteBridge.actions.broadcastToApplet("org.kde.windowappmenu",
+                                                  "activateAppMenuCooperationFromEditMode",
+                                                  plasmoid.configuration.sendActivateAppMenuCooperationFromEditMode);
+
+            releaseSendActivateAppMenu.start();
+        }
+    }
+
     Connections {
         target: latteBridge
         onBroadcasted: {
@@ -93,7 +105,7 @@ Item{
             } else if (action === "setCooperation" && showAppMenuEnabled) {
                 broadcaster.appMenuRequestsCooperation = value;
             } else if (action === "activateWindowTitleCooperationFromEditMode") {
-                plasmoid.configuration.showAppMenuOnMouseEnter = true;
+                plasmoid.configuration.showAppMenuOnMouseEnter = value;
             }
         }
     }
@@ -112,6 +124,12 @@ Item{
                 }
             }
         }
+    }
+
+    Timer {
+        id: releaseSendActivateAppMenu
+        interval: 5
+        onTriggered: plasmoid.configuration.sendActivateAppMenuCooperationFromEditMode = -1;
     }
 
     //!!!! MouseArea for Broadcaster
