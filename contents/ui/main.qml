@@ -63,7 +63,7 @@ Item {
     readonly property bool inEditMode: plasmoid.userConfiguring || latteInEditMode
 
     readonly property int containmentType: plasmoid.configuration.containmentType
-    readonly property int thickness: (plasmoid.formFactor === PlasmaCore.Types.Horizontal ? root.height : root.width) - screenEdgeMargin
+    readonly property int thickness: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? root.height : root.width
     readonly property int maximumTitleLength: {
         if (broadcaster.hiddenFromBroadcast) {
             return 0;
@@ -140,7 +140,6 @@ Item {
             plasmoid.configuration.containmentType = 2; /*Latte containment with new API*/
             latteBridge.actions.setProperty(plasmoid.id, "latteSideColoringEnabled", false);
             latteBridge.actions.setProperty(plasmoid.id, "windowsTrackingEnabled", true);
-            latteBridge.actions.setProperty(plasmoid.id, "screenEdgeMarginSupported", true);
         }
     }
 
@@ -148,7 +147,6 @@ Item {
     //BEGIN Latte based properties
     readonly property bool enforceLattePalette: latteBridge && latteBridge.applyPalette && latteBridge.palette
     readonly property bool latteInEditMode: latteBridge && latteBridge.inEditMode
-    readonly property int screenEdgeMargin: latteBridge && latteBridge.hasOwnProperty("screenEdgeMargin") ? latteBridge.screenEdgeMargin : 0
     //END Latte based properties
 
     Component.onCompleted: {
@@ -200,6 +198,7 @@ Item {
         id: metricsContents
         anchors.top: parent.top
         anchors.left: parent.left
+        //anchors.topMargin: 8
 
         //visible:false, does not return proper metrics, this is why opacity:0 is preferred
         opacity: 0
@@ -209,6 +208,9 @@ Item {
     // This is the reas Visible Layout that is shown to the user
     TitleLayout {
         id: visibleContents
+        anchors.top: parent.top
+        anchors.left: parent.left
+
         width: plasmoid.formFactor === PlasmaCore.Types.Horizontal ?
                    (!exceedsAvailableSpace ? metricsContents.width : root.width) : thickness
 
@@ -224,60 +226,6 @@ Item {
                                     metricsContents.applicationTextLength > root.height
 
         visible: !(!plasmoid.configuration.filterActivityInfo && !root.existsWindowActive && !plasmoid.configuration.placeHolder)
-
-        states: [
-            ///Top
-            State {
-                name: "top"
-                when: (plasmoid.location === PlasmaCore.Types.TopEdge)
-                AnchorChanges {
-                    target: visibleContents
-                    anchors{top:parent.top; bottom:undefined; left:parent.left; right:undefined}
-                }
-                PropertyChanges{
-                    target: visibleContents
-                    anchors{leftMargin:0; rightMargin:0; topMargin:root.screenEdgeMargin; bottomMargin:0}
-                }
-            },
-            ///Left
-            State {
-                name: "left"
-                when: (plasmoid.location === PlasmaCore.Types.LeftEdge)
-                AnchorChanges {
-                    target: visibleContents
-                    anchors{top:parent.top; bottom:undefined; left:parent.left; right:undefined}
-                }
-                PropertyChanges{
-                    target: visibleContents
-                    anchors{leftMargin:root.screenEdgeMargin; rightMargin:0; topMargin:0; bottomMargin:0}
-                }
-            },
-            ///Right
-            State {
-                name: "right"
-                when: (plasmoid.location === PlasmaCore.Types.RightEdge)
-                AnchorChanges {
-                    target: visibleContents
-                    anchors{top:parent.top; bottom:undefined; left:undefined; right:parent.right}
-                }
-                PropertyChanges{
-                    target: visibleContents
-                    anchors{leftMargin:0; rightMargin:root.screenEdgeMargin; topMargin:0; bottomMargin:0}
-                }
-            },
-            ///Default-Bottom
-            State {
-                name: "defaultbottom"
-                AnchorChanges {
-                    target: visibleContents
-                    anchors{top:undefined; bottom:parent.bottom; left:parent.left; right:undefined}
-                }
-                PropertyChanges{
-                    target: visibleContents
-                    anchors{leftMargin:0; rightMargin:0; topMargin:0; bottomMargin:root.screenEdgeMargin}
-                }
-            }
-        ]
     }
     // END Title Layout(s)
 
