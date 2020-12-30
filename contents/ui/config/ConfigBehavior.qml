@@ -32,7 +32,7 @@ Item {
     property alias cfg_filterActivityInfo: filterActivityChk.checked
 
     property alias cfg_showAppMenuOnMouseEnter: showAppMenuChk.checked
-    property alias cfg_showTooltip: showTooltip.checked    
+    property alias cfg_showTooltip: showTooltip.checked
     property alias cfg_actionScrollMinimize: cycleMinimizeChk.checked
 
     property alias cfg_subsMatch: behaviorPage.selectedMatches
@@ -177,8 +177,8 @@ Item {
 
             type: Kirigami.MessageType.Warning
             text: cfg_showAppMenuOnMouseEnter ?
-                      i18n("Would you like to <b>also activate</b> that behavior to surrounding Window AppMenu?") :
-                      i18n("Would you like to <b>also deactivate</b> that behavior to surrounding Window AppMenu?")
+                      i18n("Would you like <b>also to activate</b> that behavior to surrounding Window AppMenu?") :
+                      i18n("Would you like <b>also to deactivate</b> that behavior to surrounding Window AppMenu?")
 
             actions: [
                 Kirigami.Action {
@@ -196,13 +196,12 @@ Item {
                         inlineMessage.visible = false;
                     }
                 }
-
             ]
 
-            readonly property bool appMenuOptionChanged: (cfg_showAppMenuOnMouseEnter !== plasmoid.configuration.showAppMenuOnMouseEnter)
+            readonly property bool showWindowAppMenuTouched: showAppMenuChk.checked !== plasmoid.configuration.showAppMenuOnMouseEnter
 
-            onAppMenuOptionChangedChanged: {
-                if (appMenuOptionChanged) {
+            onShowWindowAppMenuTouchedChanged: {
+                if (showWindowAppMenuTouched){
                     inlineMessage.visible = true;
                 } else {
                     inlineMessage.visible = false;
