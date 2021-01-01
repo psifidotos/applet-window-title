@@ -201,6 +201,11 @@ Item {
             readonly property bool showWindowAppMenuTouched: showAppMenuChk.checked !== plasmoid.configuration.showAppMenuOnMouseEnter
 
             onShowWindowAppMenuTouchedChanged: {
+                if (plasmoid.configuration.containmentType !== 2 /*Latte Containment*/) {
+                    visible = false;
+                    return;
+                }
+
                 if (showWindowAppMenuTouched){
                     inlineMessage.visible = true;
                 } else {
