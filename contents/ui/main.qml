@@ -81,7 +81,7 @@ Item {
         } else if (inMaximumLengthMode) {
             return 0;
         } else if (inFillLengthMode) {
-            return latteInEditMode ? implicitTitleLength : 0;
+            return inEditMode ? 48 : 0;
         }
     }
 
