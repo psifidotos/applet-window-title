@@ -281,7 +281,9 @@ Item {
         location: plasmoid.location
 
         readonly property string text: {
-            if (!existsWindowActive || !plasmoid.configuration.showTooltip) {
+            if (!existsWindowActive
+                    || !plasmoid.configuration.showTooltip
+                    || broadcaster.cooperationEstablished /*can not work correctly when showing appmenus*/) {
                 return "";
             }
 

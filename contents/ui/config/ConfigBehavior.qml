@@ -84,6 +84,7 @@ Item {
             CheckBox{
                 id: showTooltip
                 text: i18n("Show tooltip on hover")
+                enabled: showAppMenuChk.visible && !showAppMenuChk.checked
             }
 
             Label{
