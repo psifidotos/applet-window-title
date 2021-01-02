@@ -23,9 +23,7 @@ import org.kde.plasma.plasmoid 2.0
 
 MouseArea {
     id: actionsArea
-
     acceptedButtons: Qt.LeftButton | Qt.MidButton
-    hoverEnabled: true
 
     property bool wheelIsBlocked: false
 
