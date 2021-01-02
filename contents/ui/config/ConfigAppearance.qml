@@ -42,6 +42,7 @@ Item {
     property alias cfg_lengthLastMargin: lengthLastSpn.value
     property alias cfg_lengthMarginsLock: lockItem.locked
     property alias cfg_inFillMode: inFillChk.checked
+    property alias cfg_inFixedMode: inFixedChk.checked
     property alias cfg_maximumLength: maxLengthSlider.value
 
     property alias cfg_subsMatch: root.selectedMatches
@@ -180,7 +181,26 @@ Item {
             CheckBox{
                 id: inFillChk
                 text: i18n("Fill available space")
+                onCheckedChanged: {
+                    if (checked) {
+                        inFixedChk.checked = false
+                    }
+                }
             }
+
+            Label{
+            }
+
+            CheckBox{
+                id: inFixedChk
+                text: i18n("Fixed space")
+                onCheckedChanged: {
+                    if (checked) {
+                        inFillChk.checked = false
+                    }
+                }
+            }
+
 
             Label{
             }
@@ -194,7 +214,7 @@ Item {
                     stepSize: 2
                 }
                 Label {
-                    text: maxLengthSlider.value + " " + i18n("px. at maximum")
+                    text: maxLengthSlider.value + " " + i18n("px.") + (inFixedChk.checked ? "" : i18n(" (maximum)"))
                 }
             }
         }

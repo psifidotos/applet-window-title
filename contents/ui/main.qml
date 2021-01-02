@@ -60,6 +60,7 @@ Item {
     }
 
     readonly property bool inFillMode: plasmoid.configuration.inFillMode
+    readonly property bool inFixedMode: plasmoid.configuration.inFixedMode
     readonly property bool inEditMode: plasmoid.userConfiguring || latteInEditMode
 
     readonly property int containmentType: plasmoid.configuration.containmentType
@@ -70,7 +71,13 @@ Item {
         }
 
         if (plasmoid.formFactor === PlasmaCore.Types.Horizontal) {
-            return inFillMode ? metricsContents.width : Math.min(metricsContents.width, plasmoid.configuration.maximumLength);
+            if (inFillMode) {
+                return metricsContents.width;
+            } else if (inFixedMode) {
+                return plasmoid.configuration.maximumLength;
+            } else {
+                return Math.min(metricsContents.width, plasmoid.configuration.maximumLength);
+            }
         } else {
             return Math.min(metricsContents.height, plasmoid.configuration.maximumLength);
         }
@@ -209,7 +216,8 @@ Item {
     TitleLayout {
         id: visibleContents
         anchors.top: parent.top
-        anchors.left: parent.left
+        anchors.left: !inFixedMode ? parent.left : undefined
+        anchors.horizontalCenter: inFixedMode ? parent.horizontalCenter : undefined
 
         width: plasmoid.formFactor === PlasmaCore.Types.Horizontal ?
                    (!exceedsAvailableSpace ? metricsContents.width : root.width) : thickness

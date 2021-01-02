@@ -73,6 +73,11 @@
     <default>false</default>
     <label>applet fills all available space in the panel</label>
   </entry>
+  <entry name="inFixedMode" type="Bool">
+    <default>false</default>
+    <label>applet has a fixed space in the panel</label>
+  </entry>
+
   <entry name="showTooltip" type="Bool">
     <default>true</default>
     <label>display tooltip on hover</label>
