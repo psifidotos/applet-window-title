@@ -24,6 +24,10 @@ import QtQuick.Layouts 1.0
 
 Controls22.ComboBox{
     id: combobox
+    Layout.minimumWidth: 270
+    Layout.preferredWidth: 350
+    Layout.maximumWidth:  0.3 * root.width
+
     model: choices
 
     property var choices: []

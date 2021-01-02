@@ -34,18 +34,18 @@ Item {
     id: root
     clip: true
 
-    Layout.fillWidth: (inFillMode && plasmoid.formFactor === PlasmaCore.Types.Horizontal)
+    Layout.fillWidth: (inFillLengthMode && plasmoid.formFactor === PlasmaCore.Types.Horizontal)
                       || plasmoid.formFactor === PlasmaCore.Types.Vertical ? true : false
-    Layout.fillHeight: (inFillMode && plasmoid.formFactor === PlasmaCore.Types.Vertical)
+    Layout.fillHeight: (inFillLengthMode && plasmoid.formFactor === PlasmaCore.Types.Vertical)
                        || plasmoid.formFactor === PlasmaCore.Types.Horizontal ? true : false
 
-    Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? (inFillMode && latteInEditMode ? maximumTitleLength : 0) : 0
-    Layout.preferredWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? (inFillMode ? -1 : maximumTitleLength) : -1
-    Layout.maximumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? (inFillMode ? Infinity : maximumTitleLength) : -1
+    Layout.minimumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? minimumLength : 0
+    Layout.preferredWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? preferredLength : -1
+    Layout.maximumWidth: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? maximumLength : -1
 
-    Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Vertical ? (inFillMode && latteInEditMode ? maximumTitleLength : 0) : 0
-    Layout.preferredHeight: plasmoid.formFactor === PlasmaCore.Types.Vertical ? (inFillMode ? -1 : maximumTitleLength) : -1
-    Layout.maximumHeight: plasmoid.formFactor === PlasmaCore.Types.Vertical ? (inFillMode ? Infinity : maximumTitleLength) : -1
+    Layout.minimumHeight: plasmoid.formFactor === PlasmaCore.Types.Vertical ? minimumLength : 0
+    Layout.preferredHeight: plasmoid.formFactor === PlasmaCore.Types.Vertical ? preferredLength : -1
+    Layout.maximumHeight: plasmoid.formFactor === PlasmaCore.Types.Vertical ? maximumLength : -1
 
     Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
     Plasmoid.onFormFactorChanged: plasmoid.configuration.formFactor = plasmoid.formFactor;
@@ -59,22 +59,65 @@ Item {
         return PlasmaCore.Types.PassiveStatus;
     }
 
-    readonly property bool inFillMode: plasmoid.configuration.lengthPolicy === 3 /*Fill Length Policy*/
+    readonly property bool inContentsLengthMode: plasmoid.configuration.lengthPolicy === 0 /*Contents Length Policy*/
+    readonly property bool inFixedLengthMode:  plasmoid.configuration.lengthPolicy === 1 /*Fixed Length Policy*/
+    readonly property bool inMaximumLengthMode:  plasmoid.configuration.lengthPolicy === 2 /*Maximum Length Policy*/
+    readonly property bool inFillLengthMode: plasmoid.configuration.lengthPolicy === 3 /*Fill Length Policy*/
+
     readonly property bool inEditMode: plasmoid.userConfiguring || latteInEditMode
 
     readonly property int containmentType: plasmoid.configuration.containmentType
     readonly property int thickness: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? root.height : root.width
-    readonly property int maximumTitleLength: {
+
+    readonly property int minimumLength: {
         if (broadcaster.hiddenFromBroadcast) {
             return 0;
         }
 
-        if (plasmoid.formFactor === PlasmaCore.Types.Horizontal) {
-            return inFillMode ? metricsContents.width : Math.min(metricsContents.width, plasmoid.configuration.maximumLength);
-        } else {
-            return Math.min(metricsContents.height, plasmoid.configuration.maximumLength);
+        if (inContentsLengthMode) {
+            return implicitTitleLength;
+        } else if (inFixedLengthMode) {
+            return plasmoid.configuration.fixedLength;
+        } else if (inMaximumLengthMode) {
+            return 0;
+        } else if (inFillLengthMode) {
+            return latteInEditMode ? implicitTitleLength : 0;
         }
     }
+
+    readonly property int preferredLength: {
+        if (broadcaster.hiddenFromBroadcast) {
+            return 0;
+        }
+
+        if (inContentsLengthMode) {
+            return implicitTitleLength;
+        } else if (inFixedLengthMode) {
+            return plasmoid.configuration.fixedLength;
+        } else if (inMaximumLengthMode) {
+            return Math.min(implicitTitleLength, plasmoid.configuration.maximumLength);
+        } else if (inFillLengthMode) {
+            return -1;
+        }
+    }
+
+    readonly property int maximumLength: {
+        if (broadcaster.hiddenFromBroadcast) {
+            return 0;
+        }
+
+        if (inContentsLengthMode) {
+            return implicitTitleLength;
+        } else if (inFixedLengthMode) {
+            return plasmoid.configuration.fixedLength;
+        } else if (inMaximumLengthMode) {
+            return plasmoid.configuration.maximumLength;
+        } else if (inFillLengthMode) {
+            return Infinity;
+        }
+    }
+
+    readonly property int implicitTitleLength: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? metricsContents.width : metricsContents.height
 
     readonly property bool existsWindowActive: windowInfoLoader.item && windowInfoLoader.item.existsWindowActive
     readonly property bool isActiveWindowPinned: existsWindowActive && activeTaskItem.isOnAllDesktops
@@ -295,7 +338,7 @@ Item {
 
     Loader {
         id: actionsLoader
-        anchors.fill: inFillMode ? parent : visibleContents
+        anchors.fill: inFillLengthMode ? parent : visibleContents
         active: containmentType === 1 /*plasma or old latte containment*/
 
         sourceComponent: ActionsMouseArea {

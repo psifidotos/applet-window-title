@@ -84,9 +84,6 @@ Item {
 
             CustomComboBox{
                 id: styleCmb
-                Layout.minimumWidth: 270
-                Layout.preferredWidth: 350
-                Layout.maximumWidth:  0.3 * root.width
 
                 choices: [
                     i18n("Application"),
@@ -193,9 +190,6 @@ Item {
 
             CustomComboBox{
                 id: lengthCmb
-                Layout.minimumWidth: styleCmb.Layout.minimuWidth
-                Layout.preferredWidth: styleCmb.Layout.preferredWidth
-                Layout.maximumWidth: styleCmb.Layout.maximumWidth
 
                 choices: [
                     i18n("Based on contents"),
