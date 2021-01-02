@@ -69,14 +69,24 @@
     <default>4</default>
     <label>spacing between icons</label>
   </entry>
-  <entry name="inFillMode" type="Bool">
-    <default>false</default>
-    <label>applet fills all available space in the panel</label>
-  </entry>
   <entry name="showTooltip" type="Bool">
     <default>true</default>
     <label>display tooltip on hover</label>
   </entry>
+  <entry name="lengthPolicy" type="Enum">
+    <choices>
+       <choice name="Contents"/>
+       <choice name="Fixed"/>
+       <choice name="Maximum"/>
+       <choice name="Fill"/>
+    </choices>
+    <label>which length size policy will be applied</label>
+    <default>0</default>
+  </entry>
+  <entry name="fixedLength" type="Int">
+    <default>400</default>
+    <label>fixed static length when the user shows window title</label>
+  </entry>  
   <entry name="maximumLength" type="Int">
     <default>1500</default>
     <label>maximum length when the user shows window title</label>

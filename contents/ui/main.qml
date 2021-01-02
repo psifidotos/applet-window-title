@@ -59,7 +59,7 @@ Item {
         return PlasmaCore.Types.PassiveStatus;
     }
 
-    readonly property bool inFillMode: plasmoid.configuration.inFillMode
+    readonly property bool inFillMode: plasmoid.configuration.lengthPolicy === 3 /*Fill Length Policy*/
     readonly property bool inEditMode: plasmoid.userConfiguring || latteInEditMode
 
     readonly property int containmentType: plasmoid.configuration.containmentType

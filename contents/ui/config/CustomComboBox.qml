@@ -24,15 +24,11 @@ import QtQuick.Layouts 1.0
 
 Controls22.ComboBox{
     id: combobox
+    model: choices
 
-    model: titleStyles
-    property var titleStyles: [
-        i18n("Application"),
-        i18n("Title"),
-        i18n("Application - Title"),
-        i18n("Title - Application"),
-        i18n("Do not show any text"),
-    ];
+    property var choices: []
+
+    signal choiceClicked(int index);
 
     Connections{
         target: popup
@@ -46,7 +42,7 @@ Controls22.ComboBox{
 
         onClicked: {
             combobox.currentIndex = index;
-            root.selectedStyle = index;
+            combobox.choiceClicked(index);
             combobox.popup.close();
         }
 
@@ -71,15 +67,10 @@ Controls22.ComboBox{
                 anchors.left: parent.left
                 anchors.leftMargin: units.smallSpacing
                 anchors.verticalCenter: parent.verticalCenter
-                text: titleStyles[index];
+                text: choices[index];
                 color: containsMouse ? palette.highlightedText : palette.text
             }
         }
-    }
-
-
-    Component.onCompleted: {
-        currentIndex = plasmoid.configuration.style;
     }
 }
 

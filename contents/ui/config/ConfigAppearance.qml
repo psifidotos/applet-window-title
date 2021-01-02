@@ -36,18 +36,20 @@ Item {
     property alias cfg_showIcon: showIconChk.checked
     property alias cfg_iconFillThickness: iconFillChk.checked
     property alias cfg_iconSize: iconSizeSpn.value
+    property alias cfg_lengthPolicy: root.selectedLengthPolicy
     property alias cfg_spacing: spacingSpn.value
     property alias cfg_style: root.selectedStyle
     property alias cfg_lengthFirstMargin: lengthFirstSpn.value
     property alias cfg_lengthLastMargin: lengthLastSpn.value
     property alias cfg_lengthMarginsLock: lockItem.locked
-    property alias cfg_inFillMode: inFillChk.checked
+    property alias cfg_fixedLength: fixedLengthSlider.value
     property alias cfg_maximumLength: maxLengthSlider.value
 
     property alias cfg_subsMatch: root.selectedMatches
     property alias cfg_subsReplace: root.selectedReplacements
 
     // used as bridge to communicate properly between configuration and ui
+    property int selectedLengthPolicy
     property int selectedStyle
     property var selectedMatches: []
     property var selectedReplacements: []
@@ -80,10 +82,22 @@ Item {
                 horizontalAlignment: Text.AlignRight
             }
 
-            StyleComboBox{
-                Layout.minimumWidth: 220
-                Layout.preferredWidth: 0.25 * root.width
-                Layout.maximumWidth: 320
+            CustomComboBox{
+                id: styleCmb
+                Layout.minimumWidth: 270
+                Layout.preferredWidth: 350
+                Layout.maximumWidth:  0.3 * root.width
+
+                choices: [
+                    i18n("Application"),
+                    i18n("Title"),
+                    i18n("Application - Title"),
+                    i18n("Title - Application"),
+                    i18n("Do not show any text"),
+                ];
+
+                Component.onCompleted: currentIndex = plasmoid.configuration.style;
+                onChoiceClicked: root.selectedStyle = index;
             }
         }
 
@@ -171,30 +185,96 @@ Item {
             enabled : root.selectedStyle !== 4 /*NoText*/
 
             Label{
-                id: lengthLbl
+                id: lengthLbl2
                 Layout.minimumWidth: Math.max(centerFactor * root.width, minimumWidth)
                 text: i18n("Length:")
                 horizontalAlignment: Text.AlignRight
             }
 
-            CheckBox{
-                id: inFillChk
-                text: i18n("Fill available space")
+            CustomComboBox{
+                id: lengthCmb
+                Layout.minimumWidth: styleCmb.Layout.minimuWidth
+                Layout.preferredWidth: styleCmb.Layout.preferredWidth
+                Layout.maximumWidth: styleCmb.Layout.maximumWidth
+
+                choices: [
+                    i18n("Based on contents"),
+                    i18n("Fixed size"),
+                    i18n("Maximum"),
+                    i18n("Fill available space")
+                ];
+
+                Component.onCompleted: currentIndex = plasmoid.configuration.lengthPolicy
+                onChoiceClicked: root.selectedLengthPolicy = index;
             }
 
             Label{
+                visible: lengthCmb.currentIndex === 1 /*Fixed Length Policy*/
             }
 
             RowLayout{
-                enabled: !inFillChk.checked
+                visible: lengthCmb.currentIndex === 1 /*Fixed Length Policy*/
+
                 Slider {
-                    id: maxLengthSlider
+                    id: fixedLengthSlider
+                    Layout.minimumWidth: lengthCmb.width
+                    Layout.preferredWidth: Layout.minimumWidth
+                    Layout.maximumWidth: Layout.minimumWidth
+
                     minimumValue: 24
                     maximumValue: 1500
                     stepSize: 2
                 }
                 Label {
-                    text: maxLengthSlider.value + " " + i18n("px. at maximum")
+                    id: fixedLengthLbl
+                    text: fixedLengthSlider.value + " " + i18n("px.")
+                }
+            }
+
+            Label{
+                visible: lengthCmb.currentIndex === 2 /*Maximum Length Policy*/
+            }
+
+            RowLayout{
+                visible: lengthCmb.currentIndex === 2 /*Maximum Length Policy*/
+                Slider {
+                    id: maxLengthSlider
+                    Layout.minimumWidth: lengthCmb.width
+                    Layout.preferredWidth: Layout.minimumWidth
+                    Layout.maximumWidth: Layout.minimumWidth
+
+                    minimumValue: 24
+                    maximumValue: 1500
+                    stepSize: 2
+                }
+                Label {
+                    id: maxLengthLbl
+                    text: maxLengthSlider.value + " " + i18n("px.")
+                }
+            }
+
+            Label{
+            }
+
+            Label {
+                id: lengthDescriptionLbl
+                Layout.minimumWidth: lengthCmb.width - 10
+                Layout.preferredWidth: 0.5 * root.width
+                Layout.maximumWidth: Layout.preferredWidth
+
+                font.italic: true
+                wrapMode: Text.WordWrap
+
+                text: {
+                    if (lengthCmb.currentIndex === 0 /*Contents*/){
+                        return i18n("Contents provide an exact size to be used at all times.")
+                    } else if (lengthCmb.currentIndex === 1 /*Fixed*/) {
+                        return i18n("Length slider decides the exact size to be used at all times.");
+                    } else if (lengthCmb.currentIndex === 2 /*Maximum*/) {
+                        return i18n("Contents provide the preferred size and length slider its highest value.");
+                    } else { /*Fill*/
+                        return i18n("All available space is filled at all times.");
+                    }
                 }
             }
         }
