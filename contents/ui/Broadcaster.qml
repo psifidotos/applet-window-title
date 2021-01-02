@@ -33,7 +33,7 @@ Item{
     property int appMenusRequestCooperationCount: 0
 
     readonly property bool cooperationEstablished: appMenusRequestCooperationCount>0 && isActive
-    readonly property bool isActive: plasmoid.configuration.appMenuIsPresent && showAppMenuEnabled
+    readonly property bool isActive: plasmoid.configuration.appMenuIsPresent && showAppMenuEnabled && (plasmoid.formFactor === PlasmaCore.Types.Horizontal)
 
     readonly property int sendActivateAppMenuCooperationFromEditMode: plasmoid.configuration.sendActivateAppMenuCooperationFromEditMode
 
@@ -51,7 +51,13 @@ Item{
 
     Component.onDestruction: broadcoastCooperationRequest(false)
 
-    onIsActiveChanged: broadcoastCooperationRequest(isActive)
+    onIsActiveChanged: {
+        if (!isActive) {
+            hiddenFromBroadcast = false;
+        }
+
+        broadcoastCooperationRequest(isActive)
+    }
 
     onCooperationEstablishedChanged: {
         if (!cooperationEstablished) {
