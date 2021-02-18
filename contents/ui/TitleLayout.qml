@@ -84,14 +84,16 @@ GridLayout{
 
         visible: plasmoid.configuration.showIcon
 
-        QIconItem{
+        PlasmaCore.IconItem{
             id: iconItem
             anchors.fill: parent
             anchors.topMargin: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? thickMargin : 0
             anchors.bottomMargin: plasmoid.formFactor === PlasmaCore.Types.Horizontal ? thickMargin : 0
             anchors.leftMargin: plasmoid.formFactor === PlasmaCore.Types.Vertical ? thickMargin : 0
             anchors.rightMargin: plasmoid.formFactor === PlasmaCore.Types.Vertical ? thickMargin : 0
-            icon: existsWindowActive ? activeTaskItem.icon : fullActivityInfo.icon
+            roundToIconSize: !root.isInLatte
+            source: existsWindowActive ? activeTaskItem.icon : fullActivityInfo.icon
+
 
             readonly property int thickMargin: plasmoid.configuration.iconFillThickness ?
                                                    0 : (root.thickness - iconSize) / 2
