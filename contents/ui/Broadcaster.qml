@@ -149,7 +149,7 @@ Item{
 
     Timer {
         id: releaseSendActivateAppMenuCooperation
-        interval: 5
+        interval: 50
         onTriggered: plasmoid.configuration.sendActivateAppMenuCooperationFromEditMode = -1;
     }
 
