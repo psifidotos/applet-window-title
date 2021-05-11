@@ -57,6 +57,50 @@ Item {
         anchors.left: parent.left
         anchors.leftMargin: 2
 
+        Kirigami.InlineMessage {
+            id: inlineMessage
+            Layout.fillWidth: true
+            Layout.bottomMargin: 5
+
+            type: Kirigami.MessageType.Warning
+            text: cfg_showAppMenuOnMouseEnter ?
+                      i18n("Would you like <b>also to activate</b> that behavior to surrounding Window AppMenu?") :
+                      i18n("Would you like <b>also to deactivate</b> that behavior to surrounding Window AppMenu?")
+
+            actions: [
+                Kirigami.Action {
+                    icon.name: "dialog-yes"
+                    text: i18n("Yes")
+                    onTriggered: {
+                        plasmoid.configuration.sendActivateAppMenuCooperationFromEditMode = cfg_showAppMenuOnMouseEnter;
+                        inlineMessage.visible = false;
+                    }
+                },
+                Kirigami.Action {
+                    icon.name: "dialog-no"
+                    text: "No"
+                    onTriggered: {
+                        inlineMessage.visible = false;
+                    }
+                }
+            ]
+
+            readonly property bool showWindowAppMenuTouched: showAppMenuChk.checked !== plasmoid.configuration.showAppMenuOnMouseEnter
+
+            onShowWindowAppMenuTouchedChanged: {
+                if (plasmoid.configuration.containmentType !== 2 /*Latte Containment*/) {
+                    visible = false;
+                    return;
+                }
+
+                if (showWindowAppMenuTouched){
+                    inlineMessage.visible = true;
+                } else {
+                    inlineMessage.visible = false;
+                }
+            }
+        }
+
         GridLayout {
             columns: 2
 
@@ -170,51 +214,6 @@ Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
-
-        Kirigami.InlineMessage {
-            id: inlineMessage
-            Layout.fillWidth: true
-            Layout.bottomMargin: 5
-
-            type: Kirigami.MessageType.Warning
-            text: cfg_showAppMenuOnMouseEnter ?
-                      i18n("Would you like <b>also to activate</b> that behavior to surrounding Window AppMenu?") :
-                      i18n("Would you like <b>also to deactivate</b> that behavior to surrounding Window AppMenu?")
-
-            actions: [
-                Kirigami.Action {
-                    icon.name: "dialog-yes"
-                    text: i18n("Yes")
-                    onTriggered: {
-                        plasmoid.configuration.sendActivateAppMenuCooperationFromEditMode = cfg_showAppMenuOnMouseEnter;
-                        inlineMessage.visible = false;
-                    }
-                },
-                Kirigami.Action {
-                    icon.name: "dialog-no"
-                    text: "No"
-                    onTriggered: {
-                        inlineMessage.visible = false;
-                    }
-                }
-            ]
-
-            readonly property bool showWindowAppMenuTouched: showAppMenuChk.checked !== plasmoid.configuration.showAppMenuOnMouseEnter
-
-            onShowWindowAppMenuTouchedChanged: {
-                if (plasmoid.configuration.containmentType !== 2 /*Latte Containment*/) {
-                    visible = false;
-                    return;
-                }
-
-                if (showWindowAppMenuTouched){
-                    inlineMessage.visible = true;
-                } else {
-                    inlineMessage.visible = false;
-                }
-            }
-        }
-
     }
 
 }
