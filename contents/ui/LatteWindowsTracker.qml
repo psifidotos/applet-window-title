@@ -22,19 +22,31 @@ import QtQuick 2.7
 Item {
     id: latteWindowsTracker
     readonly property bool existsWindowActive: selectedTracker.lastActiveWindow.isValid && !activeTaskItem.isMinimized
+    readonly property bool existsWindowShown: selectedTracker.lastActiveWindow.isValid && !lastActiveTaskItem.isMinimized
 
     readonly property QtObject selectedTracker: plasmoid.configuration.filterByScreen ? latteBridge.windowsTracker.currentScreen : latteBridge.windowsTracker.allScreens
 
     readonly property Item activeTaskItem: Item {
         id: taskInfoItem
-
-        readonly property string appName: modelAppName !== ""  ? modelAppName : discoveredAppName
         readonly property bool isMinimized: selectedTracker.lastActiveWindow.isMinimized
         readonly property bool isMaximized: selectedTracker.lastActiveWindow.isMaximized
         readonly property bool isActive: selectedTracker.lastActiveWindow.isActive
         readonly property bool isOnAllDesktops: selectedTracker.lastActiveWindow.isOnAllDesktops
+        readonly property bool isKeepAbove: selectedTracker.lastActiveWindow.isKeepAbove
+
+        readonly property bool isClosable: selectedTracker.lastActiveWindow.hasOwnProperty("isClosable") ? selectedTracker.lastActiveWindow.isClosable : true
+        readonly property bool isMinimizable: selectedTracker.lastActiveWindow.hasOwnProperty("isMinimizable") ? selectedTracker.lastActiveWindow.isMinimizable : true
+        readonly property bool isMaximizable: selectedTracker.lastActiveWindow.hasOwnProperty("isMaximizable") ? selectedTracker.lastActiveWindow.isMaximizable : true
+        readonly property bool isVirtualDesktopsChangeable: selectedTracker.lastActiveWindow.hasOwnProperty("isVirtualDesktopsChangeable") ?
+                                                                selectedTracker.lastActiveWindow.isVirtualDesktopsChangeable : true
+
+        readonly property int winId: selectedTracker.lastActiveWindow.hasOwnProperty("winId") ? selectedTracker.lastActiveWindow.winId : -1
+
+
+        //! appname / title
         property var icon: selectedTracker.lastActiveWindow.icon
 
+        readonly property string appName: modelAppName !== ""  ? modelAppName : discoveredAppName
         readonly property string modelAppName: selectedTracker.lastActiveWindow.appName
         readonly property string modelDisplay: selectedTracker.lastActiveWindow.display
 
@@ -96,6 +108,22 @@ Item {
 
     function toggleMaximized() {
         selectedTracker.lastActiveWindow.requestToggleMaximized();
+    }
+
+    function toggleMinimized() {
+        selectedTracker.lastActiveWindow.requestToggleMinimized();
+    }
+
+    function toggleClose() {
+        selectedTracker.lastActiveWindow.requestClose();
+    }
+
+    function togglePinToAllDesktops() {
+        selectedTracker.lastActiveWindow.requestToggleIsOnAllDesktops();
+    }
+
+    function toggleKeepAbove(){
+        selectedTracker.lastActiveWindow.requestToggleKeepAbove();
     }
 }
 
