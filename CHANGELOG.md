@@ -1,5 +1,10 @@
 ### CHANGELOG
 
+#### Version 0.7.0
+
+* small fixes all around the stack
+* fixes for unity-mode in latte panels
+
 #### Version 0.6.0
 
 * support more window actions with mouse:
