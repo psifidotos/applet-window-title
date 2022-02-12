@@ -187,14 +187,14 @@ GridLayout{
 
                 elide: {
                     if (plasmoid.configuration.style === 1 && titleLayout.exceedsAvailableSpace){ /*Title*/
-                        return Text.ElideRight;
+                        return Text.ElideMiddle;
                     } else if (plasmoid.configuration.style === 3
                                && activeTaskItem
                                && activeTaskItem.appName !== activeTaskItem.title
                                && titleLayout.exceedsAvailableSpace){ /*TitleApplication*/
-                        return Text.ElideRight;
+                        return Text.ElideMiddle;
                     } else if (showsApplicationText && !isUsedForMetrics && exceedsApplicationText) {
-                        return Text.ElideRight;
+                        return Text.ElideMiddle;
                     }
 
                     return Text.ElideNone;
@@ -258,13 +258,13 @@ GridLayout{
                             && activeTaskItem.appName !== activeTaskItem.title
                             && plasmoid.configuration.style === 2 /*ApplicationTitle*/
                             && titleLayout.exceedsAvailableSpace){  /*AND is shown*/
-                        return Text.ElideRight;
+                        return Text.ElideMiddle;
                     } else if(plasmoid.configuration.style === 3 /*TitleApplication*/
-                              && exceedsApplicationText) {
-                        return Text.ElideRight;
+                              /*&& exceedsApplicationText*/) {
+                        return Text.ElideNone;
                     }
 
-                    return Text.ElideNone;
+                    return Text.ElideMiddle;
                 }
             }
         }
