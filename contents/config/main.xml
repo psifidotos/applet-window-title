@@ -117,11 +117,11 @@
     <default>0</default>
   </entry>
   <entry name="subsMatch" type="StringList">
-    <default>"Telegram Desktop","Gimp-.*"</default>
+    <default>"Telegram Desktop","Gimp-.*","soffice.bin"</default>
     <label>substitutions criteria - match for application names</label>
   </entry>
   <entry name="subsReplace" type="StringList">
-    <default>"Telegram","Gimp"</default>
+    <default>"Telegram","Gimp","LibreOffice"</default>
     <label>substitutions replacements for application names</label>
   </entry>
   <entry name="actionScrollMinimize" type="Bool">
