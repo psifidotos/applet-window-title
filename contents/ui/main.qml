@@ -126,6 +126,7 @@ Item {
     readonly property Item activeTaskItem: windowInfoLoader.item.activeTaskItem
 
     property string fallBackText: {
+        if(fullActivityInfo.name === "Default") { return "    "; } // WHITESPACE SO USER CAN STILL ACCESS CONFIGURATION
         if (!plasmoid.configuration.filterActivityInfo) {
             return plasmoid.configuration.placeHolder;
         } else {
@@ -139,7 +140,11 @@ Item {
         }
 
         if (plasmoid.configuration.style === 0){ /*Application*/
-            return Tools.applySubstitutes(activeTaskItem.appName);
+            if(activeTaskItem.appName !== "") {
+                return Tools.applySubstitutes(activeTaskItem.appName);
+            } else { // USE TITLE INSTEAD IF BLANK (WINE, JAVA, ETC)
+                return Tools.applySubstitutes(activeTaskItem.title);
+            }
         } else if (plasmoid.configuration.style === 1){ /*Title*/
             return activeTaskItem.title;
         } else if (plasmoid.configuration.style === 2){ /*ApplicationTitle*/
