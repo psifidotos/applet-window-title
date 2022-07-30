@@ -187,14 +187,14 @@ GridLayout{
 
                 elide: {
                     if (plasmoid.configuration.style === 1 && titleLayout.exceedsAvailableSpace){ /*Title*/
-                        return Text.ElideMiddle;
+                        return Text.ElideRight;
                     } else if (plasmoid.configuration.style === 3
                                && activeTaskItem
                                && activeTaskItem.appName !== activeTaskItem.title
                                && titleLayout.exceedsAvailableSpace){ /*TitleApplication*/
-                        return Text.ElideMiddle;
+                        return Text.ElideRight;
                     } else if (showsApplicationText && !isUsedForMetrics && exceedsApplicationText) {
-                        return Text.ElideMiddle;
+                        return Text.ElideRight;
                     }
 
                     return Text.ElideNone;
@@ -222,7 +222,7 @@ GridLayout{
 
                     if (plasmoid.configuration.style === 2 || plasmoid.configuration.style === 3){ /*ApplicationTitle*/ /*OR*/ /*TitleApplication*/
                         if (activeTaskItem.appName !== activeTaskItem.title && activeTaskItem.appName !== "" && activeTaskItem.title !== "") {
-                            return " – ";
+                            return " - ";
                         }
                     }
 
@@ -258,13 +258,13 @@ GridLayout{
                             && activeTaskItem.appName !== activeTaskItem.title
                             && plasmoid.configuration.style === 2 /*ApplicationTitle*/
                             && titleLayout.exceedsAvailableSpace){  /*AND is shown*/
-                        return Text.ElideMiddle;
+                        return Text.ElideRight;
                     } else if(plasmoid.configuration.style === 3 /*TitleApplication*/
-                              /*&& exceedsApplicationText*/) {
-                        return Text.ElideNone;
+                              && exceedsApplicationText) {
+                        return Text.ElideRight;
                     }
 
-                    return Text.ElideMiddle;
+                    return Text.ElideNone;
                 }
             }
         }
