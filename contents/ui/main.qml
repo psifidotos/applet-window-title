@@ -126,6 +126,8 @@ Item {
     readonly property Item activeTaskItem: windowInfoLoader.item.activeTaskItem
 
     property string fallBackText: {
+        if(fullActivityInfo.name === "Default") { return "   "; } // WHITESPACE SO USER CAN STILL ACCESS CONFIGURATION
+
         if (!plasmoid.configuration.filterActivityInfo) {
             return plasmoid.configuration.placeHolder;
         } else {
@@ -137,23 +139,27 @@ Item {
         if (!activeTaskItem) {
             return "";
         }
-
         if (plasmoid.configuration.style === 0){ /*Application*/
-            return Tools.applySubstitutes(activeTaskItem.appName);
+            if(activeTaskItem.appName !== "") {
+                return Tools.applySubstitutes(activeTaskItem.appName);
+            } else { // USE TITLE INSTEAD IF BLANK (WINE, JAVA, ETC)
+                return Tools.applySubstitutes(activeTaskItem.title);
+            }
         } else if (plasmoid.configuration.style === 1){ /*Title*/
+            return "B"
             return activeTaskItem.title;
         } else if (plasmoid.configuration.style === 2){ /*ApplicationTitle*/
+            return "C"
             return Tools.applySubstitutes(activeTaskItem.appName);
         } else if (plasmoid.configuration.style === 3){ /*TitleApplication*/
             var finalText = activeTaskItem.appName === activeTaskItem.title ?
                         Tools.applySubstitutes(activeTaskItem.appName) : activeTaskItem.title;
-
+            return "D"
             return finalText;
         } else if (plasmoid.configuration.style === 4){ /*NoText*/
+            return "E"
             return "";
         }
-
-        return "";
     }
 
     readonly property string lastTitleText: {
@@ -297,13 +303,11 @@ Item {
                 var finalText = activeTaskItem.appName === activeTaskItem.title ?
                             Tools.applySubstitutes(activeTaskItem.appName) :
                             Tools.applySubstitutes(activeTaskItem.appName) + " - " + activeTaskItem.title;
-
                 return finalText;
             } else if (plasmoid.configuration.style === 3){ /*TitleApplication*/
                 var finalText = activeTaskItem.appName === activeTaskItem.title ?
                             Tools.applySubstitutes(activeTaskItem.appName) :
                             activeTaskItem.title + " - " + Tools.applySubstitutes(activeTaskItem.appName);
-
                 return finalText;
             }
 
