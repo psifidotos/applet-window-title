@@ -95,6 +95,10 @@
     <default>false</default>
     <label>If true, it shows window information only from the current screen</label>
   </entry>
+  <entry name="filterByMaximized" type="Bool">
+    <label>If true it only shows the app title if the current active window is maximized</label>
+    <default>false</default>
+  </entry>
   <entry name="filterActivityInfo" type="Bool">
     <default>true</default>
     <label>If false, it shows only the placeHolder text</label>

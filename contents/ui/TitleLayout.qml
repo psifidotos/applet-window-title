@@ -92,7 +92,7 @@ GridLayout{
             anchors.leftMargin: plasmoid.formFactor === PlasmaCore.Types.Vertical ? thickMargin : 0
             anchors.rightMargin: plasmoid.formFactor === PlasmaCore.Types.Vertical ? thickMargin : 0
             roundToIconSize: !root.isInLatte
-            source: existsWindowActive ? activeTaskItem.icon : fullActivityInfo.icon
+            source: existsWindowActive && (isActiveWindowMaximized || !plasmoid.configuration.filterByMaximized) ? activeTaskItem.icon : fullActivityInfo.icon
 
 
             readonly property int thickMargin: plasmoid.configuration.iconFillThickness ?
@@ -173,7 +173,7 @@ GridLayout{
                 width: Text.ElideNone ? implicitWidth : -1
                 verticalAlignment: Text.AlignVCenter
 
-                text: existsWindowActive ? root.firstTitleText : root.fallBackText
+                text: (existsWindowActive && (isActiveWindowMaximized || !plasmoid.configuration.filterByMaximized)) ? root.firstTitleText : root.fallBackText
                 color: enforceLattePalette ? latteBridge.palette.textColor : theme.textColor
                 font.capitalization: plasmoid.configuration.capitalFont ? Font.Capitalize : Font.MixedCase
                 font.bold: plasmoid.configuration.boldFont
@@ -216,7 +216,7 @@ GridLayout{
                 visible: !exceedsApplicationText && text !== ""
 
                 text: {
-                    if (!existsWindowActive) {
+                    if (!existsWindowActive || (!isActiveWindowMaximized && plasmoid.configuration.filterByMaximized)) {
                         return "";
                     }
 
@@ -241,7 +241,7 @@ GridLayout{
                 width: Text.ElideNone ? implicitWidth : -1
                 verticalAlignment: firstTxt.verticalAlignment
 
-                text: existsWindowActive ? root.lastTitleText : ""
+                text: existsWindowActive && (isActiveWindowMaximized || !plasmoid.configuration.filterByMaximized) ? root.lastTitleText : ""
 
                 color: firstTxt.color
                 font.capitalization: firstTxt.font.capitalization
