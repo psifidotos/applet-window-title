@@ -1,5 +1,10 @@
 ### CHANGELOG
 
+#### Version 0.7.1
+
+* elide title in the middle of text
+* change window title dash to n-dash
+
 #### Version 0.7.0
 
 * small fixes all around the stack
