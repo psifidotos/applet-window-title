@@ -29,6 +29,7 @@ Item {
     id: behaviorPage
 
     property alias cfg_filterByScreen: filterByScreenChk.checked
+    property alias cfg_filterByMaximized: filterByMaximizedChk.checked
     property alias cfg_filterActivityInfo: filterActivityChk.checked
 
     property alias cfg_showAppMenuOnMouseEnter: showAppMenuChk.checked
@@ -69,6 +70,15 @@ Item {
             CheckBox{
                 id: filterByScreenChk
                 text: i18n("Show only window information from current screen")
+            }
+
+            Label{
+                visible: filterByMaximizedChk.visible
+            }
+
+            CheckBox{
+                id: filterByMaximizedChk
+                text: i18n("Show only maximized window information")
             }
         }
 
