@@ -28,3 +28,9 @@ This is a Plasma 5 applet that shows the current window title and icon in your p
 This is a QML applet and as such it can be easily installed from Plasma 5 Widgets Explorer or alternative you can execute `kpackagetool5 -i .` in the root directory of the applet.
 
 
+# Distribution packages
+
+This applet is available in the [Arch User Repository](https://aur.archlinux.org/packages/plasma5-applets-window-title)
+```
+yay -S plasma5-applets-window-title
+```
