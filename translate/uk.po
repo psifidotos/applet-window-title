@@ -1,0 +1,215 @@
+# Translation of windowtitle in Ukrainian
+# Copyright (C) 2023
+# This file is distributed under the same license as the windowtitle package.
+# Mykhailo Stetsiuk <yaBobJonez@gmail.com>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: windowtitle\n"
+"Report-Msgid-Bugs-To: https://github.com/psifidotos/applet-window-title\n"
+"POT-Creation-Date: 2023-06-02 12:53+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Mykhailo Stetsiuk <yaBobJonez@gmail.com>\n"
+"Language-Team: \n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../metadata.desktop
+msgid "Window Title"
+msgstr "Заголовок вікна"
+
+#: ../metadata.desktop
+msgid "Shows the application title and icon of the active window"
+msgstr "Відображає назву програми та піктограму активного вікна"
+
+#: ../contents/config/config.qml
+msgid "Appearance"
+msgstr "Вигляд"
+
+#: ../contents/config/config.qml
+msgid "Behavior"
+msgstr "Поведінка"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Text style:"
+msgstr "Стиль тексту:"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Application"
+msgstr "Програма"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Title"
+msgstr "Заголовок"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Application - Title"
+msgstr "Програма - заголовок"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Title - Application"
+msgstr "Заголовок - програма"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Do not show any text"
+msgstr "Не показувати текст"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Icon:"
+msgstr "Піктограма:"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Show when available"
+msgstr "Відображати коли доступна"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Fill thickness"
+msgstr "Товщина заливки"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "pixels"
+msgid "px."
+msgstr "px."
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Font:"
+msgstr "Шрифт:"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Bold"
+msgstr "Напівжирний"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Italic"
+msgstr "Курсивом"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "First letters capital"
+msgstr "Перші літери заглавні"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Length:"
+msgstr "Довжина:"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Based on contents"
+msgstr "Залежно від вмісту"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Fixed size"
+msgstr "Фіксована"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Maximum"
+msgstr "Максимальна"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Fill available space"
+msgstr "Заповнювати доступний простір"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "px."
+msgstr "px."
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Contents provide an exact size to be used at all times."
+msgstr "Вміст завжди визначає точний розмір."
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Length slider decides the exact size to be used at all times."
+msgstr "Слайдером довжини завжди визначається точний розмір."
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Contents provide the preferred size and length slider its highest value."
+msgstr "Вміст визнає бажаний розмір, а слайдер визначає максимальну довжину."
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "All available space is filled at all times."
+msgstr "Завжди заповнюється весь доступний простір."
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Spacing:"
+msgstr "Інтервали:"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Left margin:"
+msgstr "Лівий відступ"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Top margin:"
+msgstr "Верхній відступ:"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Right margin:"
+msgstr "Правий відступ:"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Bottom margin:"
+msgstr "Нижній відступ:"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Filters:"
+msgstr "Фільтри:"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Show only window information from current screen"
+msgstr "Відображати лише інформацію про вікно з активного екрану"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Mouse:"
+msgstr "Миша:"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Show tooltip on hover"
+msgstr "Відображати підказку при наведенні"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Show Window AppMenu applet on enter"
+msgstr "Показувати віджет Меню Вікна при наведенні"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Scroll to cycle and minimize through your tasks"
+msgstr "Прокручувати для перемикання та мінімізації задач"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Would you like <b>also to activate</b> that behavior to surrounding Window AppMenu?"
+msgstr "Чи хочете Ви <b>також активувати</b> цю поведінку для Меню Вікна?"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Would you like <b>also to deactivate</b> that behavior to surrounding Window AppMenu?"
+msgstr "Чи хочете Ви <b>також деактивувати</b> цю поведінку для Меню Вікна?"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Yes"
+msgstr "Так"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Placeholder:"
+msgstr "Мітка-заповнювач:"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Show activity information"
+msgstr "Відображати інформацію про простір дій"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "placeholder text..."
+msgstr "текстова мітка-заповнювач..."
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Application name:"
+msgstr "Назва програми:"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Manage substitutions..."
+msgstr "Керувати замінами..."
+
+#: ../contents/ui/config/SubstitutionsPopup.qml
+msgid "Substitutions"
+msgstr "Заміни"
+
+#: ../contents/ui/config/SubstitutionsPopup.qml
+msgid "Warning: Matches and Replacements do not have the same size..."
+msgstr "Попередження: Збіги та Заміни не однакового розміру..."

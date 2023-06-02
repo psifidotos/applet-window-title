@@ -1,0 +1,215 @@
+# Translation of windowtitle in LANGUAGE
+# Copyright (C) 2023
+# This file is distributed under the same license as the windowtitle package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: windowtitle\n"
+"Report-Msgid-Bugs-To: https://github.com/psifidotos/applet-window-title\n"
+"POT-Creation-Date: 2023-06-02 12:53+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../metadata.desktop
+msgid "Window Title"
+msgstr ""
+
+#: ../metadata.desktop
+msgid "Shows the application title and icon of the active window"
+msgstr ""
+
+#: ../contents/config/config.qml
+msgid "Appearance"
+msgstr ""
+
+#: ../contents/config/config.qml
+msgid "Behavior"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Text style:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Application"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Title"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Application - Title"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Title - Application"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Do not show any text"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Icon:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Show when available"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Fill thickness"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "pixels"
+msgid "px."
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Font:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Bold"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Italic"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "First letters capital"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Length:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Based on contents"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Fixed size"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Maximum"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Fill available space"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "px."
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Contents provide an exact size to be used at all times."
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Length slider decides the exact size to be used at all times."
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Contents provide the preferred size and length slider its highest value."
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "All available space is filled at all times."
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Spacing:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Left margin:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Top margin:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Right margin:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Bottom margin:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Filters:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Show only window information from current screen"
+msgstr ""
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Mouse:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Show tooltip on hover"
+msgstr ""
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Show Window AppMenu applet on enter"
+msgstr ""
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Scroll to cycle and minimize through your tasks"
+msgstr ""
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Would you like <b>also to activate</b> that behavior to surrounding Window AppMenu?"
+msgstr ""
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Would you like <b>also to deactivate</b> that behavior to surrounding Window AppMenu?"
+msgstr ""
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Yes"
+msgstr ""
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Placeholder:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Show activity information"
+msgstr ""
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "placeholder text..."
+msgstr ""
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Application name:"
+msgstr ""
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Manage substitutions..."
+msgstr ""
+
+#: ../contents/ui/config/SubstitutionsPopup.qml
+msgid "Substitutions"
+msgstr ""
+
+#: ../contents/ui/config/SubstitutionsPopup.qml
+msgid "Warning: Matches and Replacements do not have the same size..."
+msgstr ""

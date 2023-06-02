@@ -18,3 +18,8 @@ X-KDE-PluginInfo-Name=org.kde.windowtitle
 X-KDE-PluginInfo-Version=0.7.1
 X-KDE-PluginInfo-Website=https://github.com/psifidotos/applet-window-title
 X-KDE-ServiceTypes=Plasma/Applet
+
+Name[ru]=Заголовок Окна
+Name[uk]=Заголовок вікна
+Comment[ru]=Показывает заголовок программы и значок активного окна
+Comment[uk]=Відображає назву програми та піктограму активного вікна

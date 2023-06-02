@@ -1,0 +1,215 @@
+# Translation of windowtitle in Russian
+# Copyright (C) 2023
+# This file is distributed under the same license as the windowtitle package.
+# Mykhailo Stetsiuk <yaBobJonez@gmail.com>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: windowtitle\n"
+"Report-Msgid-Bugs-To: https://github.com/psifidotos/applet-window-title\n"
+"POT-Creation-Date: 2023-06-02 12:53+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Mykhailo Stetsiuk <yaBobJonez@gmail.com>\n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../metadata.desktop
+msgid "Window Title"
+msgstr "Заголовок Окна"
+
+#: ../metadata.desktop
+msgid "Shows the application title and icon of the active window"
+msgstr "Показывает заголовок программы и значок активного окна"
+
+#: ../contents/config/config.qml
+msgid "Appearance"
+msgstr "Вид"
+
+#: ../contents/config/config.qml
+msgid "Behavior"
+msgstr "Поведение"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Text style:"
+msgstr "Стиль текста:"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Application"
+msgstr "Программа"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Title"
+msgstr "Заголовок"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Application - Title"
+msgstr "Программа - заголовок"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Title - Application"
+msgstr "Заголовок - программа"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Do not show any text"
+msgstr "Не показывать текст"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Icon:"
+msgstr "Значок:"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Show when available"
+msgstr "Показывать, когда доступен"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Fill thickness"
+msgstr "Толщина заливки"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgctxt "pixels"
+msgid "px."
+msgstr "px."
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Font:"
+msgstr "Шрифт:"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Bold"
+msgstr "Полужирный"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Italic"
+msgstr "Курсив"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "First letters capital"
+msgstr "Первые буквы заглавные"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Length:"
+msgstr "Длина:"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Based on contents"
+msgstr "Зависит от содержания"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Fixed size"
+msgstr "Фиксированная"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Maximum"
+msgstr "Максимальная"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Fill available space"
+msgstr "Заполнять доступное пространство"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "px."
+msgstr "px."
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Contents provide an exact size to be used at all times."
+msgstr "Содержимое всегда определяет точный размер."
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Length slider decides the exact size to be used at all times."
+msgstr "Слайдер длины всегда определяет точный размер."
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Contents provide the preferred size and length slider its highest value."
+msgstr "Содержимое определяет предпочтительный размер, а слайдер длины определяет максимальную длину."
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "All available space is filled at all times."
+msgstr "Всегда заполняется всё доступное пространство."
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Spacing:"
+msgstr "Интервалы:"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Left margin:"
+msgstr "Левый отступ:"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Top margin:"
+msgstr "Верхний отступ:"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Right margin:"
+msgstr "Правый отступ:"
+
+#: ../contents/ui/config/ConfigAppearance.qml
+msgid "Bottom margin:"
+msgstr "Нижний отступ:"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Filters:"
+msgstr "Фильтры:"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Show only window information from current screen"
+msgstr "Показывать только информацию об окне на текущем экране"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Mouse:"
+msgstr "Мышь:"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Show tooltip on hover"
+msgstr "Отображать подсказку при наведении"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Show Window AppMenu applet on enter"
+msgstr "Показывать виджет Меню Окна при наведении"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Scroll to cycle and minimize through your tasks"
+msgstr "Прокручивать для переключения и минимизации задач"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Would you like <b>also to activate</b> that behavior to surrounding Window AppMenu?"
+msgstr "Хотите ли Вы <b>также активировать</b> это поведение для Меню Окна?"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Would you like <b>also to deactivate</b> that behavior to surrounding Window AppMenu?"
+msgstr "Хотите ли Вы <b>также деактивировать</b> это поведение для Меню Окна?"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Yes"
+msgstr "Да"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Placeholder:"
+msgstr "Заполнитель:"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Show activity information"
+msgstr "Отображать информацию о комнате"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "placeholder text..."
+msgstr "текст-заполнитель..."
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Application name:"
+msgstr "Название программы:"
+
+#: ../contents/ui/config/ConfigBehavior.qml
+msgid "Manage substitutions..."
+msgstr "Управлять замещениями..."
+
+#: ../contents/ui/config/SubstitutionsPopup.qml
+msgid "Substitutions"
+msgstr "Замещения"
+
+#: ../contents/ui/config/SubstitutionsPopup.qml
+msgid "Warning: Matches and Replacements do not have the same size..."
+msgstr "Предупреждение: Совпадения и Замены разной длины..."
