@@ -17,20 +17,21 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.7
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
 
-import org.kde.plasma.plasmoid 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 2.0 as PlasmaComponents
-import org.kde.taskmanager 0.1 as TaskManager
+import org.kde.plasma.plasmoid
+import org.kde.plasma.core as PlasmaCore
+import org.kde.plasma.components as PlasmaComponents
+import org.kde.taskmanager as TaskManager
+import org.kde.kirigami as Kirigami
 
-import org.kde.activities 0.1 as Activities
+import org.kde.activities as Activities
 
 import "../tools/Tools.js" as Tools
 
-Item {
+PlasmoidItem {
     id: root
     clip: true
 
@@ -47,7 +48,7 @@ Item {
     Layout.preferredHeight: plasmoid.formFactor === PlasmaCore.Types.Vertical ? preferredLength : -1
     Layout.maximumHeight: plasmoid.formFactor === PlasmaCore.Types.Vertical ? maximumLength : -1
 
-    Plasmoid.preferredRepresentation: Plasmoid.fullRepresentation
+    preferredRepresentation: fullRepresentation
     Plasmoid.onFormFactorChanged: plasmoid.configuration.formFactor = plasmoid.formFactor;
 
     Plasmoid.status: {
@@ -311,11 +312,11 @@ Item {
         }
 
         mainItem: RowLayout {
-            spacing: units.largeSpacing
-            Layout.margins: units.smallSpacing
-            PlasmaCore.IconItem {
-                Layout.minimumWidth: units.iconSizes.medium
-                Layout.minimumHeight: units.iconSizes.medium
+            spacing: Kirigami.Units.largeSpacing
+            Layout.margins: Kirigami.Units.smallSpacing
+            Kirigami.Icon {
+                Layout.minimumWidth: Kirigami.Units.iconSizes.medium
+                Layout.minimumHeight: Kirigami.Units.iconSizes.medium
                 Layout.maximumWidth: Layout.minimumWidth
                 Layout.maximumHeight: Layout.minimumHeight
                 source:  existsWindowActive ? activeTaskItem.icon : fullActivityInfo.icon

@@ -17,13 +17,13 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.9
-import QtQuick.Controls 1.0
-import QtQuick.Controls 2.2 as Controls22
-import QtGraphicalEffects 1.0
-import QtQuick.Layouts 1.0
-
-import org.kde.plasma.core 2.0 as PlasmaCore
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls as Controls22
+// import QtGraphicalEffects
+import QtQuick.Layouts
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.core as PlasmaCore
 
 import "../../tools/Tools.js" as Tools
 
@@ -70,7 +70,7 @@ Item {
 
     ColumnLayout {
         id:mainColumn
-        spacing: units.largeSpacing
+        spacing: Kirigami.Units.largeSpacing
         Layout.fillWidth: true
 
         GridLayout{
@@ -130,14 +130,17 @@ Item {
 
                 SpinBox{
                     id: iconSizeSpn
-                    minimumValue: 16
-                    maximumValue: 128
-                    suffix: " " + i18nc("pixels","px.")
+                    from: 16
+                    to: 128
+                    textFromValue: function() {
+                        return value + " " + i18nc("pixels","px.");
+                    }
+                    // suffix: " " + i18nc("pixels","px.")
                     enabled: !iconFillChk.checked
                 }
 
                 Label {
-                    Layout.leftMargin: units.smallSpacing
+                    Layout.leftMargin: Kirigami.Units.smallSpacing
                     text: "maximum"
                 }
             }
@@ -215,8 +218,8 @@ Item {
                     Layout.preferredWidth: Layout.minimumWidth
                     Layout.maximumWidth: Layout.minimumWidth
 
-                    minimumValue: 24
-                    maximumValue: 1500
+                    from: 24
+                    to: 1500
                     stepSize: 2
                 }
                 Label {
@@ -237,8 +240,8 @@ Item {
                     Layout.preferredWidth: Layout.minimumWidth
                     Layout.maximumWidth: Layout.minimumWidth
 
-                    minimumValue: 24
-                    maximumValue: 1500
+                    from: 24
+                    to: 1500
                     stepSize: 2
                 }
                 Label {
@@ -287,9 +290,12 @@ Item {
 
                 SpinBox{
                     id: spacingSpn
-                    minimumValue: 0
-                    maximumValue: 36
-                    suffix: " " + i18nc("pixels","px.")
+                    from: 0
+                    to: 36
+                    // suffix: " " + i18nc("pixels","px.")
+                    textFromValue: function() {
+                        return value + " " + i18nc("pixels","px.");
+                    }
                 }
             }
 
@@ -323,9 +329,12 @@ Item {
 
                 SpinBox{
                     id: lengthFirstSpn
-                    minimumValue: 0
-                    maximumValue: 24
-                    suffix: " " + i18nc("pixels","px.")
+                    from: 0
+                    to: 24
+                    // suffix: " " + i18nc("pixels","px.")
+                    textFromValue: function() {
+                        return value + " " + i18nc("pixels","px.");
+                    }
 
                     property int lastValue: -1
 
@@ -344,9 +353,12 @@ Item {
 
                 SpinBox{
                     id: lengthLastSpn
-                    minimumValue: 0
-                    maximumValue: 24
-                    suffix: " " + i18nc("pixels","px.")
+                    from: 0
+                    to: 24
+                    // suffix: " " + i18nc("pixels","px.")
+                    textFromValue: function() {
+                        return value + " " + i18nc("pixels","px.");
+                    }
                     enabled: !lockItem.locked
                 }
 

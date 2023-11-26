@@ -17,11 +17,12 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.9
-import QtQuick.Controls 1.0
-import QtGraphicalEffects 1.0
-import QtQuick.Controls 2.2 as Controls22
-import QtQuick.Layouts 1.0
+import QtQuick
+import QtQuick.Controls
+// import QtGraphicalEffects
+import QtQuick.Controls as Controls22
+import QtQuick.Layouts
+import org.kde.kirigami 2.0 as Kirigami
 
 import org.kde.plasma.core 2.0 as PlasmaCore
 
@@ -39,8 +40,8 @@ Item{
 
     property bool shown: false
 
-    readonly property int availableWidth: width - 2*12 - 2*units.largeSpacing
-    readonly property int availableHeight: contentItem.childrenRect.height + 2*units.largeSpacing
+    readonly property int availableWidth: width - 2*12 - 2* Kirigami.Units.largeSpacing
+    readonly property int availableHeight: contentItem.childrenRect.height + 2 * Kirigami.Units.largeSpacing
     readonly property int maximumHeight: availableHeight + 2*12
 
     onContentItemChanged: {
@@ -115,13 +116,13 @@ Item{
             radius: 1
 
             layer.enabled: true
-            layer.effect: DropShadow {
-                id: shadowElement
-                radius: 12
-                fast: true
-                samples: 2 * radius
-                color: palette.shadow
-            }
+            // layer.effect: DropShadow {
+            //     id: shadowElement
+            //     radius: 12
+            //     fast: true
+            //     samples: 2 * radius
+            //     color: palette.shadow
+            // }
         }
     }
 }

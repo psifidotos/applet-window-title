@@ -17,13 +17,13 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.9
-import QtQuick.Controls 1.0
-import QtQuick.Layouts 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
-import org.kde.plasma.core 2.0 as PlasmaCore
+import org.kde.plasma.core as PlasmaCore
 
-import org.kde.kirigami 2.4 as Kirigami
+import org.kde.kirigami as Kirigami
 
 Item {
     id: behaviorPage
