@@ -1,132 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
-      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
-  <kcfgfile name=""/>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0 http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+  <kcfgfile name="" />
 
   <group name="General">
-  <entry name="style" type="Enum">
-    <choices>
-       <choice name="Application"/>
-       <choice name="Title"/>
-       <choice name="ApplicationTitle"/>
-       <choice name="TitleApplication"/>
-       <choice name="NoText"/>
-    </choices>
-    <label>which style is going to be used for the application title/name</label>
-    <default>0</default>
-  </entry>
-  <entry name="showIcon" type="Bool">
-    <default>true</default>
-    <label>show available icon</label>
-  </entry>
-  <entry name="iconFillThickness" type="Bool">
-    <default>true</default>
-    <label>icon fills applet thickness in order to not look too small in some cases</label>
-  </entry>
-  <entry name="iconSize" type="Int">
-    <default>36</default>
-    <label>icon size when fill thickness is not enabled</label>
-  </entry>
-  <entry name="boldFont" type="Bool">
-    <default>true</default>
-    <label>bold text font</label>
-  </entry>
-  <entry name="italicFont" type="Bool">
-    <default>false</default>
-    <label>italic text font</label>
-  </entry>
-  <entry name="capitalFont" type="Bool">
-    <default>true</default>
-    <label>first letter is each word becomes capital</label>
-  </entry>
-  <entry name="lengthFirstMargin" type="Int">
-    <default>0</default>
-    <label>first margin used to increase or decrease the icons distance from surrounding applets</label>
-  </entry>
-  <entry name="lengthLastMargin" type="Int">
-    <default>0</default>
-    <label>last margin used to increase or decrease the icons distance from surrounding applets</label>
-  </entry>
-  <entry name="lengthMarginsLock" type="Bool">
-    <default>true</default>
-    <label>used only by the settings window in order to remember the user choice concerning the locker</label>
-  </entry>
-  <entry name="appMenuIsPresent" type="Bool">
-    <default>false</default>
-    <label>try to identify if appmenu exists in the same containment. This is set only with applets cooperation</label>
-  </entry>
-  <entry name="showAppMenuOnMouseEnter" type="Bool">
-    <default>false</default>
-    <label>will become hidden in favour of appmenu when the mouse enters the applet</label>
-  </entry>
-  <entry name="sendActivateAppMenuCooperationFromEditMode" type="Int">
-    <default>-1</default>
-    <label>-1, means sent. 0, means sent false. 1, means sent true</label>
-  </entry>
-  <entry name="spacing" type="Int">
-    <default>4</default>
-    <label>spacing between icons</label>
-  </entry>
-  <entry name="showTooltip" type="Bool">
-    <default>true</default>
-    <label>display tooltip on hover</label>
-  </entry>
-  <entry name="lengthPolicy" type="Enum">
-    <choices>
-       <choice name="Contents"/>
-       <choice name="Fixed"/>
-       <choice name="Maximum"/>
-       <choice name="Fill"/>
-    </choices>
-    <label>which length size policy will be applied</label>
-    <default>0</default>
-  </entry>
-  <entry name="fixedLength" type="Int">
-    <default>400</default>
-    <label>fixed static length when the user shows window title</label>
-  </entry>  
-  <entry name="maximumLength" type="Int">
-    <default>1500</default>
-    <label>maximum length when the user shows window title</label>
-  </entry>
-  <entry name="filterByScreen" type="Bool">
-    <default>false</default>
-    <label>If true, it shows window information only from the current screen</label>
-  </entry>
-  <entry name="filterActivityInfo" type="Bool">
-    <default>true</default>
-    <label>If false, it shows only the placeHolder text</label>
-  </entry>
-  <entry name="placeHolder" type="string">
-    <default></default>
-    <label>The text shown if nothing else is available</label>
-  </entry>
-  <entry name="formFactor" type="Int">
-    <default>2</default>
-    <label>it is used in order to inform settings window about the plasmoid form factor. 2=Horizontal and 3=Vertical</label>
-  </entry>
-  <entry name="containmentType" type="Enum">
-    <choices>
-       <choice name="Loading"/>
-       <choice name="Plasma"/>
-       <choice name="Latte"/>
-    </choices>
-    <label>it helps to enable/disable options that are specific to plasma or Latte panels</label>
-    <default>0</default>
-  </entry>
-  <entry name="subsMatch" type="StringList">
-    <default>"Telegram Desktop","Gimp-.*","soffice.bin"</default>
-    <label>substitutions criteria - match for application names</label>
-  </entry>
-  <entry name="subsReplace" type="StringList">
-    <default>"Telegram","Gimp","LibreOffice"</default>
-    <label>substitutions replacements for application names</label>
-  </entry>
-  <entry name="actionScrollMinimize" type="Bool">
-    <default>true</default>
-    <label>If true, upward mouse scrolling cycles through tasks and downwards can be used to minimize them</label>
-  </entry>
+    <entry name="style" type="Enum">
+      <choices>
+        <choice name="Application" />
+        <choice name="Title" />
+        <choice name="ApplicationTitle" />
+        <choice name="TitleApplication" />
+        <choice name="NoText" />
+      </choices>
+      <label>which style is going to be used for the application title/name</label>
+      <default>0</default>
+    </entry>
+    <entry name="showIcon" type="Bool">
+      <default>true</default>
+      <label>show available icon</label>
+    </entry>
+    <entry name="iconFillThickness" type="Bool">
+      <default>true</default>
+      <label>icon fills applet thickness in order to not look too small in some cases</label>
+    </entry>
+    <entry name="iconSize" type="Int">
+      <default>36</default>
+      <label>icon size when fill thickness is not enabled</label>
+    </entry>
+    <entry name="boldFont" type="Bool">
+      <default>true</default>
+      <label>bold text font</label>
+    </entry>
+    <entry name="italicFont" type="Bool">
+      <default>false</default>
+      <label>italic text font</label>
+    </entry>
+    <entry name="capitalFont" type="Bool">
+      <default>true</default>
+      <label>first letter is each word becomes capital</label>
+    </entry>
+    <entry name="lengthFirstMargin" type="Int">
+      <default>0</default>
+      <label>first margin used to increase or decrease the icons distance from surrounding applets</label>
+    </entry>
+    <entry name="lengthLastMargin" type="Int">
+      <default>0</default>
+      <label>last margin used to increase or decrease the icons distance from surrounding applets</label>
+    </entry>
+    <entry name="lengthMarginsLock" type="Bool">
+      <default>true</default>
+      <label>used only by the settings window in order to remember the user choice concerning the locker</label>
+    </entry>
+    <entry name="appMenuIsPresent" type="Bool">
+      <default>false</default>
+      <label>try to identify if appmenu exists in the same containment. This is set only with applets cooperation</label>
+    </entry>
+    <entry name="showAppMenuOnMouseEnter" type="Bool">
+      <default>false</default>
+      <label>will become hidden in favour of appmenu when the mouse enters the applet</label>
+    </entry>
+    <entry name="sendActivateAppMenuCooperationFromEditMode" type="Int">
+      <default>-1</default>
+      <label>-1, means sent. 0, means sent false. 1, means sent true</label>
+    </entry>
+    <entry name="spacing" type="Int">
+      <default>4</default>
+      <label>spacing between icons</label>
+    </entry>
+    <entry name="showTooltip" type="Bool">
+      <default>true</default>
+      <label>display tooltip on hover</label>
+    </entry>
+    <entry name="lengthPolicy" type="Enum">
+      <choices>
+        <choice name="Contents" />
+        <choice name="Fixed" />
+        <choice name="Maximum" />
+        <choice name="Fill" />
+      </choices>
+      <label>which length size policy will be applied</label>
+      <default>0</default>
+    </entry>
+    <entry name="fixedLength" type="Int">
+      <default>400</default>
+      <label>fixed static length when the user shows window title</label>
+    </entry>
+    <entry name="maximumLength" type="Int">
+      <default>1500</default>
+      <label>maximum length when the user shows window title</label>
+    </entry>
+    <entry name="filterByScreen" type="Bool">
+      <default>false</default>
+      <label>If true, it shows window information only from the current screen</label>
+    </entry>
+    <entry name="perScreenActive" type="Bool">
+      <default>false</default>
+      <label>Per-screen active window</label>
+    </entry>
+    <entry name="filterActivityInfo" type="Bool">
+      <default>true</default>
+      <label>If false, it shows only the placeHolder text</label>
+    </entry>
+    <entry name="placeHolder" type="String">
+      <default></default>
+      <label>The text shown if nothing else is available</label>
+    </entry>
+    <entry name="formFactor" type="Int">
+      <default>2</default>
+      <label>it is used in order to inform settings window about the plasmoid form factor. 2=Horizontal and 3=Vertical</label>
+    </entry>
+    <entry name="containmentType" type="Enum">
+      <choices>
+        <choice name="Loading" />
+        <choice name="Plasma" />
+        <choice name="Latte" />
+      </choices>
+      <label>it helps to enable/disable options that are specific to plasma or Latte panels</label>
+      <default>0</default>
+    </entry>
+    <entry name="subsMatch" type="StringList">
+      <default>"Telegram Desktop","Gimp-.*","soffice.bin"</default>
+      <label>substitutions criteria - match for application names</label>
+    </entry>
+    <entry name="subsReplace" type="StringList">
+      <default>"Telegram","Gimp","LibreOffice"</default>
+      <label>substitutions replacements for application names</label>
+    </entry>
+    <entry name="actionScrollMinimize" type="Bool">
+      <default>true</default>
+      <label>If true, upward mouse scrolling cycles through tasks and downwards can be used to minimize them</label>
+    </entry>
   </group>
 </kcfg>
