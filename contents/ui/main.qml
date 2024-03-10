@@ -64,6 +64,7 @@ PlasmoidItem {
     readonly property bool inFixedLengthMode:  plasmoid.configuration.lengthPolicy === 1 /*Fixed Length Policy*/
     readonly property bool inMaximumLengthMode:  plasmoid.configuration.lengthPolicy === 2 /*Maximum Length Policy*/
     readonly property bool inFillLengthMode: plasmoid.configuration.lengthPolicy === 3 /*Fill Length Policy*/
+    readonly property bool perScreenActive: plasmoid.configuration.perScreenActive /* sticky active window */
 
     readonly property bool inEditMode: plasmoid.userConfiguring || latteInEditMode
 

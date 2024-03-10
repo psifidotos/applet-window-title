@@ -95,11 +95,15 @@
     <default>false</default>
     <label>If true, it shows window information only from the current screen</label>
   </entry>
+  <entry name="perScreenActive" type="Bool">
+    <default>false</default>
+    <label>Per-screen active window</label>
+  </entry>
   <entry name="filterActivityInfo" type="Bool">
     <default>true</default>
     <label>If false, it shows only the placeHolder text</label>
   </entry>
-  <entry name="placeHolder" type="string">
+  <entry name="placeHolder" type="String">
     <default></default>
     <label>The text shown if nothing else is available</label>
   </entry>

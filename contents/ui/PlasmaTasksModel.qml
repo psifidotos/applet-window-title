@@ -25,7 +25,7 @@ import org.kde.plasma.plasmoid
 
 Item {
     id: plasmaTasksItem
-    readonly property bool existsWindowActive: root.activeTaskItem && tasksRepeater.count > 0 && activeTaskItem.isActive
+    readonly property bool existsWindowActive: root.activeTaskItem && tasksRepeater.count > 0 && (root.perScreenActive || activeTaskItem.isActive)
     property Item activeTaskItem: null
 
     TaskManager.TasksModel {

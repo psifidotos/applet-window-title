@@ -30,6 +30,7 @@ Item {
 
     property alias cfg_filterByScreen: filterByScreenChk.checked
     property alias cfg_filterActivityInfo: filterActivityChk.checked
+    property alias cfg_perScreenActive: stickyChk.checked
 
     property alias cfg_showAppMenuOnMouseEnter: showAppMenuChk.checked
     property alias cfg_showTooltip: showTooltip.checked
@@ -70,6 +71,20 @@ Item {
                 id: filterByScreenChk
                 text: i18n("Show only window information from current screen")
             }
+        }
+
+        GridLayout {
+            Label {
+                Layout.minimumWidth: Math.max(centerFactor * behaviorPage.width, minimumWidth)
+                text: i18n("Per-screen active window:")
+                horizontalAlignment: Text.AlignRight
+            }
+
+            CheckBox {
+                id: stickyChk
+                text: i18n("Enabled")
+            }
+
         }
 
         GridLayout {
