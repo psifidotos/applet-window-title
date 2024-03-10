@@ -17,19 +17,16 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+import "../../tools/Tools.js" as Tools
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls as Controls22
 import QtQuick.Layouts
-
-import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.kirigami 2.0 as Kirigami
-
-import "../../tools/Tools.js" as Tools
+import org.kde.plasma.core 2.0 as PlasmaCore
 
 SlidingBox {
     id: popup
-    width: Tools.qBound(400, 0.6*page.width, 750)
 
     property QtObject page: null
 
@@ -43,14 +40,17 @@ SlidingBox {
         return res;
     }
 
-    contentItem: ColumnLayout{
+    width: Tools.qBound(400, 0.6 * page.width, 750)
+
+    contentItem: ColumnLayout {
         id: mainColumn
+
         width: popup.availableWidth
         anchors.margins: Kirigami.Units.largeSpacing
         anchors.centerIn: parent
         spacing: Kirigami.Units.largeSpacing
 
-        Label{
+        Label {
             Layout.fillWidth: true
             horizontalAlignment: Qt.AlignHCenter
             font.bold: true
@@ -59,57 +59,62 @@ SlidingBox {
 
         GridLayout {
             columns: 2
-            Label{
+
+            Label {
                 Layout.fillWidth: true
                 horizontalAlignment: Qt.AlignHCenter
                 font.bold: true
                 text: "Match"
             }
-            Label{
+
+            Label {
                 Layout.fillWidth: true
                 horizontalAlignment: Qt.AlignHCenter
                 font.bold: true
                 text: "Replace with"
             }
-            TextArea{
+
+            TextArea {
+                // flickableItem.onContentYChanged: {
+                //   textAreaReplace.flickableItem.contentY = flickableItem.contentY
+                // }
+
                 id: textAreaMatch
 
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 text: listToText(page.selectedMatches)
-
                 onTextChanged: page.selectedMatches = popup.textAreaToList(text)
-
-                // flickableItem.onContentYChanged: {
-                //   textAreaReplace.flickableItem.contentY = flickableItem.contentY
-                // }
             }
-            TextArea{
+
+            TextArea {
+                // flickableItem.onContentYChanged: {
+                //   textAreaMatch.flickableItem.contentY = flickableItem.contentY
+                // }
+
                 id: textAreaReplace
 
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 text: listToText(page.selectedReplacements)
                 onTextChanged: page.selectedReplacements = popup.textAreaToList(text)
-
-                // flickableItem.onContentYChanged: {
-                //   textAreaMatch.flickableItem.contentY = flickableItem.contentY
-                // }
             }
+
         }
 
-        Label{
+        Label {
             Layout.fillWidth: true
             horizontalAlignment: Qt.AlignHCenter
             font.italic: true
             color: "#ff0000"
             text: {
-                if (page.selectedMatches.length !== page.selectedReplacements.length) {
+                if (page.selectedMatches.length !== page.selectedReplacements.length)
                     return i18n("Warning: Matches and Replacements do not have the same size...");
-                }
 
                 return "";
             }
         }
+
     }
+
 }

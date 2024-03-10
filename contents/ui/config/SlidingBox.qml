@@ -23,32 +23,17 @@ import QtQuick.Controls
 import QtQuick.Controls as Controls22
 import QtQuick.Layouts
 import org.kde.kirigami 2.0 as Kirigami
-
 import org.kde.plasma.core 2.0 as PlasmaCore
 
-Item{
+Item {
     id: box
-    clip: true
-
-    x: parent.width/2 - width/2
-    /*y: slideOutFrom === PlasmaCore.Types.BottomEdge ? 0
-    height: 0*/
-    opacity: 0
 
     property QtObject contentItem: null
     property int slideOutFrom: PlasmaCore.Types.TopEdge
-
     property bool shown: false
-
-    readonly property int availableWidth: width - 2*12 - 2* Kirigami.Units.largeSpacing
+    readonly property int availableWidth: width - 2 * 12 - 2 * Kirigami.Units.largeSpacing
     readonly property int availableHeight: contentItem.childrenRect.height + 2 * Kirigami.Units.largeSpacing
-    readonly property int maximumHeight: availableHeight + 2*12
-
-    onContentItemChanged: {
-        if (contentItem){
-            contentItem.parent = centralItem
-        }
-    }
+    readonly property int maximumHeight: availableHeight + 2 * 12
 
     function slideIn() {
         if (slideOutFrom === PlasmaCore.Types.TopEdge) {
@@ -58,7 +43,6 @@ Item{
             height = maximumHeight;
             y = parent.height;
         }
-
         opacity = 1;
         shown = true;
     }
@@ -71,51 +55,32 @@ Item{
             height = 0;
             y = parent.height;
         }
-
         opacity = 0;
         shown = false;
     }
 
-    Behavior on y{
-        NumberAnimation {
-            duration: 300
-            easing.type: Easing.OutCubic
-        }
-    }
+    clip: true
+    x: parent.width / 2 - width / 2
+    /*y: slideOutFrom === PlasmaCore.Types.BottomEdge ? 0
+    height: 0*/
+    opacity: 0
+    onContentItemChanged: {
+        if (contentItem)
+            contentItem.parent = centralItem;
 
-    Behavior on height{
-        NumberAnimation {
-            duration: 300
-            easing.type: Easing.OutCubic
-        }
-    }
-
-    Behavior on opacity{
-        NumberAnimation {
-            duration: 300
-            easing.type: Easing.OutCubic
-        }
     }
 
     SystemPalette {
         id: palette
     }
 
-    Item{
+    Item {
         id: mainElement
+
         width: parent.width
         height: contentItem ? maximumHeight : 100
 
-        Rectangle{
-            id: centralItem
-            anchors.fill: parent
-            anchors.margins: 12
-            color: palette.alternateBase
-            border.width: 1
-            border.color: palette.mid
-            radius: 1
-
-            layer.enabled: true
+        Rectangle {
             // layer.effect: DropShadow {
             //     id: shadowElement
             //     radius: 12
@@ -123,6 +88,42 @@ Item{
             //     samples: 2 * radius
             //     color: palette.shadow
             // }
+
+            id: centralItem
+
+            anchors.fill: parent
+            anchors.margins: 12
+            color: palette.alternateBase
+            border.width: 1
+            border.color: palette.mid
+            radius: 1
+            layer.enabled: true
         }
+
     }
+
+    Behavior on y {
+        NumberAnimation {
+            duration: 300
+            easing.type: Easing.OutCubic
+        }
+
+    }
+
+    Behavior on height {
+        NumberAnimation {
+            duration: 300
+            easing.type: Easing.OutCubic
+        }
+
+    }
+
+    Behavior on opacity {
+        NumberAnimation {
+            duration: 300
+            easing.type: Easing.OutCubic
+        }
+
+    }
+
 }

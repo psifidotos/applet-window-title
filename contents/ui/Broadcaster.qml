@@ -18,75 +18,63 @@
 */
 
 import QtQuick
-
-import org.kde.plasma.plasmoid
 import org.kde.plasma.core as PlasmaCore
+import org.kde.plasma.plasmoid
 
-Item{
+Item {
     id: broadcaster
 
     property bool hiddenFromBroadcast: false
-
     readonly property bool showAppMenuEnabled: plasmoid.configuration.showAppMenuOnMouseEnter
     property bool menuIsPresent: false
     property var appMenusRequestCooperation: []
     property int appMenusRequestCooperationCount: 0
-
-    readonly property bool cooperationEstablished: appMenusRequestCooperationCount>0 && isActive
+    readonly property bool cooperationEstablished: appMenusRequestCooperationCount > 0 && isActive
     readonly property bool isActive: plasmoid.configuration.appMenuIsPresent && showAppMenuEnabled && (plasmoid.formFactor === PlasmaCore.Types.Horizontal)
-
     readonly property int sendActivateAppMenuCooperationFromEditMode: plasmoid.configuration.sendActivateAppMenuCooperationFromEditMode
 
     function sendMessage() {
-        if (cooperationEstablished && menuIsPresent) {
+        if (cooperationEstablished && menuIsPresent)
             broadcasterDelayer.start();
-        }
+
     }
 
     function cancelMessage() {
-        if (cooperationEstablished) {
+        if (cooperationEstablished)
             broadcasterDelayer.stop();
-        }
-    }
 
-    Component.onDestruction: broadcoastCooperationRequest(false)
-
-    onIsActiveChanged: {
-        if (!isActive) {
-            hiddenFromBroadcast = false;
-        }
-
-        broadcoastCooperationRequest(isActive)
-    }
-
-    onCooperationEstablishedChanged: {
-        if (!cooperationEstablished) {
-            broadcaster.hiddenFromBroadcast = false;
-        }
-    }
-
-    onSendActivateAppMenuCooperationFromEditModeChanged: {
-        if (plasmoid.configuration.sendActivateAppMenuCooperationFromEditMode >= 0) {
-            var values = {
-                appletId: plasmoid.id,
-                cooperation: plasmoid.configuration.sendActivateAppMenuCooperationFromEditMode
-            };
-
-            latteBridge.actions.broadcastToApplet("org.kde.windowappmenu",
-                                                  "activateAppMenuCooperationFromEditMode",
-                                                  values);
-
-            releaseSendActivateAppMenuCooperation.start();
-        }
     }
 
     function broadcoastCooperationRequest(enabled) {
         if (latteBridge) {
             var values = {
-                appletId: plasmoid.id,
-                cooperation: enabled
+                "appletId": plasmoid.id,
+                "cooperation": enabled
             };
             latteBridge.actions.broadcastToApplet("org.kde.windowappmenu", "setCooperation", values);
+        }
+    }
+
+    Component.onDestruction: broadcoastCooperationRequest(false)
+    onIsActiveChanged: {
+        if (!isActive)
+            hiddenFromBroadcast = false;
+
+        broadcoastCooperationRequest(isActive);
+    }
+    onCooperationEstablishedChanged: {
+        if (!cooperationEstablished)
+            broadcaster.hiddenFromBroadcast = false;
+
+    }
+    onSendActivateAppMenuCooperationFromEditModeChanged: {
+        if (plasmoid.configuration.sendActivateAppMenuCooperationFromEditMode >= 0) {
+            var values = {
+                "appletId": plasmoid.id,
+                "cooperation": plasmoid.configuration.sendActivateAppMenuCooperationFromEditMode
+            };
+            latteBridge.actions.broadcastToApplet("org.kde.windowappmenu", "activateAppMenuCooperationFromEditMode", values);
+            releaseSendActivateAppMenuCooperation.start();
         }
     }
 
@@ -94,19 +82,16 @@ Item{
         target: latteBridge
         onBroadcasted: {
             var updateAppMenuCooperations = false;
-
             if (broadcaster.cooperationEstablished) {
                 if (action === "setVisible") {
-                    if (value === true) {
+                    if (value === true)
                         broadcaster.hiddenFromBroadcast = false;
-                    } else {
+                    else
                         broadcaster.hiddenFromBroadcast = true;
-                    }
                 } else if (action === "menuIsPresent") {
                     broadcaster.menuIsPresent = value;
                 }
             }
-
             if (action === "isPresent") {
                 plasmoid.configuration.appMenuIsPresent = value;
             } else if (action === "setCooperation") {
@@ -115,11 +100,9 @@ Item{
                 plasmoid.configuration.showAppMenuOnMouseEnter = value.cooperation;
                 updateAppMenuCooperations = true;
             }
-
             if (updateAppMenuCooperations) {
                 var indexed = broadcaster.appMenusRequestCooperation.indexOf(value.appletId);
                 var isFiled = (indexed >= 0);
-
                 if (value.cooperation && !isFiled) {
                     broadcaster.appMenusRequestCooperation.push(value.appletId);
                     broadcaster.appMenusRequestCooperationCount++;
@@ -131,8 +114,9 @@ Item{
         }
     }
 
-    Timer{
+    Timer {
         id: broadcasterDelayer
+
         interval: 5
         onTriggered: {
             if (latteBridge) {
@@ -149,48 +133,43 @@ Item{
 
     Timer {
         id: releaseSendActivateAppMenuCooperation
+
         interval: 50
-        onTriggered: plasmoid.configuration.sendActivateAppMenuCooperationFromEditMode = -1;
+        onTriggered: plasmoid.configuration.sendActivateAppMenuCooperationFromEditMode = -1
     }
 
     //!!!! MouseArea for Broadcaster
-    MouseArea{
+    MouseArea {
         id: broadcasterMouseArea
-        anchors.fill: parent
-        visible: broadcaster.cooperationEstablished && broadcaster.menuIsPresent
-        hoverEnabled: true
-        propagateComposedEvents: true
 
         property int mouseAX: -1
         property int mouseAY: -1
-
         //! HACK :: For some reason containsMouse breaks in some cases
         //! this hack is used in order to be sure when the mouse is really
         //! inside the MouseArea or not
         readonly property bool realContainsMouse: mouseAX !== -1 || mouseAY !== -1
 
+        anchors.fill: parent
+        visible: broadcaster.cooperationEstablished && broadcaster.menuIsPresent
+        hoverEnabled: true
+        propagateComposedEvents: true
         onContainsMouseChanged: {
             mouseAX = -1;
             mouseAY = -1;
         }
-
-        onMouseXChanged: mouseAX = mouseX;
-        onMouseYChanged: mouseAY = mouseY;
-
+        onMouseXChanged: mouseAX = mouseX
+        onMouseYChanged: mouseAY = mouseY
         onRealContainsMouseChanged: {
             if (broadcaster.cooperationEstablished) {
-                if (realContainsMouse) {
+                if (realContainsMouse)
                     broadcaster.sendMessage();
-                } else {
+                else
                     broadcaster.cancelMessage();
-                }
             }
         }
-
         onPressed: {
             mouse.accepted = false;
         }
-
         onReleased: {
             mouse.accepted = false;
         }

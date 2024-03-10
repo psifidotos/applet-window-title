@@ -18,71 +18,53 @@
 */
 
 import QtQuick
-
 import org.kde.plasma.plasmoid
 
 MouseArea {
     id: actionsArea
-    acceptedButtons: Qt.LeftButton | Qt.MidButton
 
     property bool wheelIsBlocked: false
 
+    acceptedButtons: Qt.LeftButton | Qt.MidButton
     onClicked: {
-        if (existsWindowActive && mouse.button === Qt.MidButton) {
+        if (existsWindowActive && mouse.button === Qt.MidButton)
             windowInfoLoader.item.requestClose();
-        }
-    }
 
+    }
     onDoubleClicked: {
-        if (existsWindowActive && mouse.button === Qt.LeftButton) {
+        if (existsWindowActive && mouse.button === Qt.LeftButton)
             windowInfoLoader.item.toggleMaximized();
-        }
-    }
 
+    }
     onWheel: {
-        if (wheelIsBlocked || !plasmoid.configuration.actionScrollMinimize) {
-            return;
-        }
+        if (wheelIsBlocked || !plasmoid.configuration.actionScrollMinimize)
+            return ;
 
         wheelIsBlocked = true;
         scrollDelayer.start();
-
         var delta = 0;
-
-        if (wheel.angleDelta.y>=0 && wheel.angleDelta.x>=0) {
+        if (wheel.angleDelta.y >= 0 && wheel.angleDelta.x >= 0)
             delta = Math.max(wheel.angleDelta.y, wheel.angleDelta.x);
-        } else {
+        else
             delta = Math.min(wheel.angleDelta.y, wheel.angleDelta.x);
-        }
-
         var angle = delta / 8;
-
         var ctrlPressed = (wheel.modifiers & Qt.ControlModifier);
-
-        if (angle>10) {
+        if (angle > 10) {
             //! upwards
-            if (!ctrlPressed) {
+            if (!ctrlPressed)
                 windowInfoLoader.item.activateNextPrevTask(true);
-            } else if (windowInfoLoader.item.activeTaskItem
-                       && !windowInfoLoader.item.activeTaskItem.isMaximized){
+            else if (windowInfoLoader.item.activeTaskItem && !windowInfoLoader.item.activeTaskItem.isMaximized)
                 windowInfoLoader.item.toggleMaximized();
-            }
-        } else if (angle<-10) {
+        } else if (angle < -10) {
             //! downwards
             if (!ctrlPressed) {
-                if (windowInfoLoader.item.activeTaskItem
-                        && !windowInfoLoader.item.activeTaskItem.isMinimized
-                        && windowInfoLoader.item.activeTaskItem.isMaximized){
+                if (windowInfoLoader.item.activeTaskItem && !windowInfoLoader.item.activeTaskItem.isMinimized && windowInfoLoader.item.activeTaskItem.isMaximized)
                     //! maximized
                     windowInfoLoader.item.activeTaskItem.toggleMaximized();
-                } else if (windowInfoLoader.item.activeTaskItem
-                           && !windowInfoLoader.item.activeTaskItem.isMinimized
-                           && !windowInfoLoader.item.activeTaskItem.isMaximized) {
+                else if (windowInfoLoader.item.activeTaskItem && !windowInfoLoader.item.activeTaskItem.isMinimized && !windowInfoLoader.item.activeTaskItem.isMaximized)
                     //! normal
                     windowInfoLoader.item.activeTaskItem.toggleMinimized();
-                }
-            } else if (windowInfoLoader.item.activeTaskItem
-                       && windowInfoLoader.item.activeTaskItem.isMaximized) {
+            } else if (windowInfoLoader.item.activeTaskItem && windowInfoLoader.item.activeTaskItem.isMaximized) {
                 windowInfoLoader.item.activeTaskItem.toggleMaximized();
             }
         }
@@ -92,10 +74,11 @@ MouseArea {
     //! send too many signals very fast. This way the signals per sec are limited.
     //! The user needs to have a steady normal scroll in order to not
     //! notice a annoying delay
-    Timer{
+    Timer {
         id: scrollDelayer
 
         interval: 200
-        onTriggered: actionsArea.wheelIsBlocked = false;
+        onTriggered: actionsArea.wheelIsBlocked = false
     }
+
 }
